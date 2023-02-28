@@ -1,16 +1,21 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const productsRouter = require("./routes/products");
+const mainRouter = require("./routes/main");
 const mysql = require("./db/mysql");
 const notFound = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
+const localsMiddleware = require("./middleware/locals");
 
 app.set("view engine", "ejs");
 app.set("views", process.cwd() + "/src/views");
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(localsMiddleware);
+app.use("/public", express.static("src/public"));
 
-app.get("/", (req, res) => {
-  res.send('<h1>Store API</h1><a href="/products">products route</a>');
-});
+app.use("/", mainRouter);
 app.use("/products", productsRouter);
 
 app.use(notFound);

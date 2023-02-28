@@ -1,10 +1,10 @@
 const mysql = require("../db/mysql");
-const { createCustomError } = require("../errors/custom-error");
+const { NotFoundError, BadRequestError } = require("../errors");
 
 const getAllProducts = (req, res) => {
-  mysql.query("SELECT * FROM products", (err, results, fields) => {
+  mysql.query("SELECT * FROM `products`", (err, results, fields) => {
     if (err) throw err;
-    res.status(200).render("products", { results });
+    res.status(200).render("products", { results, pageTitle: "Products" });
   });
 };
 
@@ -12,15 +12,20 @@ const getProduct = (req, res, next) => {
   const {
     params: { id },
   } = req;
+
   mysql.query(
-    `SELECT * FROM products WHERE id=${id}`,
+    "SELECT * FROM `products` WHERE `id` = ?",
+    id,
     (err, results, fields) => {
       if (err) throw err;
       if (!results[0]) {
-        return next(createCustomError("Product does not exist", 404));
+        return next(new NotFoundError("Product does not exist"));
       }
-      // console.log(`/:id ${results[0]}`);
-      res.status(200).render("products", { result: results[0], results: null });
+      res.status(200).render("products", {
+        result: results[0],
+        results: null,
+        pageTitle: "Product",
+      });
     }
   );
 };
@@ -29,16 +34,21 @@ const updateProduct = (req, res) => {
   const {
     params: { id },
   } = req;
+
   mysql.query(
-    `SELECT price FROM products WHERE id=${id}`,
+    "SELECT price FROM `products` WHERE `id` = ?",
+    id,
     (err, results, fields) => {
       if (err) throw err;
+      if (!results[0]) {
+        return next(new NotFoundError("Product does not exist"));
+      }
       mysql.query(
-        `UPDATE products SET price=${results[0].price + 1} WHERE id=${id}`,
+        "UPDATE `products` SET `price` = ? WHERE `id` = ?",
+        [results[0].price + 1, id],
         (err, results, fields) => {
           if (err) throw err;
-          console.log(`update: ${results.message}`);
-          res.status(200).redirect(`/${id}`);
+          res.status(200).redirect(`/products/${id}`);
         }
       );
     }
@@ -49,22 +59,38 @@ const deleteProduct = (req, res) => {
   const {
     params: { id },
   } = req;
-  mysql.query(`DELETE FROM products WHERE id=${id}`, (err, results, fields) => {
-    if (err) throw err;
-    console.log(`DELETE ${id}`);
-    res.status(200).render("products", { results });
-  });
-};
 
-const insertProduct = (req, res) => {
   mysql.query(
-    "INSERT INTO products(name, price) VALUES('iphone',100), ('ipad',100), ('macbook', 130)",
+    "DELETE FROM `products` WHERE `id`= ?",
+    id,
     (err, results, fields) => {
       if (err) throw err;
-      console.log(results.message);
-      res.status(201).render("products", {
-        results: results.message ? results.message : [],
-      });
+      res.status(200).redirect("/products");
+    }
+  );
+};
+
+const getInsertProduct = (req, res) => {
+  res.status(201).render("insert", { pageTitle: "Insert" });
+};
+
+const postInsertProduct = (req, res, next) => {
+  const {
+    body: { name, price },
+  } = req;
+  if (!name || !price) {
+    return next(
+      new BadRequestError("Bad request, please provide name and price")
+    );
+  } else if (price.match(/\D/)) {
+    return next(new BadRequestError("Bad request, only digit"));
+  }
+  mysql.query(
+    "INSERT INTO products(name, price) VALUES(?,?)",
+    [name, price],
+    (err, results, fields) => {
+      if (err) throw err;
+      res.status(200).redirect("/products");
     }
   );
 };
@@ -74,5 +100,6 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getProduct,
-  insertProduct,
+  getInsertProduct,
+  postInsertProduct,
 };

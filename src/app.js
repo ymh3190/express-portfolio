@@ -1,17 +1,35 @@
 require("dotenv").config();
+
+const helmet = require("helmet");
+const cors = require("cors");
+const xss = require("xss-clean");
+const rateLimiter = require("express-rate-limit");
+
 const express = require("express");
 const app = express();
+const mysql = require("./db/mysql");
+
+const localsMiddleware = require("./middleware/locals");
 const productsRouter = require("./routes/products");
 const mainRouter = require("./routes/main");
-const mysql = require("./db/mysql");
+
 const notFound = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-const localsMiddleware = require("./middleware/locals");
 
+app.set("trust proxy", true);
+app.use(
+  rateLimiter({
+    window: 15 * 60 * 1000,
+    max: 100,
+  })
+);
 app.set("view engine", "ejs");
 app.set("views", process.cwd() + "/src/views");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(helmet());
+app.use(cors());
+app.use(xss());
 app.use(localsMiddleware);
 app.use("/public", express.static("src/public"));
 

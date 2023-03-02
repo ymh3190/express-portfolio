@@ -24,6 +24,7 @@ app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 8000;
 mysql.connect((err) => {
   if (err) throw err;
+  console.log("Connected to MySQL");
   app.listen(port, () => {
     console.log(`Server is listening on port: ${port}`);
   });

@@ -12,7 +12,6 @@ const getProduct = (req, res, next) => {
   const {
     params: { id },
   } = req;
-
   mysql.query(
     "SELECT * FROM `products` WHERE `id` = ?",
     id,
@@ -34,7 +33,6 @@ const updateProduct = (req, res) => {
   const {
     params: { id },
   } = req;
-
   mysql.query(
     "SELECT price FROM `products` WHERE `id` = ?",
     id,
@@ -59,9 +57,8 @@ const deleteProduct = (req, res) => {
   const {
     params: { id },
   } = req;
-
   mysql.query(
-    "DELETE FROM `products` WHERE `id`= ?",
+    "DELETE FROM `products` WHERE `id` = ?",
     id,
     (err, results, fields) => {
       if (err) throw err;
@@ -79,14 +76,12 @@ const postInsertProduct = (req, res, next) => {
     body: { name, price },
   } = req;
   if (!name || !price) {
-    return next(
-      new BadRequestError("Bad request, please provide name and price")
-    );
+    return next(new BadRequestError("please provide name and price"));
   } else if (price.match(/\D/)) {
-    return next(new BadRequestError("Bad request, only digit"));
+    return next(new BadRequestError("only digit"));
   }
   mysql.query(
-    "INSERT INTO products(name, price) VALUES(?,?)",
+    "INSERT INTO products(name, price) VALUES(?, ?)",
     [name, price],
     (err, results, fields) => {
       if (err) throw err;

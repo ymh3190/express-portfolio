@@ -16,7 +16,7 @@ const mainRouter = require("./routes/main");
 const notFound = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
-app.set("trust proxy", true);
+app.set("trust proxy", 1);
 app.use(
   rateLimiter({
     window: 15 * 60 * 1000,
@@ -39,10 +39,10 @@ app.use("/products", productsRouter);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
 mysql.connect((err) => {
   if (err) throw err;
-  console.log("Connected to MySQL");
+  console.log("Connected to mysql");
   app.listen(port, () => {
     console.log(`Server is listening on port: ${port}`);
   });

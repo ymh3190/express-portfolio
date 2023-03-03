@@ -6,10 +6,12 @@ const {
   UnauthenticatedError,
 } = require("../errors");
 const fetch = require("node-fetch");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+const { StatusCodes } = require("http-status-codes");
+const isEmail = require("../utils/isEmail");
 
 const getJoin = (req, res) => {
-  res.status(200).render("join", { pageTitle: "Join" });
+  res.status(StatusCodes.OK).render("join", { pageTitle: "Join" });
 };
 
 const postJoin = async (req, res) => {
@@ -19,11 +21,7 @@ const postJoin = async (req, res) => {
   if (!email || !name || !password || !confirm) {
     throw new BadRequestError("Please provide email, name, password, confirm");
   }
-  if (
-    !email.match(
-      /^(\d+|\w+)([-_\.]?(\d+|\w+))*@(\d+|\w+)([-_\.]?(\d+|\w+))*\.(\w+){2,3}$/
-    )
-  ) {
+  if (!isEmail(email)) {
     throw new BadRequestError("email is invalid");
   }
   if (password !== confirm) {
@@ -39,21 +37,17 @@ const postJoin = async (req, res) => {
       if (err) throw err;
       const user = results[0];
       req.user = user;
-      res.status(201).redirect("/");
+      res.status(StatusCodes.CREATED).redirect("/");
     });
   });
-};
-
-const getIndex = (req, res) => {
-  res.status(200).render("index", { pageTitle: "Index" });
 };
 
 const getLogin = (req, res) => {
   const { user } = req;
   if (user) {
-    return res.status(200).end();
+    return res.status(StatusCodes.OK).end();
   }
-  res.status(200).render("login", { pageTitle: "Login" });
+  res.status(StatusCodes.OK).render("login", { pageTitle: "Login" });
 };
 
 const postLogin = async (req, res) => {
@@ -63,11 +57,7 @@ const postLogin = async (req, res) => {
   if (!email || !password) {
     throw new BadRequestError("Please provide email and password");
   }
-  if (
-    !email.match(
-      /^(\d+|\w+)([-_\.]?(\d+|\w+))*@(\d+|\w+)([-_\.]?(\d+|\w+))*\.(\w+){2,3}$/
-    )
-  ) {
+  if (!isEmail(email)) {
     throw new BadRequestError("email is invalid");
   }
 
@@ -93,9 +83,8 @@ const postLogin = async (req, res) => {
     const { id } = await response.json();
     mysql.query("SELECT * FROM `users` WHERE `id` = ?", id, (err, results) => {
       if (err) throw err;
-      const user = results[0];
-      req.user = user;
-      res.status(200).redirect("/");
+      req.headers.authorization = `Bearer ${token}`;
+      res.status(StatusCodes.OK).redirect("/");
     });
   } catch (err) {
     console.log(err);
@@ -103,15 +92,21 @@ const postLogin = async (req, res) => {
 };
 
 const authLogin = (req, res) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  const {
+    headers: { authorization },
+  } = req;
+  if (!authorization || !authorization.startsWith("Bearer ")) {
     throw new UnauthenticatedError("Unauthenticated Error");
   }
 
-  const token = authHeader.split(" ")[1];
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const { id } = decoded;
-  res.status(200).json({ id });
+  const token = authorization.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { id } = decoded;
+    res.status(StatusCodes.OK).json({ id });
+  } catch (err) {
+    throw new UnauthenticatedError("jwt verify error");
+  }
 };
 
 const authToken = async (req, res) => {
@@ -121,13 +116,17 @@ const authToken = async (req, res) => {
   const sql = "SELECT * FROM `users` WHERE `email` = ?";
   mysql.query(sql, email, async (err, results) => {
     if (err) throw err;
-    const correct = await bcrypt.compare(password, results[0].password);
-    if (!correct) throw new BadRequestError("Password is Incorrect");
+    const isCorrect = await bcrypt.compare(password, results[0].password);
+    if (!isCorrect) throw new BadRequestError("Password is Incorrect");
     if (results.length === 0) throw new NotFoundError("Results does not exist");
     const { id } = results[0];
     const token = jwt.sign({ id, email }, process.env.JWT_SECRET);
-    res.status(200).json({ token });
+    res.status(StatusCodes.OK).json({ token });
   });
+};
+
+const getIndex = (req, res) => {
+  res.status(StatusCodes.OK).render("index", { pageTitle: "Index" });
 };
 
 module.exports = {

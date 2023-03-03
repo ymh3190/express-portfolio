@@ -1,7 +1,7 @@
 const mysql = require("../db/mysql");
 const { NotFoundError, BadRequestError } = require("../errors");
 
-const getAllProducts = (req, res) => {
+const getAllProducts = async (req, res) => {
   mysql.query("SELECT * FROM `products`", (err, results) => {
     if (err) throw err;
     res.status(200).render("products", { results, pageTitle: "Products" });

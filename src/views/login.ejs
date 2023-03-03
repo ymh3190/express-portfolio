@@ -1,6 +1,6 @@
 <%- include('base') -%>
 
-    <% if (user) {%>
+    <% if (!user) {%>
         <form method="post">
             <input type="email" name="email" placeholder="email" class="email">
             <input type="password" name="password" placeholder="password" class="password">

@@ -6,6 +6,43 @@ const {
   UnauthenticatedError,
 } = require("../errors");
 const fetch = require("node-fetch");
+const bcrypt = require("bcrypt");
+
+const getJoin = (req, res) => {
+  res.status(200).render("join", { pageTitle: "Join" });
+};
+
+const postJoin = async (req, res) => {
+  const {
+    body: { email, name, password, confirm },
+  } = req;
+  if (!email || !name || !password || !confirm) {
+    throw new BadRequestError("Please provide email, name, password, confirm");
+  }
+  if (
+    !email.match(
+      /^(\d+|\w+)([-_\.]?(\d+|\w+))*@(\d+|\w+)([-_\.]?(\d+|\w+))*\.(\w+){2,3}$/
+    )
+  ) {
+    throw new BadRequestError("email is invalid");
+  }
+  if (password !== confirm) {
+    throw new BadRequestError("password is incorrect");
+  }
+
+  const hash = await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
+  let sql = "INSERT INTO `users`(email, name, password) VALUES(?, ?, ?)";
+  mysql.query(sql, [email, name, hash], (err, results) => {
+    if (err) throw err;
+    sql = "SELECT * FROM `users` WHERE `email` = ?";
+    mysql.query(sql, email, (err, results) => {
+      if (err) throw err;
+      const user = results[0];
+      req.user = user;
+      res.status(201).redirect("/");
+    });
+  });
+};
 
 const getIndex = (req, res) => {
   res.status(200).render("index", { pageTitle: "Index" });
@@ -41,7 +78,10 @@ const postLogin = async (req, res) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({
+        email,
+        password,
+      }),
     });
 
     const { token } = await data.json();
@@ -51,16 +91,12 @@ const postLogin = async (req, res) => {
       },
     });
     const { id } = await response.json();
-    mysql.query(
-      "SELECT * FROM `users` WHERE `id` = ?",
-      id,
-      (err, results, fields) => {
-        if (err) throw err;
-        const user = results[0];
-        req.user = user;
-        res.status(200).redirect("/");
-      }
-    );
+    mysql.query("SELECT * FROM `users` WHERE `id` = ?", id, (err, results) => {
+      if (err) throw err;
+      const user = results[0];
+      req.user = user;
+      res.status(200).redirect("/");
+    });
   } catch (err) {
     console.log(err);
   }
@@ -78,23 +114,28 @@ const authLogin = (req, res) => {
   res.status(200).json({ id });
 };
 
-const authToken = (req, res) => {
+const authToken = async (req, res) => {
   const {
     body: { email, password },
   } = req;
-  mysql.query(
-    "SELECT * FROM `users` WHERE `email` = ? AND `password` = ?",
-    [email, password],
-    (err, results, fields) => {
-      if (err) throw err;
-      if (!results) throw new NotFoundError("Results does not exist");
-      const token = jwt.sign(
-        { id: results[0].id, email: results[0].email },
-        process.env.JWT_SECRET
-      );
-      res.status(200).json({ token });
-    }
-  );
+  const sql = "SELECT * FROM `users` WHERE `email` = ?";
+  mysql.query(sql, email, async (err, results) => {
+    if (err) throw err;
+    const correct = await bcrypt.compare(password, results[0].password);
+    if (!correct) throw new BadRequestError("Password is Incorrect");
+    if (results.length === 0) throw new NotFoundError("Results does not exist");
+    const { id } = results[0];
+    const token = jwt.sign({ id, email }, process.env.JWT_SECRET);
+    res.status(200).json({ token });
+  });
 };
 
-module.exports = { getIndex, getLogin, authToken, authLogin, postLogin };
+module.exports = {
+  getIndex,
+  getLogin,
+  authToken,
+  authLogin,
+  postLogin,
+  getJoin,
+  postJoin,
+};

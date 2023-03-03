@@ -1,10 +1,9 @@
 <%- include('base') -%>
 
-    <% if (!user) { %>
-        <form class="login-form">
+    <% if (user) {%>
+        <form method="post">
             <input type="email" name="email" placeholder="email" class="email">
             <input type="password" name="password" placeholder="password" class="password">
             <button type="submit">Submit</button>
         </form>
         <% } %>
-            <script src="/public/login.js"></script>

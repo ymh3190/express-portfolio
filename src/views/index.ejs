@@ -1,1 +1,9 @@
 <%- include('base') -%>
+
+    <% if (user) { %>
+        <span>
+            <%= user.id %>
+                <%= user.email %>
+                    <%= user.name %>
+        </span>
+        <% } %>

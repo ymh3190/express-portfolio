@@ -1,10 +1,15 @@
 const express = require("express");
-const { getLogin, getIndex, authLogin } = require("../controllers/main");
-const authenticationMiddleware = require("../middleware/auth");
+const {
+  getLogin,
+  getIndex,
+  authToken,
+  postLogin,
+  authLogin,
+} = require("../controllers/main");
 const router = express.Router();
 
 router.route("/").get(getIndex);
-router.route("/login").get(authenticationMiddleware, getLogin);
-router.route("/api/auth").post(authLogin);
+router.route("/login").get(getLogin).post(postLogin);
+router.route("/api/auth").get(authLogin).post(authToken);
 
 module.exports = router;

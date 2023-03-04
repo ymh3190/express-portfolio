@@ -2,17 +2,16 @@ const express = require("express");
 const {
   getLogin,
   getIndex,
-  authToken,
-  postLogin,
-  authLogin,
   getJoin,
-  postJoin,
+  authToken,
 } = require("../controllers/main");
 const router = express.Router();
 
 router.route("/").get(getIndex);
-router.route("/login").get(getLogin).post(postLogin);
-router.route("/api/auth").get(authLogin).post(authToken);
-router.route("/join").get(getJoin).post(postJoin);
+router.route("/login").get(getLogin);
+router.route("/join").get(getJoin);
+
+router.route("/api/auth").post(authToken);
+router.route("/api/login").post();
 
 module.exports = router;

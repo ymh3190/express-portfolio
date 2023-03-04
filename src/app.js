@@ -15,6 +15,7 @@ const mainRouter = require("./routes/main");
 
 const notFound = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
+const authenticationMiddleware = require("./middleware/auth");
 
 app.set("trust proxy", 1);
 app.use(
@@ -34,12 +35,12 @@ app.use(localsMiddleware);
 app.use("/public", express.static("src/public"));
 
 app.use("/", mainRouter);
-app.use("/products", productsRouter);
+app.use("/products", authenticationMiddleware, productsRouter);
 
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 mysql.connect((err) => {
   if (err) throw err;
   console.log("Connected to mysql");

@@ -12,10 +12,10 @@ const mysql = require("./db/mysql");
 const localsMiddleware = require("./middleware/locals");
 const productsRouter = require("./routes/products");
 const mainRouter = require("./routes/main");
+const authenticationMiddleware = require("./middleware/auth");
 
 const notFound = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-const authenticationMiddleware = require("./middleware/auth");
 
 app.set("trust proxy", 1);
 app.use(
@@ -34,8 +34,8 @@ app.use(xss());
 app.use(localsMiddleware);
 app.use("/public", express.static("src/public"));
 
-app.use("/", mainRouter);
-app.use("/products", authenticationMiddleware, productsRouter);
+app.use("/", authenticationMiddleware, mainRouter);
+app.use("/products", productsRouter);
 
 app.use(notFound);
 app.use(errorHandlerMiddleware);

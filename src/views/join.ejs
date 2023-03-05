@@ -1,7 +1,7 @@
 <%- include('base') -%>
 
     <% if (!user) {%>
-        <form method="post">
+        <form method="post" class="join-form form">
             <input type="email" name="email" placeholder="email">
             <input type="text" name="name" placeholder="name">
             <input type="password" name="password" placeholder="password">
@@ -9,3 +9,4 @@
             <button type="submit">Submit</button>
         </form>
         <% } %>
+            <script src="/public/auth.js"></script>

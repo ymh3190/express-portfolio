@@ -9,15 +9,16 @@ const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
 const isEmail = require("../utils/isEmail");
 
-const authToken = (req, res, next) => {
+const authToken = (req, res) => {
   const {
     body: { email, password },
   } = req;
-
   if (!email || !password) {
-    throw new BadRequestError("!email || !password");
+    throw new BadRequestError("Please provide email, name, password, confirm");
   }
-
+  if (!isEmail(email)) {
+    throw new BadRequestError("email is invalid");
+  }
   mysql.query("select * from users where email=?", email, (err, results) => {
     if (err) throw err;
     const { id } = results[0];
@@ -59,14 +60,17 @@ const postJoin = async (req, res) => {
       if (err) throw err;
       const user = results[0];
       req.user = user;
-
       res.status(StatusCodes.CREATED).redirect("/");
     });
   });
 };
 
 const getIndex = (req, res) => {
-  res.status(StatusCodes.OK).render("index", { pageTitle: "Index" });
+  const { user } = req;
+  if (!user) {
+    return res.status(StatusCodes.OK).render("index", { pageTitle: "Index" });
+  }
+  res.status(StatusCodes.OK).json({ user });
 };
 
 module.exports = {

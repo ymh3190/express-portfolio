@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { default: fetch } = require("node-fetch");
 const mysql = require("../db/mysql");
 const { UnauthenticatedError } = require("../errors");
 
@@ -10,7 +11,8 @@ const authenticationMiddleware = async (req, res, next) => {
   const authHeader = authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer")) {
-    throw new UnauthenticatedError("Authentication invalid");
+    return next();
+    // throw new UnauthenticatedError("Authentication invalid");
   }
 
   try {
@@ -22,7 +24,11 @@ const authenticationMiddleware = async (req, res, next) => {
       [id, email],
       (err, results) => {
         if (err) throw err;
-        req.user = results[0];
+        req.user = {
+          id: results[0].id,
+          email: results[0].email,
+          name: results[0].name,
+        };
         next();
       }
     );

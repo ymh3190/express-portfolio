@@ -11,7 +11,6 @@ router.route("/").get(getIndex);
 router.route("/login").get(getLogin);
 router.route("/join").get(getJoin);
 
-router.route("/api/auth").post(authToken);
-router.route("/api/login").post();
+router.route("/api/auth/token").post(authToken);
 
 module.exports = router;

@@ -12,18 +12,18 @@ const mysql = require("./db/mysql");
 const localsMiddleware = require("./middleware/locals");
 const productsRouter = require("./routes/products");
 const mainRouter = require("./routes/main");
-const authenticationMiddleware = require("./middleware/auth");
+const authRouter = require("./routes/auth");
 
 const notFound = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.set("trust proxy", 1);
-app.use(
-  rateLimiter({
-    window: 15 * 60 * 1000,
-    max: 100,
-  })
-);
+// app.use(
+//   rateLimiter({
+//     window: 15 * 60 * 1000,
+//     max: 100,
+//   })
+// );
 app.set("view engine", "ejs");
 app.set("views", process.cwd() + "/src/views");
 app.use(express.urlencoded({ extended: true }));
@@ -34,7 +34,8 @@ app.use(xss());
 app.use(localsMiddleware);
 app.use("/public", express.static("src/public"));
 
-app.use("/", authenticationMiddleware, mainRouter);
+app.use("/", mainRouter);
+app.use("/api/auth", authRouter);
 app.use("/products", productsRouter);
 
 app.use(notFound);

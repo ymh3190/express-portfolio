@@ -9,32 +9,36 @@ const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
 const isEmail = require("../utils/isEmail");
 
-const authToken = (req, res) => {
-  const {
-    body: { email, password },
-  } = req;
-  if (!email || !password) {
-    throw new BadRequestError("Please provide email, name, password, confirm");
-  }
-  if (!isEmail(email)) {
-    throw new BadRequestError("email is invalid");
-  }
-  mysql.query("select * from users where email=?", email, (err, results) => {
-    if (err) throw err;
-    const { id } = results[0];
-    const token = jwt.sign({ id, email }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_LIFETIME,
-    });
-    res.status(StatusCodes.OK).json({ token });
-  });
-};
-
 const getLogin = (req, res) => {
   res.status(StatusCodes.OK).render("login", { pageTitle: "Login" });
 };
 
 const getJoin = (req, res) => {
-  res.status(StatusCodes.OK).render("join", { pageTitle: "Join" });
+  const {
+    headers: { authorization },
+  } = req;
+
+  const authHeader = authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
+    return res.status(StatusCodes.OK).render("join", { pageTitle: "Join" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const { id, email } = decoded;
+  mysql.query(
+    "select * from users where id=? and email=?",
+    [id, email],
+    (err, results) => {
+      if (err) throw err;
+      req.user = {
+        id: results[0].id,
+        email: results[0].email,
+        name: results[0].name,
+      };
+      res.status(StatusCodes.OK).json({ user: { id, email } });
+    }
+  );
 };
 
 const postJoin = async (req, res) => {
@@ -60,7 +64,16 @@ const postJoin = async (req, res) => {
       if (err) throw err;
       const user = results[0];
       req.user = user;
-      res.status(StatusCodes.CREATED).redirect("/");
+      const token = jwt.sign(
+        { id: user.id, email: user.email },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: process.env.JWT_LIFETIME,
+        }
+      );
+      res
+        .status(StatusCodes.CREATED)
+        .render("login", { pageTitle: "Login", user: req.user, token });
     });
   });
 };
@@ -78,5 +91,4 @@ module.exports = {
   getLogin,
   getJoin,
   postJoin,
-  authToken,
 };

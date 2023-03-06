@@ -11,8 +11,8 @@ const authenticationMiddleware = async (req, res, next) => {
   const authHeader = authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer")) {
-    return next();
-    // throw new UnauthenticatedError("Authentication invalid");
+    // return next();
+    throw new UnauthenticatedError("Authentication invalid");
   }
 
   try {

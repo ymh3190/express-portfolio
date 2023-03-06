@@ -1,21 +1,24 @@
-const { StatusCodes } = require("http-status-codes");
-const jwt = require("jsonwebtoken");
-const isEmail = require("../utils/isEmail");
 const mysql = require("../db/mysql");
+const jwt = require("jsonwebtoken");
+const { BadRequestError } = require("../errors/index");
+const isEmail = require("../utils/isEmail");
+const { StatusCodes } = require("http-status-codes");
 
-const authToken = (req, res) => {
+const login = (req, res) => {
   const {
     body: { email, password },
   } = req;
+
   if (!email || !password) {
-    throw new BadRequestError("Please provide email, name, password, confirm");
+    throw new BadRequestError("provide email and password");
   }
   if (!isEmail(email)) {
     throw new BadRequestError("email is invalid");
   }
-  mysql.query("select * from users where email=?", email, (err, results) => {
+  mysql.query("select id from users where email=?", email, (err, results) => {
     if (err) throw err;
-    const { id } = results[0];
+    const user = results[0];
+    const { id } = user;
     const token = jwt.sign({ id, email }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_LIFETIME,
     });
@@ -23,4 +26,9 @@ const authToken = (req, res) => {
   });
 };
 
-module.exports = { authToken };
+const dashboard = (req, res) => {
+  const { user } = req;
+  res.status(StatusCodes.OK).json({ user });
+};
+
+module.exports = { login, dashboard };

@@ -7,6 +7,7 @@ const rateLimiter = require("express-rate-limit");
 
 const express = require("express");
 const app = express();
+require("./db/mongo");
 const mysql = require("./db/mysql");
 
 const localsMiddleware = require("./middleware/locals");

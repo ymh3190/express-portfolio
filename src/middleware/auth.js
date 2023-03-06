@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const { default: fetch } = require("node-fetch");
 const mysql = require("../db/mysql");
 const { UnauthenticatedError } = require("../errors");
 
@@ -11,7 +10,6 @@ const authenticationMiddleware = async (req, res, next) => {
   const authHeader = authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer")) {
-    // return next();
     throw new UnauthenticatedError("Authentication invalid");
   }
 
@@ -20,7 +18,7 @@ const authenticationMiddleware = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { id, email } = decoded;
     mysql.query(
-      "select * from users where id=? and email=?",
+      "select id,email,name from users where id=? and email=?",
       [id, email],
       (err, results) => {
         if (err) throw err;

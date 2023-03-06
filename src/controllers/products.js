@@ -4,7 +4,9 @@ const { NotFoundError, BadRequestError } = require("../errors");
 const getAllProducts = async (req, res) => {
   mysql.query("SELECT * FROM `products`", (err, results) => {
     if (err) throw err;
-    res.status(200).render("products", { results, pageTitle: "Products" });
+    res
+      .status(200)
+      .render("pages/products", { results, pageTitle: "Products" });
   });
 };
 
@@ -18,7 +20,7 @@ const getProduct = (req, res, next) => {
     if (!results[0]) {
       return next(new NotFoundError("Product does not exist"));
     }
-    res.status(200).render("products", {
+    res.status(200).render("pages/products", {
       result: results[0],
       results: null,
       pageTitle: "Product",
@@ -56,7 +58,7 @@ const deleteProduct = (req, res) => {
 };
 
 const getInsertProduct = (req, res) => {
-  res.status(201).render("insert", { pageTitle: "Insert" });
+  res.status(201).render("pages/insert", { pageTitle: "Insert" });
 };
 
 const postInsertProduct = (req, res, next) => {

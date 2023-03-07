@@ -1,9 +1,11 @@
 <%- include('../layout/base') -%>
 
     <form method="post" class="join-form form">
-        <input type="email" name="email" placeholder="email">
-        <input type="text" name="name" placeholder="name">
-        <input type="password" name="password" placeholder="password">
-        <input type="password" name="confirm" placeholder="confirm">
+        <input type="email" name="email" placeholder="email" class="email">
+        <input type="text" name="name" placeholder="name" class="name">
+        <input type="password" name="password" placeholder="password" class="password">
+        <input type="password" name="confirm" placeholder="confirm" class="confirm">
         <button type="submit">Submit</button>
     </form>
+
+    <script src="/public/auth.js"></script>

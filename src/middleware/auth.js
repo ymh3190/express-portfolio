@@ -1,6 +1,7 @@
+const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
-const mysql = require("../db/mysql");
-const { UnauthenticatedError } = require("../errors");
+const mysql = require("../dbs/mysql");
+const { UnauthenticatedError, NotFoundError } = require("../errors");
 
 const authenticationMiddleware = async (req, res, next) => {
   const {
@@ -18,15 +19,14 @@ const authenticationMiddleware = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { id, email } = decoded;
     mysql.query(
-      "select id,email,name from users where id=? and email=?",
+      "SELECT name FROM users WHERE id=? AND email=?",
       [id, email],
       (err, results) => {
         if (err) throw err;
-        req.user = {
-          id: results[0].id,
-          email: results[0].email,
-          name: results[0].name,
-        };
+        const user = results[0];
+        if (!user) throw new NotFoundError("user not found");
+        const { name } = user;
+        req.user = { id, email, name };
         next();
       }
     );

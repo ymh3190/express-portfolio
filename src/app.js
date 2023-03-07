@@ -7,8 +7,8 @@ const rateLimiter = require("express-rate-limit");
 
 const express = require("express");
 const app = express();
-require("./db/mongo");
-const mysql = require("./db/mysql");
+const mongoose = require("./dbs/mongo");
+const mysql = require("./dbs/mysql");
 
 const localsMiddleware = require("./middleware/locals");
 const productsRouter = require("./routes/products");
@@ -43,10 +43,15 @@ app.use(notFound);
 app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 8000;
-mysql.connect((err) => {
-  if (err) throw err;
-  console.log("Connected to mysql");
-  app.listen(port, () => {
-    console.log(`Server is listening on port: ${port}`);
-  });
-});
+
+(async () => {
+  try {
+    mysql.connect();
+    // await mongoose.connect(process.env.MONGO_URI);
+    app.listen(port, () => {
+      console.log(`Server is listening on port ${port}`);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+})();

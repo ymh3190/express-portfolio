@@ -2,6 +2,47 @@ const loginForm = document.querySelector(".login-form");
 const emailInput = document.querySelector(".email");
 const passwordInput = document.querySelector(".password");
 const loginBtn = document.querySelector(".login-btn");
+const joinForm = document.querySelector(".join-form");
+const nameInput = document.querySelector(".name");
+const confirmInput = document.querySelector(".confirm");
+
+if (joinForm) {
+  joinForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    const name = nameInput.value;
+    const confirm = confirmInput.value;
+
+    emailInput.value = "";
+    passwordInput.value = "";
+    nameInput.value = "";
+    confirmInput.value = "";
+
+    try {
+      const data = await fetch("/api/auth/join", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, name, confirm }),
+      });
+      const { user, token } = await data.json();
+      localStorage.setItem("token", token);
+      const ul = document.createElement("ul");
+      const li = document.createElement("li");
+      li.innerText = `id:${user.id}, email:${user.email}, name:${user.name}, token: ${token}`;
+      ul.appendChild(li);
+      joinForm.appendChild(ul);
+      setTimeout(() => {
+        joinForm.removeChild(ul);
+      }, 3000);
+    } catch (err) {
+      alert(err);
+    }
+  });
+}
 
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {

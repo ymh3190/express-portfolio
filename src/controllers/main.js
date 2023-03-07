@@ -1,4 +1,4 @@
-const mysql = require("../db/mysql");
+const mysql = require("../dbs/mysql");
 const {
   BadRequestError,
   NotFoundError,

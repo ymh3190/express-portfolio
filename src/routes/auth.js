@@ -1,10 +1,13 @@
 const express = require("express");
-const { login, dashboard, join } = require("../controllers/auth");
-const authenticationMiddleware = require("../middleware/auth");
+const {
+  getJoin,
+  getLogin,
+  postJoin,
+  postLogin,
+} = require("../controllers/auth");
 const router = express.Router();
 
-router.route("/login").post(login);
-router.route("/join").post(join);
-router.route("/dashboard").get(authenticationMiddleware, dashboard);
+router.route("/join").get(getJoin).post(postJoin);
+router.route("/login").get(getLogin).post(postLogin);
 
 module.exports = router;

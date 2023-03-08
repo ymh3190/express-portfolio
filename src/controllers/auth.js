@@ -1,78 +1,28 @@
-const mysql = require("../db/mysql");
 const { StatusCodes } = require("http-status-codes");
-const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-const getJoin = (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "OK" });
-  // res.status(StatusCodes.OK).render("pages/join", { pageTitle: "Join" });
-};
-
-const postJoin = async (req, res) => {
+const join = (req, res) => {
   const {
-    body: { email, name, password, confirm },
+    body: { id, email },
   } = req;
 
-  if (!email || !name || !password || !confirm) {
-    // TODO: thorw err
-  }
-
-  //  TODO: email valid
-  // if(email.match()){}
-
-  if (password !== confirm) {
-    // TODO: thorw err
-  }
-
-  const hash = await bcrypt.hash(password, 10);
-
-  // TODO: insert and select at the same time
-  mysql.query(
-    "insert into users(email, name, password) values(?,?,?)",
-    [email, name, hash],
-    (err, results) => {
-      if (err) throw err;
-    }
-  );
-
-  mysql.query("select * from users where email=?", email, (err, results) => {
-    if (err) throw err;
-    const user = results[0];
-    // TODO: throw err
-    // if (!user) throw new ;
-    req.session.user = user;
-    res
-      .status(StatusCodes.CREATED)
-      .json({ msg: "CREATED", data: { user, session: req.session } });
+  const token = jwt.sign({ id, email }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
   });
+
+  res.status(StatusCodes.OK).json({ token });
 };
 
-const getLogin = (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "OK" });
-  // res.status(StatusCodes.OK).render("pages/login", { pageTitle: "Login" });
-};
-
-const postLogin = (req, res) => {
+const login = (req, res) => {
   const {
-    body: { email, password },
+    body: { id, email },
   } = req;
 
-  // TODO: email validation
+  const token = jwt.sign({ id, email }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
 
-  mysql.query(
-    "select * from users where email=?",
-    email,
-    async (err, results) => {
-      if (err) throw err;
-      const user = results[0];
-      // TODO: !user
-      if (!user) {
-      }
-      const isCorrect = await bcrypt.compare(password, user.password);
-      if (!isCorrect) {
-      }
-      res.status(StatusCodes.OK).json({ msg: "OK", data: { user } });
-    }
-  );
+  res.status(StatusCodes.OK).json({ token });
 };
 
-module.exports = { getJoin, getLogin, postJoin, postLogin };
+module.exports = { join, login };

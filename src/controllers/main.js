@@ -1,22 +1,17 @@
 const { StatusCodes } = require("http-status-codes");
 const mysql = require("../db/mysql");
-const bcrypt = require("bcrypt");
-const fetch = require("node-fetch");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 const getIndex = (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "OK", data: {} });
-  // res.status(StatusCodes.OK).render("pages/index", { pageTitle: "Index" });
+  res.status(StatusCodes.OK).render("pages/index", { pageTitle: "Index" });
 };
 
 const getJoin = (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "OK" });
-  // res.status(StatusCodes.OK).render("pages/join", { pageTitle: "Join" });
+  res.status(StatusCodes.OK).render("pages/join", { pageTitle: "Join" });
 };
 
 const getLogin = (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "OK" });
-  // res.status(StatusCodes.OK).render("pages/login", { pageTitle: "Login" });
+  res.status(StatusCodes.OK).render("pages/login", { pageTitle: "Login" });
 };
 
 const postJoin = async (req, res) => {
@@ -29,7 +24,8 @@ const postJoin = async (req, res) => {
   }
 
   //  TODO: email valid
-  // if(email.match()){}
+  if (email.match()) {
+  }
 
   if (password !== confirm) {
     // TODO: thorw err
@@ -46,26 +42,14 @@ const postJoin = async (req, res) => {
     }
   );
 
-  const sql = "select id, name from users where email=?";
-  mysql.query(sql, email, async (err, results) => {
+  const sql = "select id, email, name from users where email=?";
+  mysql.query(sql, email, (err, results) => {
     if (err) throw err;
     const user = results[0];
     // TODO: throw err
     // if (!user) throw new ;
-    const { id, name } = user;
-    const url = `http://localhost:${process.env.PORT}/api/auth/join`;
-    const response = await fetch(url, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id, email }),
-    });
-    const data = await response.json();
-    const { token } = data;
-    res
-      .status(StatusCodes.CREATED)
-      .json({ msg: "CREATED", data: { user: { id, email, name }, token } });
+    req.session.user = { ...user };
+    res.status(StatusCodes.CREATED).redirect("/");
   });
 };
 
@@ -75,6 +59,8 @@ const postLogin = (req, res) => {
   } = req;
 
   // TODO: email validation
+  if (email.match()) {
+  }
 
   const sql = "select * from users where email=?";
   mysql.query(sql, email, async (err, results) => {
@@ -83,32 +69,14 @@ const postLogin = (req, res) => {
     // TODO: !user
     if (!user) {
     }
-    const { id, name } = user;
 
     try {
       const result = await bcrypt.compare(password, user.password);
       if (!result) {
         // TODO: throw err
       }
-    } catch (err) {
-      console.log(err);
-    }
-
-    try {
-      const url = `http://localhost:${process.env.PORT}/api/auth/login`;
-      const response = await fetch(url, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id, email }),
-      });
-      const data = await response.json();
-      const { token } = data;
-      res.status(StatusCodes.OK).json({
-        msg: "OK",
-        data: { user: { id, email, name }, token },
-      });
+      req.session.user = { ...user };
+      res.status(StatusCodes.OK).redirect("/");
     } catch (err) {
       console.log(err);
     }

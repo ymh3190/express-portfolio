@@ -1,15 +1,36 @@
 require("dotenv").config();
 const express = require("express");
+const session = require("express-session");
 const app = express();
 const mysql = require("./db/mysql");
+const MySQLStore = require("express-mysql-session")(session);
 const localsMiddleware = require("./middleware/locals");
 const mainRouter = require("./routes/main");
-const authRouter = require("./routes/auth");
 const userRouter = require("./routes/users");
 
+app.set("trust proxy", 1);
 app.set("view engine", "ejs");
 app.set("views", process.cwd() + "/src/views");
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// session
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    // development mode: secure false
+    cookie: { secure: false },
+    // store
+    store: new MySQLStore({
+      host: "localhost",
+      user: "admin",
+      password: "",
+      database: "test",
+    }),
+  })
+);
 
 // middleware
 app.use(localsMiddleware);
@@ -19,7 +40,6 @@ app.use("/public", express.static("src/public"));
 
 // routes
 app.use("/", mainRouter);
-app.use("/api/auth", authRouter);
 app.use("/users", userRouter);
 
 const port = process.env.PORT || 8000;

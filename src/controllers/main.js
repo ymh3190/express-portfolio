@@ -1,6 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
 const mysql = require("../db/mysql");
 const bcrypt = require("bcryptjs");
+const { BadRequestError } = require("../errors");
+const isEmail = require("../utils/isEmail");
 
 const getIndex = (req, res) => {
   res.status(StatusCodes.OK).render("pages/index", { pageTitle: "Index" });
@@ -20,37 +22,40 @@ const postJoin = async (req, res) => {
   } = req;
 
   if (!email || !name || !password || !confirm) {
-    // TODO: thorw err
+    throw new BadRequestError("Provide email, name, password and confirm");
   }
 
-  //  TODO: email valid
-  if (email.match()) {
+  if (!isEmail(email)) {
+    throw new BadRequestError("Email invalid");
   }
 
   if (password !== confirm) {
-    // TODO: thorw err
+    throw new BadRequestError("Password does not match confirm password");
   }
 
-  const hash = await bcrypt.hash(password, 10);
+  try {
+    const hash = await bcrypt.hash(password, 10);
 
-  // TODO: insert and select at the same time
-  mysql.query(
-    "insert into users(email, name, password) values(?,?,?)",
-    [email, name, hash],
-    (err, results) => {
+    let sql = "insert into users(email, name, password) values(?,?,?)";
+    mysql.query(sql, [email, name, hash], (err, results) => {
       if (err) throw err;
-    }
-  );
+    });
 
-  const sql = "select id, email, name from users where email=?";
-  mysql.query(sql, email, (err, results) => {
-    if (err) throw err;
-    const user = results[0];
-    // TODO: throw err
-    // if (!user) throw new ;
-    req.session.user = { ...user };
-    res.status(StatusCodes.CREATED).redirect("/");
-  });
+    sql = "select id, email, name from users where email=?";
+    mysql.query(sql, email, (err, results) => {
+      if (err) throw err;
+      const user = results[0];
+      if (!user) {
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .render("pages/error", { msg: "User not found" });
+      }
+      req.session.user = user;
+      res.status(StatusCodes.CREATED).redirect("/");
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const postLogin = (req, res) => {
@@ -58,24 +63,32 @@ const postLogin = (req, res) => {
     body: { email, password },
   } = req;
 
-  // TODO: email validation
-  if (email.match()) {
+  if (!email || !password) {
+    throw new BadRequestError("Provide email and password");
+  }
+
+  if (!isEmail(email)) {
+    throw new BadRequestError("Email invalid");
   }
 
   const sql = "select * from users where email=?";
   mysql.query(sql, email, async (err, results) => {
     if (err) throw err;
     const user = results[0];
-    // TODO: !user
     if (!user) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .render("pages/error", { msg: "User not found" });
     }
-
     try {
-      const result = await bcrypt.compare(password, user.password);
-      if (!result) {
-        // TODO: throw err
+      const isCorrect = await bcrypt.compare(password, user.password);
+      if (!isCorrect) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .render("pages/error", { msg: "Password invalid" });
       }
-      req.session.user = { ...user };
+      req.session.user = user;
+      delete req.session.user.password;
       res.status(StatusCodes.OK).redirect("/");
     } catch (err) {
       console.log(err);

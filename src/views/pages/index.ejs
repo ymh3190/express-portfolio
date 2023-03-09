@@ -1,5 +1,9 @@
 <%- include('../layout/base') -%>
 
-    <span>
-        <%= user.id %>
-    </span>
+    <% if (user) { %>
+        <p>
+            id: <%= user.id %>,
+                email: <%= user.email %>,
+                    name: <%= user.name %>
+        </p>
+        <% } %>

@@ -3,8 +3,10 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const mysql = require("./db/mysql");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 const MySQLStore = require("express-mysql-session")(session);
 const localsMiddleware = require("./middleware/locals");
+const notFound = require("./middleware/notFound");
 const mainRouter = require("./routes/main");
 const userRouter = require("./routes/users");
 
@@ -41,6 +43,10 @@ app.use("/public", express.static("src/public"));
 // routes
 app.use("/", mainRouter);
 app.use("/users", userRouter);
+
+// error handler
+app.use(errorHandlerMiddleware);
+app.use(notFound);
 
 const port = process.env.PORT || 8000;
 

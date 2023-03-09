@@ -1,0 +1,15 @@
+<%- include('../layout/base') -%>
+
+    <% if (user) { %>
+        <p>
+            id: <%= user.id %>,
+                email: <%= user.email %>,
+                    name: <%= user.name %>
+        </p>
+        <form action="/users/update/<%= user.id %>" method="post">
+            <input type="email" name="email" id="" placeholder="email" value="<%= user.email %>">
+            <input type="text" name="name" id="" placeholder="name" value="<%= user.name %>">
+            <input type="password" name="password" id="" placeholder="password">
+            <button type="submit">Update</button>
+        </form>
+        <% } %>

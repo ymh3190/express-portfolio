@@ -9,6 +9,7 @@ const localsMiddleware = require("./middleware/locals");
 const notFound = require("./middleware/notFound");
 const mainRouter = require("./routes/main");
 const userRouter = require("./routes/users");
+const authenticationMiddleware = require("./middleware/authentication");
 
 app.set("trust proxy", 1);
 app.set("view engine", "ejs");
@@ -42,7 +43,7 @@ app.use("/public", express.static("src/public"));
 
 // routes
 app.use("/", mainRouter);
-app.use("/users", userRouter);
+app.use("/users", authenticationMiddleware, userRouter);
 
 // error handler
 app.use(errorHandlerMiddleware);
@@ -50,7 +51,7 @@ app.use(notFound);
 
 const port = process.env.PORT || 8000;
 
-mysql.connect();
+// mysql.connect();
 app.listen(port, () => {
   console.log(`Server is listening port ${port}`);
 });

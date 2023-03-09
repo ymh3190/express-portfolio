@@ -6,7 +6,7 @@
                 email: <%= user.email %>,
                     name: <%= user.name %>
         </p>
-        <form action="/users/update/<%= user.id %>" method="post">
+        <form action="/users/<%= user.id %>/update" method="post">
             <input type="email" name="email" id="" placeholder="email" value="<%= user.email %>">
             <input type="text" name="name" id="" placeholder="name" value="<%= user.name %>">
             <input type="password" name="password" id="" placeholder="password">

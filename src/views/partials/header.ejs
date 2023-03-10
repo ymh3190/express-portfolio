@@ -15,20 +15,20 @@
         <ul>
             <% if (user) { %>
                 <li>
-                    <a href="/users/<%= user.id %>">profile</a>
+                    <a href="/users/<%= user.id %>">Profile</a>
                 </li>
                 <li>
-                    <a href="/videos/upload">upload</a>
+                    <a href="/videos/upload">Upload</a>
                 </li>
                 <li>
-                    <a href="/videos">videos</a>
+                    <a href="/videos">Videos</a>
                 </li>
                 <li>
-                    <a href="/users/logout">logout</a>
+                    <a href="/users/logout">Logout</a>
                 </li>
                 <% } else {%>
                     <li>
-                        <a href="/login">login</a>
+                        <a href="/login">Login</a>
                     </li>
                     <% } %>
         </ul>

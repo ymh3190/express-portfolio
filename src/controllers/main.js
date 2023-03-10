@@ -5,9 +5,14 @@ const { BadRequestError, NotFoundError } = require("../errors");
 const isEmail = require("../utils/isEmail");
 const async_ = require("../middleware/async");
 
-const getIndex = (req, res) => {
-  res.status(StatusCodes.OK).render("pages/index", { pageTitle: "Index" });
-};
+const getIndex = async_(async (req, res) => {
+  const sql = "select * from videos";
+  const [results] = await mysql.query(sql);
+  const videos = results;
+  res
+    .status(StatusCodes.OK)
+    .render("pages/index", { pageTitle: "Index", videos });
+});
 
 const getJoin = (req, res) => {
   res.status(StatusCodes.OK).render("pages/join", { pageTitle: "Join" });
@@ -43,7 +48,6 @@ const postJoin = async_(async (req, res) => {
 const postLogin = async_(async (req, res) => {
   const {
     body: { email, password },
-    session,
   } = req;
 
   if (!email || !password) {
@@ -63,9 +67,32 @@ const postLogin = async_(async (req, res) => {
   if (!isCorrect) {
     throw new BadRequestError("Password invalid");
   }
-  session.user = user;
-  delete session.user.password;
+  req.session.user = user;
+  delete req.session.user.password;
   res.status(StatusCodes.OK).redirect("/");
+});
+
+const search = async_(async (req, res) => {
+  const {
+    query: { query },
+  } = req;
+
+  const sql = "select * from videos where title like ? or description like ?";
+  const [results] = await mysql.query(sql, [`%${query}%`, `%${query}%`]);
+  const videos = results;
+  res
+    .status(StatusCodes.OK)
+    .render("pages/search", { pageTitle: "Search", videos });
+});
+
+const findEmail = async_(async (req, res) => {
+  res.status(StatusCodes.OK).render("pages/email", { pageTitle: "Find email" });
+});
+
+const findPassword = async_(async (req, res) => {
+  res
+    .status(StatusCodes.OK)
+    .render("pages/password", { pageTitle: "Find password" });
 });
 
 module.exports = {
@@ -74,4 +101,7 @@ module.exports = {
   getLogin,
   postJoin,
   postLogin,
+  search,
+  findEmail,
+  findPassword,
 };

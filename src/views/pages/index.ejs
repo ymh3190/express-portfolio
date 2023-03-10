@@ -1,9 +1,23 @@
 <%- include('../layout/base') -%>
 
-    <% if (user) { %>
-        <p>
-            id: <%= user.id %>,
-                email: <%= user.email %>,
-                    name: <%= user.name %>
-        </p>
-        <% } %>
+    <div>
+        <% if(videos) {%>
+            <% for(const video of videos) { %>
+                <div>
+                    <video src="/<%= video.path %>"></video>
+                </div>
+                <div>
+                    <span>id: <%= video.id %></span>
+                    <span>
+                        title: <%= video.title %>
+                    </span>
+                    <span>
+                        createdAt: <%= video.createdAt.toISOString().substr(0,10) %>
+                    </span>
+                    <span>
+                        <%= video.createdAt.toISOString().substr(11,8) %>
+                    </span>
+                </div>
+                <% } %>
+                    <% } %>
+    </div>

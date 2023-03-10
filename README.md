@@ -8,8 +8,8 @@
     - 우분투 실행 후 다음 명령어를 실행
     - sudo apt-get update
     - sudo apt-get install mysql-server
-    - sudo ufw allow mysql (외부 접속 기능 설정, 포트 3306 오픈)
-    - wsl로 설치시 systemctl 명령어가 먹히지 않는다.
+    - sudo ufw allow mysql
+    - wsl로 설치시 systemctl
     - sudo service mysql start
     - sudo mysql -uroot
   - 맥

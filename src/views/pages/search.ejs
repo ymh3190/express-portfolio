@@ -1,0 +1,9 @@
+<%- include('../layout/base') -%>
+
+    <% if(videos) {%>
+        <% for(const video of videos) {%>
+            <div>
+                <video src="/<%= video.path %>"></video>
+            </div>
+            <%}%>
+                <% } %>

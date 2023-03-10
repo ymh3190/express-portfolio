@@ -1,2 +1,37 @@
-<header class="header">
+<header>
+    <div>
+        <a href="/">Express</a>
+    </div>
+    <div>
+        <form action="/search">
+            <input type="text" name="query" id="" placeholder="search">
+            <button type="submit">
+                <!-- fontawesome icon -->
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
+    <div>
+        <ul>
+            <% if (user) { %>
+                <li>
+                    <a href="/users/<%= user.id %>">profile</a>
+                </li>
+                <li>
+                    <a href="/videos/upload">upload</a>
+                </li>
+                <li>
+                    <a href="/videos">videos</a>
+                </li>
+                <li>
+                    <a href="/users/logout">logout</a>
+                </li>
+                <% } else {%>
+                    <li>
+                        <a href="/login">login</a>
+                    </li>
+                    <% } %>
+        </ul>
+        <!-- User info link -->
+    </div>
 </header>

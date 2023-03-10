@@ -1,10 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const {
-  BadRequestError,
-  NotFoundError,
-  ForbiddenError,
-  UnauthorizedError,
-} = require("../errors");
+const { BadRequestError, NotFoundError } = require("../errors");
 const mysql = require("../db/mysql");
 const isEmail = require("../utils/isEmail");
 const bcrypt = require("bcryptjs");
@@ -13,13 +8,9 @@ const async_ = require("../middleware/async");
 const getUser = async_(async (req, res) => {
   const {
     params: { id },
-    session,
   } = req;
 
-  if (!session.user) {
-    throw new UnauthorizedError("Unauthorized");
-  }
-  if (session.user.id !== Number(id)) {
+  if (req.session.user.id !== Number(id)) {
     throw new ForbiddenError("Forbidden");
   }
 
@@ -32,13 +23,15 @@ const getUser = async_(async (req, res) => {
   res.status(StatusCodes.OK).render("pages/user", { pageTitle: "User", user });
 });
 
-const postUpdateUser = async_(async (req, res) => {
+const updateUser = async_(async (req, res) => {
   const {
     params: { id },
     body: { email, name, password },
-    session,
   } = req;
 
+  if (req.session.user.id !== Number(id)) {
+    throw new ForbiddenError("Forbidden");
+  }
   if (!isEmail(email)) {
     throw new BadRequestError("Email invalid");
   }
@@ -48,9 +41,6 @@ const postUpdateUser = async_(async (req, res) => {
 
   let sql = "select password from users where id=? and email=?";
   const [results] = await mysql.query(sql, [id, email]);
-  if (session.user.id !== Number(id)) {
-    throw new ForbiddenError("Forbidden");
-  }
   const user = results[0];
   if (!user) {
     throw new NotFoundError("User not found");
@@ -68,28 +58,30 @@ const postUpdateUser = async_(async (req, res) => {
   if (!user_) {
     throw new NotFoundError("User not found");
   }
-  session.user = user_;
+  req.session.user = user_;
   res.status(StatusCodes.OK).redirect(`/users/${id}`);
 });
 
-const getDeleteUser = async_(async (req, res) => {
+const deleteUser = async_(async (req, res) => {
   const {
     params: { id },
-    session,
   } = req;
+
+  if (req.session.user.id !== Number(id)) {
+    throw new ForbiddenError("Forbidden");
+  }
 
   const [results] = await mysql.query("delete from users where id=?", id);
   if (!results.affectedRows) {
     throw new NotFoundError("User not found");
   }
-  session.destroy();
+  req.session.destroy();
   res.status(StatusCodes.OK).redirect("/");
 });
 
-const getLogout = async_(async (req, res) => {
-  const { session } = req;
-  session.destroy();
+const logout = (req, res) => {
+  req.session.destroy();
   res.status(StatusCodes.OK).redirect("/");
-});
+};
 
-module.exports = { getUser, postUpdateUser, getDeleteUser, getLogout };
+module.exports = { getUser, updateUser, deleteUser, logout };

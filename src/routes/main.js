@@ -3,20 +3,21 @@ const {
   getIndex,
   getJoin,
   getLogin,
-  postJoin,
-  postLogin,
+  join,
+  login,
   search,
-  getFindEmail,
   findPassword,
-  postFindEmail,
+  getFindPassword,
+  getInitPassword,
+  initPassword,
 } = require("../controllers/main");
 const router = express.Router();
 
 router.route("/").get(getIndex);
-router.route("/join").get(getJoin).post(postJoin);
-router.route("/login").get(getLogin).post(postLogin);
+router.route("/join").get(getJoin).post(join);
+router.route("/login").get(getLogin).post(login);
 router.route("/search").get(search);
-router.route("/find/email").get(getFindEmail).post(postFindEmail);
-router.route("/find/password").get(findPassword);
+router.route("/find-password").get(getFindPassword).post(findPassword);
+router.route("/init-password").get(getInitPassword).post(initPassword);
 
 module.exports = router;

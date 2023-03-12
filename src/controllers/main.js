@@ -128,7 +128,7 @@ const findPassword = async_(async (req, res) => {
     }
     req.session.user = user;
     delete req.session.user.password;
-    return res.status(StatusCodes.OK).redirect(`/init-password`);
+    res.status(StatusCodes.OK).redirect(`/init-password`);
   }
 });
 

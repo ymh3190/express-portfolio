@@ -167,12 +167,14 @@ const getWatch = async_(async (req, res) => {
   if (!video) {
     throw new NotFoundError("Video not found");
   }
-  sql = "select * from comments";
-  const [results_] = await mysql.query(sql);
+  sql = "select * from comments where videoId=?";
+  const [results_] = await mysql.query(sql, id);
   const comments = results_;
-  res
-    .status(StatusCodes.OK)
-    .render("pages/watch", { pageTitle: "Watch", video, comments });
+  res.status(StatusCodes.OK).render("pages/watch", {
+    pageTitle: "Watch",
+    video,
+    comments: comments ? comments : null,
+  });
 });
 
 module.exports = {

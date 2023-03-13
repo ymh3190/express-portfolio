@@ -27,7 +27,7 @@ commentForm.addEventListener("submit", async (e) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ comment: context, videoId }),
+    body: JSON.stringify({ context, videoId }),
   });
   const data = await response.json();
   const { commentId, comment } = data;

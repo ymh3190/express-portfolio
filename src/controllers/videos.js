@@ -70,7 +70,7 @@ const uploadVideo = async_(async (req, res) => {
 
 const addComment = async_(async (req, res) => {
   const {
-    body: { comment: context, videoId },
+    body: { context, videoId },
   } = req;
 
   if (!context) {

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
+const morgan = require("morgan");
 const app = express();
 const MySQLStore = require("express-mysql-session")(session);
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -16,6 +17,7 @@ app.set("view engine", "ejs");
 app.set("views", process.cwd() + "/src/views");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan("dev"));
 
 // session
 app.use(

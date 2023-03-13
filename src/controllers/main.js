@@ -118,10 +118,10 @@ const findPassword = async_(async (req, res) => {
     if (req.session.authNumber !== Number(authNumber)) {
       throw new BadRequestError("authNumber invalid");
     }
-    delete req.session.authNumber;
     const sql = "select * from users where email=?";
     const [results] = await mysql.query(sql, req.session.email);
     delete req.session.email;
+    delete req.session.authNumber;
     const user = results[0];
     if (!user) {
       throw new NotFoundError("User not found");
@@ -156,6 +156,25 @@ const initPassword = async_(async (req, res) => {
   res.status(StatusCodes.OK).redirect("/");
 });
 
+const getWatch = async_(async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  let sql = "select * from videos where id=?";
+  const [results] = await mysql.query(sql, id);
+  const video = results[0];
+  if (!video) {
+    throw new NotFoundError("Video not found");
+  }
+  sql = "select * from comments";
+  const [results_] = await mysql.query(sql);
+  const comments = results_;
+  res
+    .status(StatusCodes.OK)
+    .render("pages/watch", { pageTitle: "Watch", video, comments });
+});
+
 module.exports = {
   getIndex,
   getJoin,
@@ -167,4 +186,5 @@ module.exports = {
   findPassword,
   getInitPassword,
   initPassword,
+  getWatch,
 };

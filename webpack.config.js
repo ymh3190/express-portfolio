@@ -4,6 +4,8 @@ module.exports = {
   mode: "development",
   entry: {
     main: "./src/public/js/main.js",
+    videoPlayer: "./src/public/js/videoPlayer.js",
+    comment: "./src/public/js/comment.js",
   },
   output: {
     filename: "js/[name].js",

@@ -3,21 +3,20 @@
     <div>
         <% if(videos) {%>
             <% for(const video of videos) { %>
-                <div>
-                    <video src="/<%= video.path %>"></video>
-                </div>
-                <div>
-                    <span>id: <%= video.id %></span>
-                    <span>
-                        title: <%= video.title %>
-                    </span>
-                    <span>
-                        createdAt: <%= video.createdAt.toISOString().substr(0,10) %>
-                    </span>
-                    <span>
-                        <%= video.createdAt.toISOString().substr(11,8) %>
-                    </span>
-                </div>
+                <a href="/watch/<%= video.id %>">
+                    <div>
+                        <video src="/<%= video.path %>"></video>
+                    </div>
+                    <div>
+                        <span>id: <%= video.id %></span>
+                        <span>
+                            title: <%= video.title %>
+                        </span>
+                        <span>
+                            createdAt: <%= video.createdAt %>
+                        </span>
+                    </div>
+                </a>
                 <% } %>
                     <% } %>
     </div>

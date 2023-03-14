@@ -4,15 +4,13 @@ const {
   updateUser,
   deleteUser,
   logout,
-  github,
 } = require("../controllers/users");
 const router = express.Router();
-const authentication = require("../middleware/authentication");
+const authenticationMiddleware = require("../middleware/authentication");
 
-router.route("/:id(\\d+)").get(authentication, getUser);
-router.route("/:id(\\d+)/update").post(authentication, updateUser);
-router.route("/:id(\\d+)/delete").get(authentication, deleteUser);
-router.route("/logout").get(authentication, logout);
-router.route("/github").get(github);
+router.route("/:id(\\d+)").get(authenticationMiddleware, getUser);
+router.route("/:id(\\d+)/update").post(authenticationMiddleware, updateUser);
+router.route("/:id(\\d+)/delete").get(authenticationMiddleware, deleteUser);
+router.route("/logout").get(authenticationMiddleware, logout);
 
 module.exports = router;

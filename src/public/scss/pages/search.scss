@@ -1,0 +1,36 @@
+.search-root {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    ". . main"
+    "footer footer footer";
+}
+
+.search {
+  grid-area: main;
+  &__link {
+    display: grid;
+    grid-template-columns: 1fr 2.5fr;
+    &-metadata {
+      padding-left: 2%;
+      display: grid;
+      grid-template-areas:
+        "title title"
+        ". createdAt"
+        "userId userId"
+        "description description";
+      &__title {
+        grid-area: title;
+      }
+      &__createdAt {
+        grid-area: createdAt;
+      }
+      &__userId {
+        grid-area: userId;
+      }
+      &__description {
+        grid-area: description;
+      }
+    }
+  }
+}

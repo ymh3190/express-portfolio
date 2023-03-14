@@ -12,17 +12,17 @@ const {
 } = require("../controllers/videos");
 const router = express.Router();
 const uploader = multer({ dest: "uploads/videos" }).single("video");
-const authentication = require("../middleware/authentication");
+const authenticationMiddleware = require("../middleware/authentication");
 
 router.route("/").get(getVideos);
 router
   .route("/upload")
-  .all(authentication)
+  .all(authenticationMiddleware)
   .get(getUpload)
   .post(uploader, uploadVideo);
-router.route("/:id(\\d+)").get(authentication, getVideo);
-router.route("/:id(\\d+)/update").post(authentication, updateVideo);
-router.route("/:id(\\d+)/delete").get(authentication, deleteVideo);
+router.route("/:id(\\d+)").get(authenticationMiddleware, getVideo);
+router.route("/:id(\\d+)/update").post(authenticationMiddleware, updateVideo);
+router.route("/:id(\\d+)/delete").get(authenticationMiddleware, deleteVideo);
 router.route("/api/comment").post(addComment);
 router.route("/api/comment/delete").post(deleteComment);
 

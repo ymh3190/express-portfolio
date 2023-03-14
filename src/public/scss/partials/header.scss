@@ -1,0 +1,22 @@
+.header {
+  grid-area: header;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  &-logo,
+  &-search {
+    justify-self: center;
+    align-self: center;
+  }
+  &-search__form {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+  }
+
+  &-info {
+    align-self: center;
+    &__ul {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}

@@ -1,33 +1,44 @@
 <%- include('../layout/base') -%>
 
-    <% if (videos) { %>
-        <% for(const video of videos) { %>
-            <video src="/<%= video.path %>"></video>
-            <div>
-                <span>id: <%= video.id %></span>
-                <span>
-                    title: <%= video.title %>
-                </span>
-                <span>
-                    createdAt: <%= video.createdAt.toISOString().substr(0,10) %>
-                </span>
-                <span>
-                    <%= video.createdAt.toISOString().substr(11,8) %>
-                </span>
-                <p>
-                    description: <%= video.description %>
-                </p>
-                <div>
-                    <a href="/videos/<%= video.id %>">Update &rarr;</a>
-                </div>
-            </div>
-            <% } %>
-                <% } else if (video) {%>
-                    <video src="/<%= video.path %>"></video>
-                    <form method="post" action="/videos/<%= video.id %>/update">
-                        <input type="text" name="title" id="" value="<%= video.title %>" placeholder="title">
-                        <textarea name="description" id="" cols="30" rows="10"
-                            placeholder="description"><%= video.description %></textarea>
-                        <button type="submit">Update</button>
-                    </form>
-                    <% } %>
+<div class="root">
+  <%- include('../partials/header') -%>
+  <main class="main">
+    <% if (videos) { %> <% for(const video of videos) { %>
+    <video src="/<%= video.path %>"></video>
+    <div>
+      <span>id: <%= video.id %></span>
+      <span> title: <%= video.title %> </span>
+      <span>
+        createdAt: <%= video.createdAt.toISOString().substr(0,10) %>
+      </span>
+      <span> <%= video.createdAt.toISOString().substr(11,8) %> </span>
+      <p>description: <%= video.description %></p>
+      <div>
+        <a href="/videos/<%= video.id %>">Update &rarr;</a>
+      </div>
+    </div>
+    <% } %> <% } else if (video) { %>
+    <video src="/<%= video.path %>"></video>
+    <form method="post" action="/videos/<%= video.id %>/update">
+      <input
+        type="text"
+        name="title"
+        id=""
+        value="<%= video.title %>"
+        placeholder="title"
+      />
+      <textarea
+        name="description"
+        id=""
+        cols="30"
+        rows="10"
+        placeholder="description"
+      >
+<%= video.description %></textarea
+      >
+      <button type="submit">Update</button>
+    </form>
+    <% } %>
+  </main>
+  <%- include('../partials/footer') -%>
+</div>

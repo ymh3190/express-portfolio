@@ -1,8 +1,20 @@
 <%- include('../layout/base') -%>
 
+<div class="root">
+  <%- include('../partials/header') -%>
+  <main class="main">
     <form enctype="multipart/form-data" method="post">
-        <input type="file" name="video" id="" accept="video/*">
-        <input type="text" name="title" id="" placeholder="title">
-        <textarea name="description" id="" cols="30" rows="10" placeholder="description"></textarea>
-        <button type="submit">Upload</button>
+      <input type="file" name="video" id="" accept="video/*" />
+      <input type="text" name="title" id="" placeholder="title" />
+      <textarea
+        name="description"
+        id=""
+        cols="30"
+        rows="10"
+        placeholder="description"
+      ></textarea>
+      <button type="submit">Upload</button>
     </form>
+  </main>
+  <%- include('../partials/footer') -%>
+</div>

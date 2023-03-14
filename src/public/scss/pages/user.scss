@@ -1,0 +1,29 @@
+.user {
+  grid-area: main;
+  padding-top: 10%;
+  justify-self: center;
+  align-self: center;
+  &__form {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    align-items: center;
+    &-info {
+      display: grid;
+      grid-template-rows: repeat(2, 1fr);
+      &-email,
+      &-name {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: center;
+        padding-bottom: 10%;
+      }
+    }
+    &-password {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    &-button {
+      align-self: flex-start;
+    }
+  }
+}

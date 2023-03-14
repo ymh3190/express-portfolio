@@ -1,10 +1,35 @@
 <%- include('../layout/base') -%>
 
-    <form method="post">
-        <input type="email" name="email" placeholder="email">
-        <input type="password" name="password" placeholder="password">
-        <button type="submit">Log in</button>
-    </form>
-    <%- include('../partials/social') %>
-        <div>Don't have an account? <a href="/join">Join &rarr;</a></div>
-        <div>Did you forget your email? <a href="/find-password">Find password &rarr;</a></div>
+<div class="root">
+  <%- include('../partials/header') -%>
+  <main class="login">
+    <div class="login-area">
+      <form method="post" class="login-area__form">
+        <input
+          type="email"
+          name="email"
+          placeholder="email"
+          class="login-area__form-email"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="password"
+          class="login-area__form-password"
+        />
+        <button type="submit" class="login-area__form-button">Log in</button>
+      </form>
+    </div>
+    <%- include('../partials/social') -%>
+    <div class="login-query">
+      <div class="login-query-join">
+        Don't have an account? <a href="/join">Join &rarr;</a>
+      </div>
+      <div class="login-query-find">
+        Did you forget your email?
+        <a href="/find-password">Find password &rarr;</a>
+      </div>
+    </div>
+  </main>
+  <%- include('../partials/footer') -%>
+</div>

@@ -11,6 +11,7 @@ const notFound = require("./middleware/notFound");
 const mainRouter = require("./routes/main");
 const userRouter = require("./routes/users");
 const videoRouter = require("./routes/videos");
+const oauthRouter = require("./routes/oauth");
 
 app.set("trust proxy", 1);
 app.set("view engine", "ejs");
@@ -48,6 +49,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/", mainRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
+app.use("/oauth", oauthRouter);
 
 // error handler
 app.use(errorHandlerMiddleware);

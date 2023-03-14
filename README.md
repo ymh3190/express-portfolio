@@ -9,7 +9,6 @@
     - sudo apt-get update
     - sudo apt-get install mysql-server
     - sudo ufw allow mysql
-    - wsl로 설치시 systemctl
     - sudo service mysql start
     - sudo mysql -uroot
   - 맥
@@ -22,3 +21,7 @@
     - GRANT ALL PRIVILEGES ON test.* TO 'admin'@'localhost';
     - FLUSH PRIVILEGES;
     - sudo mysql -uadmin test
+  - 테이블 생성
+    - CREATE TABLE users(id int auto_increment primary key, email varchar(255) not null, name varchar(50) not null, password varchar(255) not null);
+    - CREATE TABLE videos(id int auto_increment primary key, path varchar(255) not null unique, title varchar(50) not null, description varchar(255) not null, createdAt datetime default current_timestamp, userId int, commentId int);
+    - CREATE TABLE comments(id int auto_increment primary key, context varchar(255) not null, videoId int, userId int);

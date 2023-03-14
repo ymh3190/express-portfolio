@@ -13,32 +13,32 @@
   <div class="header-info">
     <ul class="header-info__ul">
       <% if (user) { %>
-      <li>
-        <a href="/users/<%= user.id %>">Profile</a>
-      </li>
-      <li>
-        <a href="/videos/upload">Upload</a>
-      </li>
-      <li>
-        <a href="/videos">Videos</a>
-      </li>
-      <li>
-        <a href="/users/logout">Logout</a>
-      </li>
-      <% } else { %>
-      <li>
-        <a href=""></a>
-      </li>
-      <li>
-        <a href=""></a>
-      </li>
-      <li>
-        <a href=""></a>
-      </li>
-      <li>
-        <a href="/login">Login</a>
-      </li>
-      <% } %>
+        <li>
+          <a href="/users/<%= user.id %>">Profile</a>
+        </li>
+        <li>
+          <a href="/videos/upload">Upload</a>
+        </li>
+        <li>
+          <a href="/videos">Videos</a>
+        </li>
+        <li>
+          <a href="/users/logout">Logout</a>
+        </li>
+        <% } else { %>
+          <li>
+            <a href=""></a>
+          </li>
+          <li>
+            <a href=""></a>
+          </li>
+          <li>
+            <a href=""></a>
+          </li>
+          <li>
+            <a href="/login">Login</a>
+          </li>
+          <% } %>
     </ul>
     <!-- User info link -->
   </div>

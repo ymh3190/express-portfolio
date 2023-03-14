@@ -1,24 +1,29 @@
 <%- include('../layout/base') -%>
 
-<div class="root search-root">
-  <%- include('../partials/header') -%>
-  <main class="search">
-    <% if (videos) { %> <% for(const video of videos) { %>
-    <a href="/watch/<%= video.id %>" class="search__link">
-      <video src="/<%= video.path %>"></video>
-      <div class="search__link-metadata">
-        <span class="search__link-metadata__title"><%= video.title %></span>
-        <span class="search__link-metadata__createdAt"
-          ><%= video.createdAt %></span
-        >
-        <span class="search__link-metadata__userId"><%= video.userId %></span>
-        <span class="search__link-metadata__description"
-          ><%= video.description %></span
-        >
-      </div>
-      <% } %>
-    </a>
-    <% } %>
-  </main>
-  <%- include('../partials/footer') -%>
-</div>
+  <div class="root search-root">
+    <%- include('../partials/header') -%>
+      <main class="search">
+        <% if (videos) { %>
+          <% for(const video of videos) { %>
+            <a href="/watch/<%= video.id %>" class="search__link">
+              <video src="/<%= video.path %>"></video>
+              <div class="search__link-metadata">
+                <span class="search__link-metadata__title">
+                  <%= video.title %>
+                </span>
+                <span class="search__link-metadata__createdAt">
+                  <%= video.createdAt %>
+                </span>
+                <span class="search__link-metadata__userId">
+                  <%= video.userId %>
+                </span>
+                <span class="search__link-metadata__description">
+                  <%= video.description %>
+                </span>
+              </div>
+              <% } %>
+            </a>
+            <% } %>
+      </main>
+      <%- include('../partials/footer') -%>
+  </div>

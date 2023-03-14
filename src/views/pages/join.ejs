@@ -1,41 +1,21 @@
 <%- include('../layout/base') -%>
 
-<div class="root">
-  <%- include('../partials/header') -%>
-  <main class="join">
-    <div class="join-area">
-      <form method="post" class="join-area__form">
-        <input
-          type="email"
-          name="email"
-          placeholder="email"
-          class="join-area__form-email"
-        />
-        <input
-          type="text"
-          name="name"
-          placeholder="name"
-          class="join-area__form-name"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="password"
-          class="join-area__form-password"
-        />
-        <input
-          type="password"
-          name="confirm"
-          placeholder="confirm"
-          class="join-area__form-confirm"
-        />
-        <button type="submit" class="join-area__form-button">Join</button>
-      </form>
-    </div>
-    <%- include('../partials/social') -%>
-    <div class="join-query">
-      <div>Already have an account? <a href="/login">Login &rarr;</a></div>
-    </div>
-  </main>
-  <%- include('../partials/footer') -%>
-</div>
+  <div class="root">
+    <%- include('../partials/header') -%>
+      <main class="join">
+        <div class="join-area">
+          <form method="post" class="join-area__form">
+            <input type="email" name="email" placeholder="email" class="join-area__form-email" />
+            <input type="text" name="name" placeholder="name" class="join-area__form-name" />
+            <input type="password" name="password" placeholder="password" class="join-area__form-password" />
+            <input type="password" name="confirm" placeholder="confirm" class="join-area__form-confirm" />
+            <button type="submit" class="join-area__form-button">Join</button>
+          </form>
+        </div>
+        <%- include('../partials/social') -%>
+          <div class="join-query">
+            <div>Already have an account? <a href="/login">Login &rarr;</a></div>
+          </div>
+      </main>
+      <%- include('../partials/footer') -%>
+  </div>

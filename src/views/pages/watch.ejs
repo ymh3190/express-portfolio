@@ -1,74 +1,83 @@
 <%- include('../layout/base') -%>
 
-<div class="root">
-  <%- include('../partials/header') -%>
-  <main class="main">
-    <% if (video) { %>
-    <div id="videoContainer">
-      <video src="/<%= video.path %>" id="video"></video>
-      <div>
-        <div class="video-player">
-          <div>
-            <span>
-              <i class="fa-solid fa-play" id="play"></i>
-            </span>
-            <span>
-              <i class="fa-solid fa-volume-high" id="volume"></i>
-              <input type="range" name="" id="volumeRange" value="100" />
-            </span>
-            <span>
-              <span id="currentTime"></span>
-              <span>/</span>
-              <span id="entireTime"></span>
-            </span>
-            <span>
-              <i class="fa-solid fa-expand" id="expand"></i>
-            </span>
-          </div>
-        </div>
-        <div>
-          <div>
-            <span> <%= video.title %> </span>
-            <p><%= video.description %></p>
-            <span> <%= video.createdAt %> </span>
-          </div>
-          <div>
-            <div><%= comments.length %> Comments</div>
-            <% if (user) { %>
+  <div class="root">
+    <%- include('../partials/header') -%>
+      <main class="main">
+        <% if (video) { %>
+          <div id="videoContainer">
+            <video src="/<%= video.path %>" id="video"></video>
             <div>
-              <div><%= user.name %></div>
-              <form method="post" id="commentForm">
-                <input
-                  type="text"
-                  name="comment"
-                  id="comment"
-                  placeholder="Add a comment..."
-                />
-                <button type="submit">Comment</button>
-              </form>
-            </div>
-            <% if (comments) { %>
-            <div>
-              <ul class="comments-ul">
-                <% for(const comment of comments.reverse()) { %>
+              <div class="video-player">
                 <div>
-                  <li><%= comment.context %></li>
-                  <% if (comment.userId===user.id) { %>
-                  <span id="deleteComment" data-id="<%= comment.id %>">
-                    <i class="fa-solid fa-delete-left"></i>
+                  <span>
+                    <i class="fa-solid fa-play" id="play"></i>
+                  </span>
+                  <span>
+                    <i class="fa-solid fa-volume-high" id="volume"></i>
+                    <input type="range" name="" id="volumeRange" value="100" />
+                  </span>
+                  <span>
+                    <span id="currentTime"></span>
+                    <span>/</span>
+                    <span id="entireTime"></span>
+                  </span>
+                  <span>
+                    <i class="fa-solid fa-expand" id="expand"></i>
                   </span>
                 </div>
-                <% } %> <% } %>
-              </ul>
+              </div>
+              <div>
+                <div>
+                  <span>
+                    <%= video.title %>
+                  </span>
+                  <p>
+                    <%= video.description %>
+                  </p>
+                  <span>
+                    <%= video.createdAt %>
+                  </span>
+                </div>
+                <div>
+                  <div>
+                    <%= comments.length %> Comments
+                  </div>
+                  <% if (user) { %>
+                    <div>
+                      <div>
+                        <%= user.name %>
+                      </div>
+                      <form method="post" id="commentForm">
+                        <input type="text" name="comment" id="comment" placeholder="Add a comment..." />
+                        <button type="submit">Comment</button>
+                      </form>
+                    </div>
+                    <% if (comments) { %>
+                      <div>
+                        <ul class="comments-ul">
+                          <% for(const comment of comments.reverse()) { %>
+                            <div>
+                              <li>
+                                <%= comment.context %>
+                              </li>
+                              <% if (comment.userId===user.id) { %>
+                                <span id="deleteComment" data-id="<%= comment.id %>">
+                                  <i class="fa-solid fa-delete-left"></i>
+                                </span>
+                            </div>
+                            <% } %>
+                              <% } %>
+                        </ul>
+                      </div>
+                      <% } %>
+                        <% } %>
+                </div>
+              </div>
             </div>
-            <% } %> <% } %>
           </div>
-        </div>
-      </div>
-    </div>
-    <% } %>
-  </main>
-  <%- include('../partials/footer') -%>
-</div>
-<script src="/dist/js/videoPlayer.js"></script>
-<script src="/dist/js/comment.js"></script>
+          <% } %>
+      </main>
+      <%- include('../partials/footer') -%>
+  </div>
+  <script src="/dist/js/videoPlayer.js"></script>
+  <script src="/dist/js/comment.js"></script>

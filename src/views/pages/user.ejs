@@ -1,57 +1,35 @@
 <%- include('../layout/base') -%>
 
-<div class="root">
-  <%- include('../partials/header') -%>
-  <main class="user">
-    <% if (user) { %>
-    <form
-      action="/users/<%= user.id %>/update"
-      method="post"
-      class="user__form"
-    >
-      <div class="user__form-info">
-        <div class="user__form-info-email">
-          <div>email: <%= user.email %></div>
-          <div>
-            <div>Email</div>
-            <input
-              type="email"
-              name="email"
-              id=""
-              placeholder="email"
-              value="<%= user.email %>"
-              class=""
-            />
-          </div>
-        </div>
-        <div class="user__form-info-name">
-          <div>name: <%= user.name %></div>
-          <div>
-            <div>Name</div>
-            <input
-              type="text"
-              name="name"
-              id=""
-              placeholder="name"
-              value="<%= user.name %>"
-              class=""
-            />
-          </div>
-        </div>
-      </div>
-      <div class="user__form-password">
-        <div>Password</div>
-        <input
-          type="password"
-          name="password"
-          id=""
-          placeholder="password"
-          class=""
-        />
-      </div>
-      <button type="submit" class="user__form-button">Update</button>
-    </form>
-    <% } %>
-  </main>
-  <%- include('../partials/footer') -%>
-</div>
+  <div class="root">
+    <%- include('../partials/header') -%>
+      <main class="user">
+        <% if (user) { %>
+          <form action="/users/<%= user.id %>/update" method="post" class="user__form">
+            <div class="user__form-info">
+              <div class="user__form-info-email">
+                <div>email: <%= user.email %>
+                </div>
+                <div>
+                  <div>Email</div>
+                  <input type="email" name="email" id="" placeholder="email" value="<%= user.email %>" class="" />
+                </div>
+              </div>
+              <div class="user__form-info-name">
+                <div>name: <%= user.name %>
+                </div>
+                <div>
+                  <div>Name</div>
+                  <input type="text" name="name" id="" placeholder="name" value="<%= user.name %>" class="" />
+                </div>
+              </div>
+            </div>
+            <div class="user__form-password">
+              <div>Password</div>
+              <input type="password" name="password" id="" placeholder="password" class="" />
+            </div>
+            <button type="submit" class="user__form-button">Update</button>
+          </form>
+          <% } %>
+      </main>
+      <%- include('../partials/footer') -%>
+  </div>

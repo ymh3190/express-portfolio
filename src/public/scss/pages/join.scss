@@ -2,14 +2,17 @@
   grid-area: main;
   display: grid;
   grid-template-rows: repeat(3, 1fr);
+
   &-area,
   .social,
   &-query {
     justify-self: center;
     align-self: center;
   }
+
   &-area {
     padding-top: 5%;
+
     &__form {
       display: grid;
       grid-template-areas:
@@ -18,29 +21,36 @@
         "password confirm"
         ". ."
         "button button";
+
       &-email {
         grid-area: email;
       }
+
       &-name {
         grid-area: name;
       }
+
       &-password {
         grid-area: password;
       }
+
       &-confirm {
         grid-area: confirm;
       }
+
       &-button {
         grid-area: button;
       }
     }
   }
+
   .social {
     display: grid;
     grid-template-areas:
       "github facebook google"
       "naver . kakao";
     row-gap: 10%;
+
     &-github,
     &-facebook,
     &-google,
@@ -49,22 +59,27 @@
       justify-self: center;
       align-self: center;
     }
+
     &-github {
       grid-area: github;
     }
+
     &-facebook {
       grid-area: facebook;
     }
+
     &-google {
       grid-area: google;
     }
+
     &-naver {
       grid-area: naver;
     }
+
     &-kakao {
       grid-area: kakao;
     }
   }
-  &-query {
-  }
+
+  &-query {}
 }

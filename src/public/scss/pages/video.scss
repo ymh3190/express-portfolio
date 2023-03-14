@@ -1,0 +1,13 @@
+.video {
+    grid-area: main;
+    justify-self: center;
+    align-self: center;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    row-gap: 5%;
+
+    &-metadata {
+        padding-left: 10%;
+        align-self: center;
+    }
+}

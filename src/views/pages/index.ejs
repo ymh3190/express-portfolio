@@ -1,20 +1,22 @@
 <%- include('../layout/base') -%>
 
-<div class="root">
-  <%- include('../partials/header') -%>
-  <main class="index">
-    <% if (videos) { %> <% for(const video of videos) { %>
-    <a href="/watch/<%= video.id %>">
-      <div>
-        <video src="/<%= video.path %>"></video>
-      </div>
-      <div>
-        <span>id: <%= video.id %></span>
-        <span> title: <%= video.title %> </span>
-        <span> createdAt: <%= video.createdAt %> </span>
-      </div>
-    </a>
-    <% } %> <% } %>
-  </main>
-  <%- include('../partials/footer') -%>
-</div>
+  <div class="root">
+    <%- include('../partials/header') -%>
+      <main class="index">
+        <% if (videos) { %>
+          <% for(const video of videos) { %>
+            <a href="/watch/<%= video.id %>">
+              <div>
+                <video src="/<%= video.path %>"></video>
+              </div>
+              <div>
+                <span>id: <%= video.id %></span>
+                <span> title: <%= video.title %> </span>
+                <span> createdAt: <%= video.createdAt %> </span>
+              </div>
+            </a>
+            <% } %>
+              <% } %>
+      </main>
+      <%- include('../partials/footer') -%>
+  </div>

@@ -80,7 +80,7 @@ const addComment = async_(async (req, res) => {
     throw new BadRequestError("Provide videoId");
   }
 
-  let sql = "select id from users where id=?";
+  let sql = "select id,name from users where id=?";
   const [results] = await mysql.query(sql, req.session.user.id);
   const user = results[0];
   if (!user) {
@@ -94,13 +94,21 @@ const addComment = async_(async (req, res) => {
     throw new NotFoundError("Video not found");
   }
 
-  sql = "insert into comments(context, videoId, userId) values(?,?,?)";
-  const results__ = await mysql.query(sql, [context, video.id, user.id]);
+  sql =
+    "insert into comments(context, videoId, userId, userName) values(?,?,?,?)";
+  const results__ = await mysql.query(sql, [
+    context,
+    video.id,
+    user.id,
+    user.name,
+  ]);
   const commentId = results__[0].insertId;
 
   sql = "update videos set commentId=? where id=?";
   await mysql.query(sql, [commentId, video.id]);
-  res.status(StatusCodes.OK).json({ comment: context, commentId });
+  res
+    .status(StatusCodes.OK)
+    .json({ comment: context, commentId, userName: user.name });
 });
 
 const deleteComment = async_(async (req, res) => {

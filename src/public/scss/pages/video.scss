@@ -1,13 +1,85 @@
+.videos-root {
+    display: grid;
+    grid-template-areas:
+        "header header header"
+        ". . main"
+        "footer footer footer";
+}
+
+.video-root {
+    display: grid;
+}
+
+.videos {
+    grid-area: main;
+    justify-self: center;
+    align-self: center;
+
+    &-container {
+        display: grid;
+        grid-template-columns: 1fr 2.5fr;
+        margin-bottom: 1%;
+
+        &-metadata {
+            padding-left: 10%;
+            align-self: center;
+
+            &-edit {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    }
+}
+
 .video {
     grid-area: main;
     justify-self: center;
     align-self: center;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    row-gap: 5%;
 
-    &-metadata {
-        padding-left: 10%;
-        align-self: center;
+    &-container {
+
+        video {
+            width: 681px;
+            height: 383px;
+            object-fit: fill;
+        }
+
+        &__form {
+            display: grid;
+            grid-template-areas:
+                "title title"
+                "description description"
+                "button button";
+            margin-top: 5%;
+
+            &-title,
+            &-description {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                margin-bottom: 5%;
+                align-items: center;
+            }
+
+            &-title {
+                grid-area: title;
+
+                input {
+                    width: 100%;
+                }
+            }
+
+            &-description {
+                grid-area: description;
+
+                textarea {
+                    width: 100%;
+                }
+            }
+
+            &-button {
+                grid-area: button;
+            }
+        }
     }
 }

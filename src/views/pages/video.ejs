@@ -1,36 +1,56 @@
 <%- include('../layout/base') -%>
 
-  <div class="root">
+  <div class="root videos-root video-root">
     <%- include('../partials/header') -%>
-      <main class="video">
+      <main class="videos video">
         <% if (videos) { %>
           <% for(const video of videos) { %>
-            <video src="/<%= video.path %>"></video>
-            <div class="video-metadata">
-              <div> title: <%= video.title %>
-              </div>
-              <div>
-                createdAt: <%= video.createdAt.toISOString().substr(0,10) %>
-              </div>
-              <div>
-                <%= video.createdAt.toISOString().substr(11,8) %>
-              </div>
-              <p>description: <%= video.description %>
-              </p>
-              <div>
-                <a href="/videos/<%= video.id %>">Update &rarr;</a>
+            <div class="videos-container">
+              <video src="/<%= video.path %>"></video>
+              <div class="videos-container-metadata">
+                <div> title: <%= video.title %>
+                </div>
+                <div>
+                  createdAt: <%= video.createdAt %>
+                </div>
+                <div>
+                  <%= video.createdAt %>
+                </div>
+                <p>description: <%= video.description %>
+                </p>
+                <div class="videos-container-metadata-edit">
+                  <div><a href="/videos/<%= video.id %>">Update &rarr;</a></div>
+                  <div><a href="/videos/<%= video.id %>/delete">Delete &rarr;</a></div>
+                </div>
               </div>
             </div>
             <% } %>
               <% } else if (video) { %>
-                <video src="/<%= video.path %>"></video>
-                <form method="post" action="/videos/<%= video.id %>/update">
-                  <input type="text" name="title" id="" value="<%= video.title %>" placeholder="title" />
-                  <textarea name="description" id="" cols="30" rows="10" placeholder="description">
-<%= video.description %></textarea>
-                  <button type="submit">Update</button>
-                </form>
+                <div class="video-container">
+                  <video src="/<%= video.path %>"></video>
+                  <form method="post" action="/videos/<%= video.id %>/update" class="video-container__form">
+                    <div class="video-container__form-title">
+                      <div>title: <%= video.title %>
+                      </div>
+                      <div>
+                        <div>Title</div>
+                        <input type="text" name="title" id="" value="<%= video.title %>" placeholder="title" />
+                      </div>
+                    </div>
+                    <div class="video-container__form-description">
+                      <div>description: <%= video.description %>
+                      </div>
+                      <div>
+                        <div>Description</div>
+                        <textarea name="description" id="" cols="20" rows="5"
+                          placeholder="description"><%= video.description %></textarea>
+                      </div>
+                    </div>
+                    <button type="submit" class="video-container__form-button">Update</button>
+                  </form>
+                </div>
                 <% } %>
       </main>
       <%- include('../partials/footer') -%>
   </div>
+  <script src="/dist/js/video.js"></script>

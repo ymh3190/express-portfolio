@@ -6,6 +6,7 @@ module.exports = {
     main: "./src/public/js/main.js",
     videoPlayer: "./src/public/js/videoPlayer.js",
     comment: "./src/public/js/comment.js",
+    video: "./src/public/js/video.js",
   },
   output: {
     filename: "js/[name].js",

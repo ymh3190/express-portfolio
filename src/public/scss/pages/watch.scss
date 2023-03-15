@@ -1,0 +1,93 @@
+.watch {
+    grid-area: main;
+
+    video {
+        width: 681px;
+        height: 383px;
+        object-fit: fill;
+    }
+
+    &-container {
+        display: grid;
+        grid-template-rows: repeat(2, 1fr);
+
+        &-videoplayer,
+        &-comments {
+            width: 681px;
+            height: 383px;
+            justify-self: center;
+        }
+
+        &-videoplayer {
+            padding-top: 1%;
+
+            &-interactive {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                align-items: center;
+                position: relative;
+                bottom: 7.5%;
+
+                span {
+                    color: white;
+                }
+
+                &-left {
+                    justify-self: start;
+                    position: relative;
+                    left: 2%;
+                    display: grid;
+                    grid-template-columns: 0.25fr 1.75fr 1fr;
+                    align-items: center;
+
+                    &-volume {
+                        align-self: center;
+                    }
+                }
+
+                &-right {
+                    justify-self: end;
+                    position: relative;
+                    right: 2%;
+                }
+            }
+        }
+
+        &-comments {
+
+            ul {
+                padding: 0;
+            }
+
+            &-length {
+                padding-top: 2%;
+            }
+
+            &-add {
+                padding-top: 2%;
+                display: grid;
+                grid-template-columns: 0.25fr 3.75fr;
+
+                &__form {
+                    display: grid;
+                    grid-template-columns: 3.75fr 0.25fr;
+                }
+            }
+
+            &-metadata {
+                &-ul {
+                    &-list {
+                        display: grid;
+                        grid-template-columns: 3.75fr 0.25fr;
+                        border-bottom: 1px solid gray;
+                        padding-top: 2%;
+
+                        span {
+                            justify-self: end;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,7 +1,13 @@
 .index {
-  grid-area: main;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 1%;
   row-gap: 5%;
+
+  video {
+
+    width: 350px;
+    height: 200px;
+    object-fit: fill;
+  }
 }

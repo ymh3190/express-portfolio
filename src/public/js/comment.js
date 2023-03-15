@@ -1,11 +1,13 @@
 const commentForm = document.getElementById("commentForm");
 const commentInput = document.getElementById("comment");
 const deleteIcons = document.querySelectorAll("#deleteComment");
-const commentsUl = document.querySelector(".comments-ul");
+const commentsUl = document.getElementById("commentsUl");
+const commentsLengthDOM = document.getElementById("commentsLength");
 
 const handleDeleteComment = async (e) => {
   commentsUl.removeChild(e.target.parentElement.parentElement);
   const commentId = e.target.parentElement.dataset.id;
+  commentsLengthDOM.innerText = Number(commentsLengthDOM.innerText) - 1;
   await fetch("/videos/api/comment/delete", {
     method: "POST",
     headers: {
@@ -46,6 +48,7 @@ if (commentForm) {
     div.appendChild(li);
     div.appendChild(span);
     commentsUl.prepend(div);
+    commentsLengthDOM.innerText = Number(commentsLengthDOM.innerText) + 1;
     span.addEventListener("click", handleDeleteComment);
   });
 }

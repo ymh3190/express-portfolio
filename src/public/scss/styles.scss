@@ -13,6 +13,7 @@
 @import "pages/user.scss";
 @import "pages/upload.scss";
 @import "pages/video.scss";
+@import "pages/watch.scss";
 
 // partials
 @import "partials/header.scss";
@@ -34,4 +35,9 @@ li {
 a {
   color: black;
   text-decoration: none;
+}
+
+main {
+  grid-area: main;
+  padding-top: 1%;
 }

@@ -5,7 +5,10 @@ const volumeRangeInput = document.getElementById("volumeRange");
 const currentTimeSpan = document.getElementById("currentTime");
 const entireTimeSpan = document.getElementById("entireTime");
 const expandIcon = document.getElementById("expand");
-const videoContainerDOM = document.getElementById("videoContainer");
+const videoPlayerDOM = document.getElementById("videoPlayer");
+const videoPlayerInteractiveDOM = document.getElementById(
+  "videoPlayerInteractive"
+);
 
 playIcon.addEventListener("click", () => {
   if (videoElem.paused) {
@@ -62,14 +65,14 @@ videoElem.addEventListener("timeupdate", () => {
 });
 
 expandIcon.addEventListener("click", () => {
-  if (document.fullscreenElement) {
+  if (!document.fullscreenElement) {
+    videoPlayerDOM.requestFullscreen();
+    expandIcon.classList.remove("fa-expand");
+    expandIcon.classList.add("fa-compress");
+  } else {
     document.exitFullscreen();
     expandIcon.classList.remove("fa-compress");
     expandIcon.classList.add("fa-expand");
-  } else {
-    videoContainerDOM.requestFullscreen();
-    expandIcon.classList.remove("fa-expand");
-    expandIcon.classList.add("fa-compress");
   }
 });
 

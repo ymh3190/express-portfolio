@@ -3,11 +3,20 @@ const commentInput = document.getElementById("comment");
 const deleteIcons = document.querySelectorAll("#deleteComment");
 const commentsUl = document.getElementById("commentsUl");
 const commentsLengthDOM = document.getElementById("commentsLength");
+const commentsLengthSectionDOM = document.getElementById(
+  "commentsLengthSection"
+);
+
+const commentOrComments = (lengthDOM, sectionDOM) => {
+  const count = Number(lengthDOM.innerText);
+  sectionDOM.innerText = count === 1 ? `${count} Comment` : `${count} Comments`;
+};
 
 const handleDeleteComment = async (e) => {
   commentsUl.removeChild(e.target.parentElement.parentElement);
   const commentId = e.target.parentElement.dataset.id;
   commentsLengthDOM.innerText = Number(commentsLengthDOM.innerText) - 1;
+  commentOrComments(commentsLengthDOM, commentsLengthSectionDOM);
   await fetch("/videos/api/comment/delete", {
     method: "POST",
     headers: {
@@ -34,22 +43,26 @@ if (commentForm) {
       body: JSON.stringify({ context, videoId }),
     });
     const data = await response.json();
-    const { commentId, comment } = data;
+    const { commentId, comment, userName } = data;
 
     const li = document.createElement("li");
-    li.innerText = comment;
-    const span = document.createElement("span");
-    span.setAttribute("id", "deleteComment");
-    span.setAttribute("data-id", commentId);
+    li.innerText = `${userName}: ${comment}`;
+    const userNameSpan = document.createElement("span");
+    userNameSpan.innerText = userName;
+    const commentIdSpan = document.createElement("span");
+    commentIdSpan.setAttribute("id", "deleteComment");
+    commentIdSpan.setAttribute("data-id", commentId);
     const icon = document.createElement("i");
     icon.classList = "fa-solid fa-delete-left";
-    span.appendChild(icon);
+    commentIdSpan.appendChild(icon);
     const div = document.createElement("div");
+    div.classList.add("watch-container-comments-metadata-ul-list");
     div.appendChild(li);
-    div.appendChild(span);
+    div.appendChild(commentIdSpan);
     commentsUl.prepend(div);
     commentsLengthDOM.innerText = Number(commentsLengthDOM.innerText) + 1;
-    span.addEventListener("click", handleDeleteComment);
+    commentOrComments(commentsLengthDOM, commentsLengthSectionDOM);
+    commentIdSpan.addEventListener("click", handleDeleteComment);
   });
 }
 

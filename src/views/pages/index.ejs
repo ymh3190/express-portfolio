@@ -11,7 +11,7 @@
               </div>
               <div>
                 <span> title: <%= video.title %> </span>
-                <span> createdAt: <%= video.createdAt %> </span>
+                <span id="createdAt"> createdAt: <%= video.createdAt %> </span>
               </div>
             </a>
             <% } %>
@@ -19,3 +19,4 @@
       </main>
       <%- include('../partials/footer') -%>
   </div>
+  <script src="/dist/js/diffTime.js"></script>

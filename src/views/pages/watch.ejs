@@ -37,12 +37,12 @@
                 <p>
                   <%= video.description %>
                 </p>
-                <span>
+                <span id="createdAt">
                   <%= video.createdAt %>
                 </span>
               </div>
               <div>
-                <div class="watch-container-comments-length">
+                <div class="watch-container-comments-length" id="commentsLengthSection">
                   <span id="commentsLength">
                     <%= comments.length %>
                   </span>
@@ -65,8 +65,7 @@
                           <% for(const comment of comments.reverse()) { %>
                             <div class="watch-container-comments-metadata-ul-list">
                               <li>
-                                <%= comment.userName %>
-                                  <%= comment.context %>
+                                <%= comment.userName %>: <%= comment.context %>
                               </li>
                               <% if (user) { %>
                                 <% if (comment.userId===user.id) { %>
@@ -91,3 +90,4 @@
   </div>
   <script src="/dist/js/videoPlayer.js"></script>
   <script src="/dist/js/comment.js"></script>
+  <script src="/dist/js/diffTime.js"></script>

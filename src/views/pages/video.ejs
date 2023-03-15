@@ -11,10 +11,10 @@
                 <div> title: <%= video.title %>
                 </div>
                 <div>
-                  createdAt: <%= video.createdAt %>
+                  view:
                 </div>
-                <div>
-                  <%= video.createdAt %>
+                <div id="createdAt">
+                  createdAt: <%= video.createdAt %>
                 </div>
                 <p>description: <%= video.description %>
                 </p>
@@ -24,6 +24,7 @@
                 </div>
               </div>
             </div>
+            <script src="/dist/js/toISOString.js"></script>
             <% } %>
               <% } else if (video) { %>
                 <div class="video-container">

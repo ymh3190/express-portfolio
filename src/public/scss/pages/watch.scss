@@ -66,12 +66,15 @@
             &-add {
                 padding-top: 2%;
                 display: grid;
-                grid-template-columns: 0.25fr 3.75fr;
+                grid-template-columns: 0.5fr 3.5fr;
+
+                &__name {}
 
                 &__form {
                     display: grid;
                     grid-template-columns: 3.75fr 0.25fr;
                 }
+
             }
 
             &-metadata {

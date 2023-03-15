@@ -7,6 +7,8 @@ module.exports = {
     videoPlayer: "./src/public/js/videoPlayer.js",
     comment: "./src/public/js/comment.js",
     video: "./src/public/js/video.js",
+    diffTime: "./src/public/js/diffTime.js",
+    toISOString: "./src/public/js/toISOString.js",
   },
   output: {
     filename: "js/[name].js",

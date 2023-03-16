@@ -56,7 +56,7 @@ if (commentForm) {
     icon.classList = "fa-solid fa-delete-left";
     commentIdSpan.appendChild(icon);
     const div = document.createElement("div");
-    div.classList.add("watch-container-comments-metadata-ul-list");
+    div.classList.add("watch-container-metadata-comments-info-ul-list");
     div.appendChild(li);
     div.appendChild(commentIdSpan);
     commentsUl.prepend(div);

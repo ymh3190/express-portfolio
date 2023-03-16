@@ -11,10 +11,12 @@
                 <div> title: <%= video.title %>
                 </div>
                 <div>
-                  view:
+                  <span id="viewCount">
+                    <%= video.view %>
+                  </span>
                 </div>
                 <div id="createdAt">
-                  createdAt: <%= video.createdAt %>
+                  <%= video.createdAt %>
                 </div>
                 <p>description: <%= video.description %>
                 </p>

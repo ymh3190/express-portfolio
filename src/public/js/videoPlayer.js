@@ -69,10 +69,18 @@ expandIcon.addEventListener("click", () => {
     videoPlayerDOM.requestFullscreen();
     expandIcon.classList.remove("fa-expand");
     expandIcon.classList.add("fa-compress");
+    videoElem.classList.add("video-expand");
+    videoPlayerDOM.classList.add("videoPlayer-expand");
+    videoPlayerInteractiveDOM.classList.add("videoPlayer-interactive-expand");
   } else {
     document.exitFullscreen();
     expandIcon.classList.remove("fa-compress");
     expandIcon.classList.add("fa-expand");
+    videoElem.classList.remove("video-expand");
+    videoPlayerDOM.classList.remove("videoPlayer-expand");
+    videoPlayerInteractiveDOM.classList.remove(
+      "videoPlayer-interactive-expand"
+    );
   }
 });
 
@@ -82,3 +90,18 @@ const updateTime = (time, timeDOM) => {
     minutes ? `${minutes >= 10 ? minutes : `0${minutes}`}:` : "00:"
   }${seconds ? `${seconds >= 10 ? seconds : `0${seconds}`}` : "00"}`;
 };
+
+let moveTimeout;
+let leaveTimeout;
+const handleVideoPlayerInteractiveDOM = () => {
+  if (moveTimeout) {
+    clearTimeout(moveTimeout);
+    moveTimeout = null;
+  }
+  videoPlayerInteractiveDOM.style.display = "grid";
+  moveTimeout = setTimeout(() => {
+    videoPlayerInteractiveDOM.style.display = "none";
+  }, 1500);
+};
+
+videoPlayerDOM.addEventListener("mousemove", handleVideoPlayerInteractiveDOM);

@@ -1,13 +1,50 @@
 .index {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: 1%;
-  row-gap: 5%;
 
-  video {
+  &-container {
+    justify-self: center;
 
-    width: 350px;
-    height: 200px;
-    object-fit: fill;
+    &__link {
+      display: grid;
+      grid-template-rows: 1fr 0.35fr;
+
+      video {
+        width: 350px;
+        height: 200px;
+        object-fit: fill;
+      }
+
+      &-metadata {
+        display: grid;
+        grid-template-columns: 0.25fr 1fr;
+        padding-top: 1%;
+
+        &-photo {
+          align-self: center;
+
+          img {
+            width: 50px;
+            border-radius: 10px;
+          }
+
+
+        }
+
+        &-info {
+          &__title {}
+
+          &-viewCreatedAt {
+            padding-top: 1%;
+            display: flex;
+
+            &>span:not(&>span:first-child) {
+              padding-left: 1%;
+            }
+          }
+        }
+      }
+    }
   }
+
 }

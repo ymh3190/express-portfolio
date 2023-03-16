@@ -1,5 +1,4 @@
 .watch {
-    grid-area: main;
 
     video {
         width: 681px;
@@ -7,12 +6,25 @@
         object-fit: fill;
     }
 
+    .video-expand {
+        width: 100%;
+        height: 100%;
+    }
+
+    .videoPlayer-expand {
+        padding-top: 0;
+    }
+
+    .videoPlayer-interactive-expand {
+        bottom: 4%;
+    }
+
     &-container {
         display: grid;
         grid-template-rows: repeat(2, 1fr);
 
         &-videoplayer,
-        &-comments {
+        &-metadata {
             width: 681px;
             height: 383px;
             justify-self: center;
@@ -53,44 +65,55 @@
             }
         }
 
-        &-comments {
+        &-metadata {
+            padding-top: 1%;
 
-            ul {
-                padding: 0;
+            &-info {
+                &>span {
+                    display: inline-block;
+                    margin-bottom: 1%;
+                }
             }
 
-            &-length {
-                padding-top: 2%;
-            }
+            &-comments {
 
-            &-add {
-                padding-top: 2%;
-                display: grid;
-                grid-template-columns: 0.5fr 3.5fr;
-
-                &__name {}
-
-                &__form {
-                    display: grid;
-                    grid-template-columns: 3.75fr 0.25fr;
+                &-length {
+                    padding-top: 2%;
                 }
 
-            }
+                &-add {
+                    padding-top: 2%;
+                    display: grid;
+                    grid-template-columns: 0.5fr 3.5fr;
 
-            &-metadata {
-                &-ul {
-                    &-list {
+                    &__name {}
+
+                    &__form {
                         display: grid;
                         grid-template-columns: 3.75fr 0.25fr;
-                        border-bottom: 1px solid gray;
-                        padding-top: 2%;
+                    }
 
-                        span {
-                            justify-self: end;
+                }
+
+                &-info {
+                    &-ul {
+                        padding: 0;
+
+                        &-list {
+                            display: grid;
+                            grid-template-columns: 3.75fr 0.25fr;
+                            border-bottom: 1px solid gray;
+                            padding-top: 2%;
+
+                            span {
+                                justify-self: end;
+                            }
                         }
                     }
                 }
             }
+
+
         }
     }
 }

@@ -24,8 +24,8 @@
     - sudo mysql -uadmin test
   - 테이블 생성
     - CREATE TABLE users(id int auto_increment primary key, email varchar(255) not null, name varchar(50) not null, password varchar(255) not null);
-    - CREATE TABLE videos(id int auto_increment primary key, path varchar(255) not null unique, title varchar(50) not null, description varchar(255) not null, createdAt datetime default current_timestamp, userId int, commentId int);
-    - CREATE TABLE comments(id int auto_increment primary key, context varchar(255) not null, videoId int, userId int);
+    - CREATE TABLE videos(id int auto_increment primary key, path varchar(255) not null unique, title varchar(50) not null, description varchar(255) not null, createdAt datetime default current_timestamp, userId int, commentId int, view int default 0);
+    - CREATE TABLE comments(id int auto_increment primary key, context varchar(255) not null, videoId int, userId int, nameName varchar(255));
 
 - 구현 기능
   - 백엔드
@@ -36,7 +36,8 @@
       - [x] 로그인, 로그아웃
       - [x] 이메일 인증번호를 통한 비밀번호 찾기
       - [x] 유저 정보 수정 권한
-      - [] 유저 정보 수정, 삭제
+      - [x] 유저 정보 수정, 삭제
+      - [x] 프로필 사진 추가, 수정
       - [] 소셜 인증
 
     - 비디오
@@ -51,8 +52,8 @@
   - 프론트엔드
     - [x] 페이지
     - [x] 비디오 플레이어 재생, 볼륨, 플레이타임, 확대
+    - [x] 비디오 플레이어 마우스 반응
 
   - 배포
-    - [] heroku, postgresql(무료)
-    - [] AWS RDB, AWS S3(유료)
-    - [] local
+    - [] heroku, postgresql (무료)
+    - [] AWS RDB, AWS S3, AWS EC2 (유료)

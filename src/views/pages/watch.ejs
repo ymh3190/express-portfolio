@@ -29,27 +29,31 @@
                 </div>
               </div>
             </div>
-            <div class="watch-container-comments">
-              <div>
+            <div class="watch-container-metadata">
+              <div class="watch-container-metadata-info">
                 <span>
                   <%= video.title %>
                 </span>
+                <div>
+                  <span id="viewCount">
+                    <%= video.view %>
+                  </span>
+                  <span id="createdAt">
+                    <%= video.createdAt %>
+                  </span>
+                </div>
                 <p>
                   <%= video.description %>
                 </p>
-                <span id="createdAt">
-                  <%= video.createdAt %>
-                </span>
               </div>
-              <div>
-                <div class="watch-container-comments-length" id="commentsLengthSection">
+              <div class="watch-container-metadata-comments">
+                <div class="watch-container-metadata-comments-length" id="commentsLengthSection">
                   <span id="commentsLength">
                     <%= comments.length %>
                   </span>
-                  Comments
                 </div>
                 <% if (user) { %>
-                  <div class="watch-container-comments-add">
+                  <div class="watch-container-metadata-comments-add">
                     <div>
                       <%= user.name %>
                     </div>
@@ -60,10 +64,10 @@
                   </div>
                   <% } %>
                     <% if (comments) { %>
-                      <div class="watch-container-comments-metadata">
-                        <ul class="watch-container-comments-metadata-ul" id="commentsUl">
+                      <div class="watch-container-metadata-comments-info">
+                        <ul class="watch-container-metadata-comments-info-ul" id="commentsUl">
                           <% for(const comment of comments.reverse()) { %>
-                            <div class="watch-container-comments-metadata-ul-list">
+                            <div class="watch-container-metadata-comments-info-ul-list">
                               <li>
                                 <%= comment.userName %>: <%= comment.context %>
                               </li>
@@ -91,3 +95,4 @@
   <script src="/dist/js/videoPlayer.js"></script>
   <script src="/dist/js/comment.js"></script>
   <script src="/dist/js/diffTime.js"></script>
+  <script src="/dist/js/view.js"></script>

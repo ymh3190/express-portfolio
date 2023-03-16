@@ -5,29 +5,53 @@
 
   &__form {
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: 0.3fr 0.15fr 0.2fr;
     align-items: center;
 
     &-info {
       display: grid;
-      grid-template-rows: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
 
+      &-profilePhoto,
       &-email,
       &-name {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         align-items: center;
         padding-bottom: 10%;
+
+      }
+
+      &-profilePhoto {
+
+        img {
+          width: 100px;
+          border-radius: 20px;
+        }
       }
     }
 
     &-password {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
+      margin-bottom: 2%;
+
+      input {
+        width: 60%;
+      }
     }
 
     &-button {
       align-self: flex-start;
+    }
+  }
+
+  &__delete {
+    display: flex;
+    justify-content: center;
+
+    button {
+      width: 100%;
     }
   }
 }

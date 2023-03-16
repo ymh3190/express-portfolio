@@ -5,18 +5,35 @@
       <main class="index">
         <% if (videos) { %>
           <% for(const video of videos) { %>
-            <a href="/watch/<%= video.id %>">
-              <div>
-                <video src="/<%= video.path %>"></video>
-              </div>
-              <div>
-                <span> title: <%= video.title %> </span>
-                <span id="createdAt"> createdAt: <%= video.createdAt %> </span>
-              </div>
-            </a>
+            <div class="index-container">
+              <a href="/watch/<%= video.id %>" class="index-container__link">
+                <div>
+                  <video src="/<%= video.path %>"></video>
+                </div>
+                <div class="index-container__link-metadata">
+                  <div class="index-container__link-metadata-photo">
+                    <img src="/<%= video.userProfilePhoto %>" alt="">
+                  </div>
+                  <div class="index-container__link-metadata-info">
+                    <span class="index-container__link-metadata-info__title">
+                      <%= video.title %>
+                    </span>
+                    <div class="index-container__link-metadata-info-viewCreatedAt">
+                      <span id="viewCount">
+                        <%= video.view %>
+                      </span>
+                      <span>•</span>
+                      <span id="createdAt">createdAt: <%= video.createdAt %>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
             <% } %>
               <% } %>
       </main>
       <%- include('../partials/footer') -%>
   </div>
   <script src="/dist/js/diffTime.js"></script>
+  <script src="/dist/js/view.js"></script>

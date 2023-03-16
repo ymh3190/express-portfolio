@@ -62,9 +62,21 @@ const uploadVideo = async_(async (req, res) => {
     throw new BadRequestError("Provide file, title and description");
   }
 
+  const [results] = await mysql.query(
+    "select profilePhoto from users where id=?",
+    req.session.user.id
+  );
+  const { profilePhoto } = results[0];
+
   const sql =
-    "insert into videos(path, title, description, userId) values(?,?,?,?)";
-  await mysql.query(sql, [file.path, title, description, req.session.user.id]);
+    "insert into videos(path, title, description, userId, userProfilePhoto) values(?,?,?,?,?)";
+  await mysql.query(sql, [
+    file.path,
+    title,
+    description,
+    req.session.user.id,
+    profilePhoto,
+  ]);
   res.status(StatusCodes.CREATED).redirect("/videos/upload");
 });
 

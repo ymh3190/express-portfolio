@@ -71,3 +71,5 @@ if (deleteIcons) {
     deleteIcon.addEventListener("click", handleDeleteComment);
   });
 }
+
+commentOrComments(commentsLengthDOM, commentsLengthSectionDOM);

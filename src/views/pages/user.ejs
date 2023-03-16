@@ -4,8 +4,15 @@
     <%- include('../partials/header') -%>
       <main class="user">
         <% if (user) { %>
-          <form action="/users/<%= user.id %>/update" method="post" class="user__form">
+          <form action="/users/<%= user.id %>/update" method="post" class="user__form" enctype="multipart/form-data">
             <div class="user__form-info">
+              <div class="user__form-info-profilePhoto">
+                <div>
+                  <span>profilePhoto</span>
+                  <img src="/<%= user.profilePhoto %>" alt="">
+                </div>
+                <input type="file" name="profilePhoto" id="" accept="image/*">
+              </div>
               <div class="user__form-info-email">
                 <div>email: <%= user.email %>
                 </div>
@@ -29,6 +36,9 @@
             </div>
             <button type="submit" class="user__form-button">Update</button>
           </form>
+          <a href="/users/<%= user.id %>/delete" class="user__delete">
+            <button type="submit" class="user__form-button">Delete</button>
+          </a>
           <% } %>
       </main>
       <%- include('../partials/footer') -%>

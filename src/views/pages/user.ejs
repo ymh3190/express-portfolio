@@ -9,7 +9,7 @@
               <div class="user__form-info-profilePhoto">
                 <div>
                   <span>profilePhoto</span>
-                  <img src="/<%= user.profilePhoto %>" alt="">
+                  <img src="<%= user.profilePhoto %>" alt="">
                 </div>
                 <input type="file" name="profilePhoto" id="" accept="image/*">
               </div>
@@ -31,8 +31,10 @@
               </div>
             </div>
             <div class="user__form-password">
-              <div>Password</div>
-              <input type="password" name="password" id="" placeholder="password" class="" />
+              <% if (!user.social) { %>
+                <div>Password</div>
+                <input type="password" name="password" id="" placeholder="password" class="" />
+                <% } %>
             </div>
             <button type="submit" class="user__form-button">Update</button>
           </form>

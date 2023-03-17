@@ -4,7 +4,6 @@ const mysql = require("../db/mysql");
 const isEmail = require("../utils/isEmail");
 const bcrypt = require("bcryptjs");
 const async_ = require("../middleware/async");
-const fetch = require("node-fetch");
 
 const getUser = async_(async (req, res) => {
   const {
@@ -21,6 +20,7 @@ const getUser = async_(async (req, res) => {
   if (!user) {
     throw new NotFoundError("User not found");
   }
+
   res.status(StatusCodes.OK).render("pages/user", { pageTitle: "User", user });
 });
 
@@ -37,26 +37,32 @@ const updateUser = async_(async (req, res) => {
   if (!isEmail(email)) {
     throw new BadRequestError("Email invalid");
   }
-  if (!password) {
-    throw new BadRequestError("Provide password");
-  }
 
-  let sql = "select password from users where id=? and email=?";
+  let sql = "select password, social from users where id=? and email=?";
   const [results] = await mysql.query(sql, [id, email]);
   const user = results[0];
   if (!user) {
     throw new NotFoundError("User not found");
   }
-  const isCorrect = await bcrypt.compare(password, user.password);
-  if (!isCorrect) {
-    throw new BadRequestError("Pasword invalid");
+
+  if (!user.social) {
+    if (!password) {
+      throw new BadRequestError("Provide password");
+    }
+    const isCorrect = await bcrypt.compare(password, user.password);
+    if (!isCorrect) {
+      throw new BadRequestError("Pasword invalid");
+    }
   }
+
   if (!file) {
     sql = "update users set email=?, name=? where id=?";
     await mysql.query(sql, [email, name, id]);
   } else {
     sql = "update users set email=?, name=?, profilePhoto=? where id=?";
     await mysql.query(sql, [email, name, file.path, id]);
+    sql = "update videos set userProfilePhoto=? where userId=?";
+    await mysql.query(sql, [file.path, id]);
   }
 
   sql = "select * from users where id=?";

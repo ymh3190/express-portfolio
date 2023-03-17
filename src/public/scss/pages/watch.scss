@@ -42,6 +42,7 @@
 
                 span {
                     color: white;
+
                 }
 
                 &-left {
@@ -84,7 +85,8 @@
                 &-add {
                     padding-top: 2%;
                     display: grid;
-                    grid-template-columns: 0.5fr 3.5fr;
+                    grid-template-columns: 0.75fr 3fr;
+                    align-items: center;
 
                     &__name {}
 

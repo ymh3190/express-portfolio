@@ -1,11 +1,11 @@
 require("dotenv").config();
+require("./db/mysql");
 const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
 const app = express();
 const MySQLStore = require("express-mysql-session")(session);
 const errorHandlerMiddleware = require("./middleware/error-handler");
-require("./db/mysql");
 const localsMiddleware = require("./middleware/locals");
 const notFound = require("./middleware/notFound");
 const mainRouter = require("./routes/main");

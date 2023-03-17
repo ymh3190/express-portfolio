@@ -5,3 +5,29 @@
     "main main main"
     "footer footer footer";
 }
+
+main {
+  grid-area: main;
+  padding-top: 1%;
+}
+
+video {
+  width: 100%;
+}
+
+li {
+  list-style: none;
+
+  :focus {
+    cursor: pointer;
+  }
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}

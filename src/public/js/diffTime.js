@@ -10,6 +10,7 @@ createdAts.forEach((createdAt) => {
   const days = Math.floor(hours / 24);
   const weeks = Math.floor(days / 7);
   const months = Math.floor(weeks / 4);
+  const years = Math.floor(months / 12);
 
   if (seconds < 60) {
     createdAt.innerText = `${seconds} ${
@@ -27,5 +28,7 @@ createdAts.forEach((createdAt) => {
     createdAt.innerText = `${weeks} ${weeks === 1 ? "week" : "weeks"} ago`;
   } else if (months < 12) {
     createdAt.innerText = `${months} ${months === 1 ? "month" : "months"} ago`;
+  } else {
+    createdAt.innerText = `${years} ${years === 1 ? "year" : "years"} ago`;
   }
 });

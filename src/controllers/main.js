@@ -173,7 +173,7 @@ const getWatch = async_(async (req, res) => {
   res.status(StatusCodes.OK).render("pages/watch", {
     pageTitle: "Watch",
     video,
-    comments: comments ? comments : null,
+    comments,
   });
 });
 

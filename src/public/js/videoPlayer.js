@@ -88,7 +88,7 @@ const updateTime = (time, timeDOM) => {
   const { hours, minutes, seconds } = time;
   timeDOM.innerText = `${hours ? `${hours >= 10 ? hours : `0${hours}`}:` : ""}${
     minutes ? `${minutes >= 10 ? minutes : `0${minutes}`}:` : "00:"
-  }${seconds ? `${seconds >= 10 ? seconds : `0${seconds}`}` : "00"}`;
+  }${seconds >= 10 ? seconds : `0${seconds}`}`;
 };
 
 let moveTimeout;

@@ -23,9 +23,9 @@
     - FLUSH PRIVILEGES;
     - sudo mysql -uadmin test
   - 테이블 생성
-    - CREATE TABLE users(id int auto_increment primary key, email varchar(255) not null, name varchar(50) not null, password varchar(255) not null);
-    - CREATE TABLE videos(id int auto_increment primary key, path varchar(255) not null unique, title varchar(50) not null, description varchar(255) not null, createdAt datetime default current_timestamp, userId int, commentId int, view int default 0);
-    - CREATE TABLE comments(id int auto_increment primary key, context varchar(255) not null, videoId int, userId int, nameName varchar(255));
+    - CREATE TABLE users(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL UNIQUE, name VARCHAR(50) NOT NULL, password VARCHAR(255) NOT NULL, profilePhoto VARCHAR(255), social BOOL DEFAULT FALSE);
+    - CREATE TABLE videos(id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255) NOT NULL UNIQUE, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, userId INT, commentId INT, view INT DEFAULT 0, userProfilePhoto VARCHAR(255));
+    - CREATE TABLE comments(id INT AUTO_INCREMENT PRIMARY KEY, context VARCHAR(255) NOT NULL, videoId INT, userId INT, nameName VARCHAR(255));
 
 - 구현 기능
   - 백엔드

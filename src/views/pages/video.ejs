@@ -4,7 +4,7 @@
     <%- include('../partials/header') -%>
       <main class="videos video">
         <% if (videos) { %>
-          <% for(const video of videos) { %>
+          <% for (const video of videos) { %>
             <div class="videos-container">
               <video src="/<%= video.path %>"></video>
               <div class="videos-container-metadata">

@@ -56,17 +56,82 @@ const githubCallback = async_(async (req, res) => {
       user = results__[0];
       req.session.user = user;
       delete req.session.user.password;
-      return res.redirect("/");
+      return res.status(StatusCodes.CREATED).redirect("/");
     }
     req.session.user = user;
     delete req.session.user.password;
-    res.redirect("/");
+    res.status(StatusCodes.OK).redirect("/");
   }
 });
 
-const facebook = (req, res) => {};
+const facebook = (req, res) => {
+  const config = {
+    client_id: process.env.FACEBOOK_ID,
+    redirect_uri: `http://localhost:${process.env.PORT}/oauth/facebook/callback`,
+    scope: "email public_profile",
+    auth_type: "rerequest",
+    state: "{st=state123abc,ds=123456789}",
+  };
 
-const facebookCallback = (req, res) => {};
+  const params = new URLSearchParams(config).toString();
+  const url = `https://www.facebook.com/v13.0/dialog/oauth?${params}`;
+  res.redirect(url);
+};
+
+const facebookCallback = async_(async (req, res) => {
+  let config = {
+    client_id: process.env.FACEBOOK_ID,
+    redirect_uri: `http://localhost:${process.env.PORT}/oauth/facebook/callback`,
+    client_secret: process.env.FACEBOOK_SECRET,
+    code: req.query.code,
+  };
+  let params = new URLSearchParams(config).toString();
+  let url = `https://graph.facebook.com/v13.0/oauth/access_token?${params}`;
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  if ("access_token" in data) {
+    const { access_token } = data;
+
+    config = {
+      access_token,
+      fields: "email,first_name,last_name,picture",
+    };
+    params = new URLSearchParams(config).toString();
+    url = `https://graph.facebook.com/v13.0/me?${params}`;
+
+    const data_ = await fetch(url);
+    const { email, first_name, last_name, picture } = await data_.json();
+
+    let sql = "select * from users where email=?";
+    const [results] = await mysql.query(sql, email);
+    const user = results[0];
+    if (!user) {
+      sql =
+        "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
+      const [results_] = await mysql.query(sql, [
+        email,
+        `${first_name} ${last_name}`,
+        await bcrypt.hash("", 10),
+        picture,
+        true,
+      ]);
+      const { insertId } = results_[0];
+      const [results__] = await mysql.query(
+        "select * from users id=?",
+        insertId
+      );
+      const user_ = results__[0];
+      req.session.user = user_;
+      delete req.session.user.password;
+      return res.status(StatusCodes.CREATED).redirect("/");
+    }
+    req.session.user = user;
+    delete req.session.user.password;
+    res.status(StatusCodes.OK).redirect("/");
+  }
+});
 
 const google = (req, res) => {};
 

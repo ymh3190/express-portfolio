@@ -40,7 +40,7 @@
       - [x] 프로필 사진 추가, 수정
       - [] 소셜 인증
         - [x] Github
-        - [] Facebook
+        - [x] Facebook
         - [] Google
         - [] Naver
         - [] Kakao

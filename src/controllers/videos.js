@@ -78,7 +78,7 @@ const uploadVideo = async_(async (req, res) => {
     profilePhoto,
     name,
   ]);
-  res.status(StatusCodes.CREATED).redirect("/videos/upload");
+  res.status(StatusCodes.CREATED).redirect("/");
 });
 
 const addComment = async_(async (req, res) => {

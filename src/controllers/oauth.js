@@ -74,7 +74,7 @@ const facebook = (req, res) => {
   };
 
   const params = new URLSearchParams(config).toString();
-  const url = `https://www.facebook.com/v13.0/dialog/oauth?${params}`;
+  const url = `https://www.facebook.com/v16.0/dialog/oauth?${params}`;
   res.redirect(url);
 };
 
@@ -86,7 +86,7 @@ const facebookCallback = async_(async (req, res) => {
     code: req.query.code,
   };
   let params = new URLSearchParams(config).toString();
-  let url = `https://graph.facebook.com/v13.0/oauth/access_token?${params}`;
+  let url = `https://graph.facebook.com/v16.0/oauth/access_token?${params}`;
 
   const response = await fetch(url);
   const data = await response.json();
@@ -99,7 +99,7 @@ const facebookCallback = async_(async (req, res) => {
       fields: "email,first_name,last_name,picture",
     };
     params = new URLSearchParams(config).toString();
-    url = `https://graph.facebook.com/v13.0/me?${params}`;
+    url = `https://graph.facebook.com/v16.0/me?${params}`;
 
     const data_ = await fetch(url);
     const { email, first_name, last_name, picture } = await data_.json();
@@ -114,12 +114,12 @@ const facebookCallback = async_(async (req, res) => {
         email,
         `${first_name} ${last_name}`,
         await bcrypt.hash("", 10),
-        picture,
+        picture.data.url,
         true,
       ]);
-      const { insertId } = results_[0];
+      const { insertId } = results_;
       const [results__] = await mysql.query(
-        "select * from users id=?",
+        "select * from users where id=?",
         insertId
       );
       const user_ = results__[0];

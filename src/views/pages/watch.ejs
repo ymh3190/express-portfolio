@@ -6,7 +6,7 @@
         <% if (video) { %>
           <div class="watch-container">
             <div class="watch-container-videoplayer" id="videoPlayer">
-              <video src="/<%= video.path %>" id="video"></video>
+              <video src="/<%= video.path %>" id="video" data-id="<%= video.id %>"></video>
               <div class="watch-container-videoplayer-interactive" id="videoPlayerInteractive">
                 <div class="watch-container-videoplayer-interactive-left">
                   <span class="watch-container-videoplayer-interactive-left-play">

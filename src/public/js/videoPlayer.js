@@ -47,6 +47,13 @@ volumeRangeInput.addEventListener("input", (e) => {
   }
 });
 
+const updateTime = (time, timeDOM) => {
+  const { hours, minutes, seconds } = time;
+  timeDOM.innerText = `${hours ? `${hours >= 10 ? hours : `0${hours}`}:` : ""}${
+    minutes ? `${minutes >= 10 ? minutes : `0${minutes}`}:` : "00:"
+  }${seconds >= 10 ? seconds : `0${seconds}`}`;
+};
+
 videoElem.addEventListener("loadedmetadata", (e) => {
   currentTimeSpan.innerText = `00:00`;
   const seconds = Math.floor(videoElem.duration % 60);
@@ -84,13 +91,6 @@ expandIcon.addEventListener("click", () => {
   }
 });
 
-const updateTime = (time, timeDOM) => {
-  const { hours, minutes, seconds } = time;
-  timeDOM.innerText = `${hours ? `${hours >= 10 ? hours : `0${hours}`}:` : ""}${
-    minutes ? `${minutes >= 10 ? minutes : `0${minutes}`}:` : "00:"
-  }${seconds >= 10 ? seconds : `0${seconds}`}`;
-};
-
 let moveTimeout;
 let leaveTimeout;
 const handleVideoPlayerInteractiveDOM = () => {
@@ -105,3 +105,23 @@ const handleVideoPlayerInteractiveDOM = () => {
 };
 
 videoPlayerDOM.addEventListener("mousemove", handleVideoPlayerInteractiveDOM);
+
+videoElem.addEventListener("ended", async () => {
+  const { id } = videoElem.dataset;
+  try {
+    await fetch(`/videos/api/${id}/view`, {
+      method: "POST",
+    });
+    const view = document.getElementById("viewCount");
+    let [viewCount, viewText] = view.innerText.split(" ");
+    viewCount = Number(viewCount) + 1;
+    if (viewCount === 1) {
+      viewText = "view";
+    } else {
+      viewText = "views";
+    }
+    view.innerText = `${viewCount} ${viewText}`;
+  } catch (err) {
+    console.log(err);
+  }
+});

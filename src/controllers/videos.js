@@ -134,6 +134,24 @@ const deleteComment = async_(async (req, res) => {
   res.status(StatusCodes.OK).end();
 });
 
+const addView = async_(async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  let sql = "select * from videos where id=?";
+  const [results] = await mysql.query(sql, id);
+  const video = results[0];
+  if (!video) {
+    throw new NotFoundError("Video not found");
+  }
+
+  sql = "update videos set view=videos.view+1 where id=?";
+  await mysql.query(sql, id);
+
+  res.status(StatusCodes.OK).end();
+});
+
 module.exports = {
   getVideos,
   getVideo,
@@ -143,4 +161,5 @@ module.exports = {
   uploadVideo,
   addComment,
   deleteComment,
+  addView,
 };

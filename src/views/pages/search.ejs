@@ -8,15 +8,24 @@
             <a href="/watch/<%= video.id %>" class="search__link">
               <video src="/<%= video.path %>"></video>
               <div class="search__link-metadata">
-                <span class="search__link-metadata__title">
+                <h2 class="search__link-metadata__title">
                   <%= video.title %>
-                </span>
-                <span class="search__link-metadata__createdAt">
-                  <%= video.createdAt %>
-                </span>
-                <span class="search__link-metadata__userId">
-                  <%= video.userId %>
-                </span>
+                </h2>
+                <div class="search__link-metadata-viewCreatedAt">
+                  <span class="search__link-metadata-viewCreatedAt__view" id="viewCount">
+                    <%= video.view %>
+                  </span>
+                  <span>•</span>
+                  <span class="search__link-metadata-viewCreatedAt__createdAt" id="createdAt">
+                    <%= video.createdAt %>
+                  </span>
+                </div>
+                <div class="search__link-metadata-userInfo">
+                  <img src="<%= video.userProfilePhoto %>" alt="" class="search__link-metadata-userInfo__img">
+                  <span class="search__link-metadata-userInfo__username">
+                    <%= video.userName %>
+                  </span>
+                </div>
                 <span class="search__link-metadata__description">
                   <%= video.description %>
                 </span>
@@ -27,3 +36,5 @@
       </main>
       <%- include('../partials/footer') -%>
   </div>
+  <script src="/dist/js/view.js"></script>
+  <script src="/dist/js/diffTime.js"></script>

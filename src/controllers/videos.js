@@ -63,19 +63,20 @@ const uploadVideo = async_(async (req, res) => {
   }
 
   const [results] = await mysql.query(
-    "select profilePhoto from users where id=?",
+    "select profilePhoto, name from users where id=?",
     req.session.user.id
   );
-  const { profilePhoto } = results[0];
+  const { profilePhoto, name } = results[0];
 
   const sql =
-    "insert into videos(path, title, description, userId, userProfilePhoto) values(?,?,?,?,?)";
+    "insert into videos(path, title, description, userId, userProfilePhoto, userName) values(?,?,?,?,?,?)";
   await mysql.query(sql, [
     file.path,
     title,
     description,
     req.session.user.id,
     profilePhoto,
+    name,
   ]);
   res.status(StatusCodes.CREATED).redirect("/videos/upload");
 });

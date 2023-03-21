@@ -2,39 +2,48 @@
   display: grid;
   grid-template-areas:
     "header header header"
-    ". . main"
+    ". main ."
     "footer footer footer";
 }
 
 .search {
   &__link {
-    display: grid;
-    grid-template-columns: 1fr 2.5fr;
+    display: flex;
     margin-bottom: 1%;
+    justify-content: center;
+
+    video {
+      width: 360px;
+    }
 
     &-metadata {
       padding-left: 2%;
-      display: grid;
-      grid-template-areas:
-        "title title"
-        ". createdAt"
-        "userId userId"
-        "description description";
+      display: flex;
+      flex-direction: column;
 
       &__title {
-        grid-area: title;
+        margin: 0;
       }
 
-      &__createdAt {
-        grid-area: createdAt;
+      &-viewCreatedAt,
+      &-userInfo {
+        margin-bottom: 2%;
       }
 
-      &__userId {
-        grid-area: userId;
+      &-userInfo {
+        display: flex;
+        align-items: center;
+
+        &__img {
+          width: 30px;
+        }
       }
 
       &__description {
-        grid-area: description;
+        width: 500px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
     }
   }

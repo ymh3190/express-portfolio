@@ -101,7 +101,7 @@ const handleVideoPlayerInteractiveDOM = () => {
   videoPlayerInteractiveDOM.style.display = "grid";
   moveTimeout = setTimeout(() => {
     videoPlayerInteractiveDOM.style.display = "none";
-  }, 2500);
+  }, 3000);
 };
 
 videoPlayerDOM.addEventListener("mousemove", handleVideoPlayerInteractiveDOM);

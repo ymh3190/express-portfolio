@@ -23,6 +23,10 @@
             padding-left: 10%;
             align-self: center;
 
+            div:not(div:first-child) {
+                padding-top: 1%;
+            }
+
             &-edit {
                 display: grid;
                 grid-template-columns: 1fr 1fr;

@@ -1,0 +1,43 @@
+.social {
+    justify-self: center;
+    align-self: center;
+
+    display: grid;
+    grid-template-areas:
+        "github facebook google"
+        "naver . kakao";
+    row-gap: 15%;
+
+    span {
+        font-size: 120%;
+    }
+
+    &-github,
+    &-facebook,
+    &-google,
+    &-naver,
+    &-kakao {
+        justify-self: center;
+        align-self: center;
+    }
+
+    &-github {
+        grid-area: github;
+    }
+
+    &-facebook {
+        grid-area: facebook;
+    }
+
+    &-google {
+        grid-area: google;
+    }
+
+    &-naver {
+        grid-area: naver;
+    }
+
+    &-kakao {
+        grid-area: kakao;
+    }
+}

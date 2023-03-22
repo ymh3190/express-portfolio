@@ -106,6 +106,7 @@ const facebookCallback = async_(async (req, res) => {
 
     let sql = "select * from users where email=?";
     const [results] = await mysql.query(sql, email);
+    const hash = await bcrypt.hash("", 10);
     const user = results[0];
     if (!user) {
       sql =
@@ -113,7 +114,7 @@ const facebookCallback = async_(async (req, res) => {
       const [results_] = await mysql.query(sql, [
         email,
         `${first_name} ${last_name}`,
-        await bcrypt.hash("", 10),
+        hash,
         picture.data.url,
         true,
       ]);
@@ -133,13 +134,147 @@ const facebookCallback = async_(async (req, res) => {
   }
 });
 
-const google = (req, res) => {};
+const google = (req, res) => {
+  const config = {
+    client_id: process.env.GOOGLE_CLIENT,
+    response_type: "code",
+    state: "state_parameter_passthrough_value",
+    scope:
+      "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+    access_type: "offline",
+    redirect_uri: `http://localhost:${process.env.PORT}/oauth/google/callback`,
+    prompt: "consent",
+    include_granted_scopes: true,
+  };
+  const params = new URLSearchParams(config).toString();
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
+  res.redirect(url);
+};
 
-const googleCallback = (req, res) => {};
+const googleCallback = async_(async (req, res) => {
+  const config = {
+    code: req.query.code,
+    client_id: process.env.GOOGLE_CLIENT,
+    client_secret: process.env.GOOGLE_SECRET,
+    redirect_uri: `http://localhost:${process.env.PORT}/oauth/google/callback`,
+    grant_type: "authorization_code",
+  };
+  const params = new URLSearchParams(config).toString();
+  const url = `https://oauth2.googleapis.com/token?${params}`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+  const data = await response.json();
 
-const naver = (req, res) => {};
+  if ("access_token" in data) {
+    const { access_token } = data;
+    const url_ = "https://www.googleapis.com/oauth2/v2/userinfo";
+    const response_ = await fetch(url_, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    const data_ = await response_.json();
+    const { email, given_name, family_name } = data_;
 
-const naverCallback = (req, res) => {};
+    let sql = "select * from users where email=?";
+    const [results] = await mysql.query(sql, email);
+    const user = results[0];
+    const hash = await bcrypt.hash("", 10);
+    if (!user) {
+      sql = "insert into users(email, name, password, social) values(?,?,?,?)";
+      const [results_] = await mysql.query(sql, [
+        email,
+        `${given_name} ${family_name}`,
+        hash,
+        true,
+      ]);
+      const { insertId } = results_;
+      const [results__] = await mysql.query(
+        "select * from users where id=?",
+        insertId
+      );
+      const user_ = results__[0];
+      req.session.user = user_;
+      delete req.session.user.password;
+      return res.status(StatusCodes.CREATED).redirect("/");
+    }
+    req.session.user = user;
+    delete req.session.user.password;
+    res.status(StatusCodes.OK).redirect("/");
+  }
+});
+
+const naver = (req, res) => {
+  const config = {
+    response_type: "code",
+    client_id: process.env.NAVER_CLIENT,
+    redirect_uri: `http://localhost:${process.env.PORT}/oauth/naver/callback`,
+    state: "RANDOM_STATE",
+  };
+  const params = new URLSearchParams(config).toString();
+  const url = `https://nid.naver.com/oauth2.0/authorize?${params}`;
+  res.redirect(url);
+};
+
+const naverCallback = async_(async (req, res) => {
+  const config = {
+    grant_type: "authorization_code",
+    client_id: process.env.NAVER_CLIENT,
+    client_secret: process.env.NAVER_SECRET,
+    redirect_uri: `http://localhost:${process.env.PORT}/oauth/naver/callback`,
+    code: req.query.code,
+    state: req.query.state,
+  };
+  const params = new URLSearchParams(config).toString();
+  const url = `https://nid.naver.com/oauth2.0/token?${params}`;
+  const response = await fetch(url);
+  const data = await response.json();
+
+  if ("access_token" in data) {
+    const { access_token } = data;
+    const response_ = await fetch("https://openapi.naver.com/v1/nid/me", {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    const data_ = await response_.json();
+    const {
+      response: { email, name, profile_image },
+    } = data_;
+
+    let sql = "select * from users where email=?";
+    const [results] = await mysql.query(sql, email);
+    const user = results[0];
+    const hash = await bcrypt.hash("", 10);
+    if (!user) {
+      sql =
+        "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
+      const [results_] = await mysql.query(sql, [
+        email,
+        name,
+        hash,
+        profile_image,
+        true,
+      ]);
+      const { insertId } = results_;
+      const [results__] = await mysql.query(
+        "select * from users where id=?",
+        insertId
+      );
+      const user_ = results__[0];
+      req.session.user = user_;
+      delete req.session.user.password;
+      return res.status(StatusCodes.CREATED).redirect("/");
+    }
+    req.session.user = user;
+    delete req.session.user.password;
+    res.status(StatusCodes.OK).redirect("/");
+  }
+});
 
 const kakao = (req, res) => {};
 

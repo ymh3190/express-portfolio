@@ -1,5 +1,20 @@
 # express-portfolio
 
+- .env 파일 환경 변수 설정
+  - COOKIE_SECRET
+  - MAIL_ADDRESS: 맥에서 작업했으며, 이메일 계정 추가가 필요함
+  - MAIL_PASSWORD
+  - GITHUB_CLIENT: 깃허브 앱 생성 필수, 이하 동일
+  - GITHUB_SECRET
+  - FACEBOOK_ID
+  - FACEBOOK_SECRET
+  - GOOGLE_CLIENT
+  - GOOGLE_SECRET
+  - NAVER_CLIENT
+  - NAVER_SECRET
+
+- 사용 툴: expressjs, mysql, postman
+
 - mysql 설치
 
   - 윈도우
@@ -38,11 +53,11 @@
       - [x] 유저 정보 수정 권한
       - [x] 유저 정보 수정, 삭제
       - [x] 프로필 사진 추가, 수정
-      - [] 소셜 인증
+      - [] 소셜 인증(rest api)
         - [x] Github
         - [x] Facebook
-        - [] Google
-        - [] Naver
+        - [x] Google
+        - [x] Naver
         - [] Kakao
 
     - 비디오
@@ -51,7 +66,7 @@
       - [x] 비디오 편집, 삭제
       - [x] 댓글 추가, 삭제
       - [x] 시간차이
-      - [] 조회수
+      - [x] 조회수
       - [] 히스토리
 
   - 프론트엔드

@@ -8,6 +8,8 @@ const {
   googleCallback,
   naver,
   naverCallback,
+  kakao,
+  kakaoCallback,
 } = require("../controllers/oauth");
 const router = express.Router();
 
@@ -19,5 +21,7 @@ router.route("/google").get(google);
 router.route("/google/callback").get(googleCallback);
 router.route("/naver").get(naver);
 router.route("/naver/callback").get(naverCallback);
+router.route("/kakao").get(kakao);
+router.route("/kakao/callback").get(kakaoCallback);
 
 module.exports = router;

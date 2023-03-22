@@ -106,11 +106,11 @@ const facebookCallback = async_(async (req, res) => {
 
     let sql = "select * from users where email=?";
     const [results] = await mysql.query(sql, email);
-    const hash = await bcrypt.hash("", 10);
     const user = results[0];
     if (!user) {
       sql =
         "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
+      const hash = await bcrypt.hash("", 10);
       const [results_] = await mysql.query(sql, [
         email,
         `${first_name} ${last_name}`,
@@ -183,9 +183,9 @@ const googleCallback = async_(async (req, res) => {
     let sql = "select * from users where email=?";
     const [results] = await mysql.query(sql, email);
     const user = results[0];
-    const hash = await bcrypt.hash("", 10);
     if (!user) {
       sql = "insert into users(email, name, password, social) values(?,?,?,?)";
+      const hash = await bcrypt.hash("", 10);
       const [results_] = await mysql.query(sql, [
         email,
         `${given_name} ${family_name}`,
@@ -249,10 +249,10 @@ const naverCallback = async_(async (req, res) => {
     let sql = "select * from users where email=?";
     const [results] = await mysql.query(sql, email);
     const user = results[0];
-    const hash = await bcrypt.hash("", 10);
     if (!user) {
       sql =
         "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
+      const hash = await bcrypt.hash("", 10);
       const [results_] = await mysql.query(sql, [
         email,
         name,
@@ -276,9 +276,79 @@ const naverCallback = async_(async (req, res) => {
   }
 });
 
-const kakao = (req, res) => {};
+const kakao = (req, res) => {
+  const config = {
+    client_id: process.env.KAKAO_CLIENT,
+    redirect_uri: `http://localhost:${process.env.PORT}/oauth/kakao/callback`,
+    response_type: "code",
+  };
+  const params = new URLSearchParams(config).toString();
+  const url = `https://kauth.kakao.com/oauth/authorize?${params}`;
+  res.redirect(url);
+};
 
-const kakaoCallback = (req, res) => {};
+const kakaoCallback = async_(async (req, res) => {
+  const config = {
+    grant_type: "authorization_code",
+    client_id: process.env.KAKAO_CLIENT,
+    redirect_uri: `http://localhost:${process.env.PORT}/oauth/kakao/callback`,
+    code: req.query.code,
+    client_secret: process.env.KAKAO_SECRET,
+  };
+  const params = new URLSearchParams(config).toString();
+  const url = `https://kauth.kakao.com/oauth/token?${params}`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+    },
+  });
+  const data = await response.json();
+
+  if ("access_token" in data) {
+    const { access_token } = data;
+    const response_ = await fetch("https://kapi.kakao.com/v2/user/me", {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    const data_ = await response_.json();
+    const {
+      kakao_account: {
+        email,
+        profile: { nickname, profile_image_url },
+      },
+    } = data_;
+
+    let sql = "select * from users where email=?";
+    const [results] = await mysql.query(sql, email);
+    const user = results[0];
+    if (!user) {
+      sql =
+        "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
+      const hash = await bcrypt.hash("", 10);
+      const [results_] = await mysql.query(sql, [
+        email,
+        nickname,
+        hash,
+        profile_image_url,
+        true,
+      ]);
+      const { insertId } = results_;
+      const [results__] = await mysql.query(
+        "select * from users where id=?",
+        insertId
+      );
+      const user_ = results__[0];
+      req.session.user = user_;
+      delete req.session.user.password;
+      return res.status(StatusCodes.CREATED).redirect("/");
+    }
+    req.session.user = user;
+    delete req.session.user.password;
+    res.status(StatusCodes.OK).redirect("/");
+  }
+});
 
 module.exports = {
   github,

@@ -12,6 +12,8 @@
   - GOOGLE_SECRET
   - NAVER_CLIENT
   - NAVER_SECRET
+  - KAKAO_CLIENT
+  - KAKAO_SECRET
 
 - 사용 툴: expressjs, mysql, postman
 
@@ -53,12 +55,12 @@
       - [x] 유저 정보 수정 권한
       - [x] 유저 정보 수정, 삭제
       - [x] 프로필 사진 추가, 수정
-      - [] 소셜 인증(rest api)
+      - [x] 소셜 인증(rest api)
         - [x] Github
         - [x] Facebook
         - [x] Google
         - [x] Naver
-        - [] Kakao
+        - [x] Kakao
 
     - 비디오
       - [x] 업로드

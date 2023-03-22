@@ -11,6 +11,7 @@ const mainRouter = require("./routes/main");
 const userRouter = require("./routes/users");
 const videoRouter = require("./routes/videos");
 const oauthRouter = require("./routes/oauth");
+const publicOnlyMiddleware = require("./middleware/publicOnly");
 
 app.set("trust proxy", 1);
 app.set("view engine", "ejs");

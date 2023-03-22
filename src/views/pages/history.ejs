@@ -1,0 +1,41 @@
+<%- include('../layout/base') -%>
+
+    <div class="root history-root">
+        <%- include('../partials/header') -%>
+            <main class="history">
+                <% if (histories) { %>
+                    <% for (const history of histories) { %>
+                        <a href="/history/<%= history.videoId %>" class="history__link">
+                            <video src="/<%= history.path %>"></video>
+                            <div class="history__link-metadata">
+                                <h2 class="history__link-metadata__title">
+                                    <%= history.title %>
+                                </h2>
+                                <div class="history__link-metadata-viewCreatedAt">
+                                    <span class="history__link-metadata-viewCreatedAt__view" id="viewCount">
+                                        <%= history.view %>
+                                    </span>
+                                    <span>•</span>
+                                    <span class="history__link-metadata-viewCreatedAt__createdAt" id="createdAt">
+                                        <%= history.createdAt %>
+                                    </span>
+                                </div>
+                                <div class="history__link-metadata-userInfo">
+                                    <img src="<%= history.userProfilePhoto %>" alt=""
+                                        class="history__link-metadata-userInfo__img">
+                                    <span class="history__link-metadata-userInfo__username">
+                                        <%= history.userName %>
+                                    </span>
+                                </div>
+                                <span class="history__link-metadata__description">
+                                    <%= history.description %>
+                                </span>
+                            </div>
+                        </a>
+                        <% } %>
+                            <% } %>
+            </main>
+            <%- include('../partials/footer') -%>
+    </div>
+    <script src="/dist/js/view.js"></script>
+    <script src="/dist/js/diffTime.js"></script>

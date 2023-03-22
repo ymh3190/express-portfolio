@@ -115,7 +115,7 @@ const addComment = async_(async (req, res) => {
     user.id,
     user.name,
   ]);
-  const commentId = results__[0].insertId;
+  const { insertId: commentId } = results__[0];
 
   sql = "update videos set commentId=? where id=?";
   await mysql.query(sql, [commentId, video.id]);

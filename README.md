@@ -43,6 +43,7 @@
     - CREATE TABLE users(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL UNIQUE, name VARCHAR(50) NOT NULL, password VARCHAR(255) NOT NULL, profilePhoto VARCHAR(255), social BOOL DEFAULT FALSE);
     - CREATE TABLE videos(id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255) NOT NULL UNIQUE, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, userId INT, commentId INT, view INT DEFAULT 0, userProfilePhoto VARCHAR(255), nameName VARCHAR(50));
     - CREATE TABLE comments(id INT AUTO_INCREMENT PRIMARY KEY, context VARCHAR(255) NOT NULL, videoId INT, userId INT, nameName VARCHAR(50));
+    - CREATE TABLE histories(userId INT NOT NULL, videoId INT NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(userId, videoId));
 
 - 구현 기능
   - 백엔드
@@ -55,7 +56,7 @@
       - [x] 유저 정보 수정 권한
       - [x] 유저 정보 수정, 삭제
       - [x] 프로필 사진 추가, 수정
-      - [x] 소셜 인증(rest api)
+      - [x] 소셜 인증(REST API)
         - [x] Github
         - [x] Facebook
         - [x] Google

@@ -14,6 +14,9 @@
     <ul class="header-info__ul">
       <% if (user) { %>
         <li>
+          <a href="/history">History</a>
+        </li>
+        <li>
           <a href="/users/<%= user.id %>">Profile</a>
         </li>
         <li>
@@ -27,13 +30,12 @@
         </li>
         <% } else { %>
           <li>
-            <a href=""></a>
           </li>
           <li>
-            <a href=""></a>
           </li>
           <li>
-            <a href=""></a>
+          </li>
+          <li>
           </li>
           <li>
             <a href="/login">Login</a>

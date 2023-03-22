@@ -10,11 +10,17 @@ const videoPlayerInteractiveDOM = document.getElementById(
   "videoPlayerInteractive"
 );
 
-playIcon.addEventListener("click", () => {
+playIcon.addEventListener("click", async () => {
   if (videoElem.paused) {
     videoElem.play();
     playIcon.classList.remove("fa-play");
     playIcon.classList.add("fa-pause");
+    const {
+      dataset: { id },
+    } = videoElem;
+    await fetch(`/history/api/${id}`, {
+      method: "POST",
+    });
   } else {
     videoElem.pause();
     playIcon.classList.remove("fa-pause");

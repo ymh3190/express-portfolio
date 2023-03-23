@@ -13,6 +13,7 @@ const getHistories = async_(async (req, res) => {
   sql = "select * from histories where userId=?";
   [results] = await mysql.query(sql, user.id);
   const histories = results;
+
   res
     .status(StatusCodes.OK)
     .render("pages/history", { pageTitle: "History", histories });

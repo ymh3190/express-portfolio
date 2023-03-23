@@ -41,9 +41,9 @@
     - sudo mysql -uadmin test
   - 테이블 생성
     - CREATE TABLE users(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL UNIQUE, name VARCHAR(50) NOT NULL, password VARCHAR(255) NOT NULL, profilePhoto VARCHAR(255), social BOOL DEFAULT FALSE);
-    - CREATE TABLE videos(id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255) NOT NULL UNIQUE, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, userId INT, commentId INT, view INT DEFAULT 0, userProfilePhoto VARCHAR(255), nameName VARCHAR(50));
-    - CREATE TABLE comments(id INT AUTO_INCREMENT PRIMARY KEY, context VARCHAR(255) NOT NULL, videoId INT, userId INT, nameName VARCHAR(50));
-    - CREATE TABLE histories(userId INT NOT NULL, videoId INT NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(userId, videoId));
+    - CREATE TABLE videos(id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255) NOT NULL UNIQUE, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, userId INT, commentId INT, view INT DEFAULT 0, userProfilePhoto VARCHAR(255), userName VARCHAR(50));
+    - CREATE TABLE comments(id INT AUTO_INCREMENT PRIMARY KEY, context VARCHAR(255) NOT NULL, videoId INT, userId INT, userName VARCHAR(50));
+    - CREATE TABLE histories(userId INT NOT NULL, videoId INT NOT NULL, path VARCHAR(255) NOT NULL UNIQUE, userName varchar(50) NOT NULL, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, view INT NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP);
 
 - 구현 기능
   - 백엔드
@@ -68,9 +68,9 @@
       - [x] 비디오 편집 권한
       - [x] 비디오 편집, 삭제
       - [x] 댓글 추가, 삭제
-      - [x] 시간차이
+      - [x] 업로드 시간
       - [x] 조회수
-      - [] 히스토리
+      - [x] 히스토리
 
   - 프론트엔드
     - [x] 페이지

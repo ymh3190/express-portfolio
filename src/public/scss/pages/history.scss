@@ -1,0 +1,41 @@
+.history-root {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    ". main ."
+    "footer footer footer";
+}
+
+.history {
+
+  &__link {
+    display: flex;
+    margin-bottom: 1%;
+    justify-content: center;
+
+    video {
+      width: 360px;
+    }
+
+    &-metadata {
+      padding-left: 2%;
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        margin: 0;
+      }
+
+      &-viewUsername {
+        margin-bottom: 2%;
+      }
+
+      &__description {
+        width: 600px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+}

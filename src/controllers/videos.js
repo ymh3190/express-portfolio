@@ -45,6 +45,8 @@ const deleteVideo = async_(async (req, res) => {
   } = req;
   const sql = "delete from videos where id=?";
   await mysql.query(sql, id);
+  const sql_ = "delete from histories where videoId=?";
+  await mysql.query(sql_, id);
   res.status(StatusCodes.OK).redirect("/videos");
 });
 

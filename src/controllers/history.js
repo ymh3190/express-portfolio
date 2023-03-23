@@ -1,23 +1,29 @@
 const { StatusCodes } = require("http-status-codes");
 const mysql = require("../db/mysql");
 const async_ = require("../middleware/async");
+const { NotFoundError } = require("../errors");
 
 const getHistories = async_(async (req, res) => {
-  let sql = "select * from histories where userId=?";
+  let sql = "select id from users where id=?";
   let [results] = await mysql.query(sql, req.session.user.id);
-  for (const result of results) {
-    sql = "select * from videos where id=?";
-    const [result_] = await mysql.query(sql, result.videoId);
-    const video = result_[0];
-    console.log(video);
+  const user = results[0];
+  if (!user) {
+    throw new NotFoundError("User not found");
   }
+  sql = "select * from histories where userId=?";
+  [results] = await mysql.query(sql, user.id);
+  const histories = results;
+  res
+    .status(StatusCodes.OK)
+    .render("pages/history", { pageTitle: "History", histories });
 });
 
 const addHistory = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
-  let sql = "select id from videos where id=?";
+  let sql =
+    "select id, path, title, description, userName, view from videos where id=?";
   let [results] = await mysql.query(sql, id);
   const video = results[0];
   if (!video) {
@@ -33,8 +39,17 @@ const addHistory = async_(async (req, res) => {
   [results] = await mysql.query(sql, [user.id, video.id]);
   const history = results[0];
   if (!history) {
-    sql = "insert into histories(userId, videoId) values(?,?)";
-    await mysql.query(sql, [user.id, video.id]);
+    sql =
+      "insert into histories(userId, videoId, userName, path, title, description, view) values(?,?,?,?,?,?,?)";
+    await mysql.query(sql, [
+      user.id,
+      video.id,
+      video.userName,
+      video.path,
+      video.title,
+      video.description,
+      video.view,
+    ]);
   }
   res.status(StatusCodes.OK).end();
 });

@@ -13,6 +13,7 @@ const videoRouter = require("./routes/videos");
 const oauthRouter = require("./routes/oauth");
 const historyRouter = require("./routes/history");
 const publicOnlyMiddleware = require("./middleware/publicOnly");
+const privateOnlyMiddleware = require("./middleware/privateOnly");
 
 app.set("trust proxy", 1);
 app.set("view engine", "ejs");
@@ -50,7 +51,7 @@ app.use("/", mainRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
 app.use("/oauth", publicOnlyMiddleware, oauthRouter);
-app.use("/history", historyRouter);
+app.use("/history", privateOnlyMiddleware, historyRouter);
 
 // error handler
 app.use(errorHandlerMiddleware);

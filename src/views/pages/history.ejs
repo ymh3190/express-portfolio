@@ -1,41 +1,71 @@
 <%- include('../layout/base') -%>
 
-    <div class="root history-root">
-        <%- include('../partials/header') -%>
-            <main class="history">
-                <% if (histories) { %>
-                    <% for (const history of histories) { %>
-                        <a href="/history/<%= history.videoId %>" class="history__link">
-                            <video src="/<%= history.path %>"></video>
-                            <div class="history__link-metadata">
-                                <h2 class="history__link-metadata__title">
-                                    <%= history.title %>
-                                </h2>
-                                <div class="history__link-metadata-viewCreatedAt">
-                                    <span class="history__link-metadata-viewCreatedAt__view" id="viewCount">
-                                        <%= history.view %>
-                                    </span>
-                                    <span>•</span>
-                                    <span class="history__link-metadata-viewCreatedAt__createdAt" id="createdAt">
-                                        <%= history.createdAt %>
-                                    </span>
-                                </div>
-                                <div class="history__link-metadata-userInfo">
-                                    <img src="<%= history.userProfilePhoto %>" alt=""
-                                        class="history__link-metadata-userInfo__img">
-                                    <span class="history__link-metadata-userInfo__username">
-                                        <%= history.userName %>
-                                    </span>
-                                </div>
-                                <span class="history__link-metadata__description">
-                                    <%= history.description %>
-                                </span>
-                            </div>
-                        </a>
+  <div class="root history-root">
+    <%- include('../partials/header') -%>
+      <main class="history">
+        <div>
+          <% if (histories) { %>
+            <% for (const history of histories) { %>
+              <% const time=(new Date().getTime() - new Date(history.createdAt).getTime())/(1000*3600*24) %>
+                <% if (time<1) { %>
+                  <span>Today</span>
+                  <% break %>
+                    <% } %>
+                      <% } %>
                         <% } %>
-                            <% } %>
-            </main>
-            <%- include('../partials/footer') -%>
-    </div>
-    <script src="/dist/js/view.js"></script>
-    <script src="/dist/js/diffTime.js"></script>
+                          <% if (histories) { %>
+                            <% for (const history of histories) { %>
+                              <% const time=(new Date().getTime() - new
+                                Date(history.createdAt).getTime())/(1000*3600*24) %>
+                                <% if (time<1) { %>
+                                  <% } %>
+                                    <a href="/watch/<%= history.videoId %>" class="history__link">
+                                      <video src="/<%= history.path %>"></video>
+                                      <div class="history__link-metadata">
+                                        <h2>
+                                          <%= history.title %>
+                                        </h2>
+                                        <div class="history__link-metadata-viewUsername">
+                                          <span>
+                                            <%= history.userName %>
+                                          </span>
+                                          <span>•</span>
+                                          <span id="viewCount">
+                                            <%= history.view %>
+                                          </span>
+                                        </div>
+                                        <span class="history__link-metadata__description">
+                                          <%= history.description %>
+                                        </span>
+                                      </div>
+                                    </a>
+                                    <% } %>
+                                      <% } %>
+        </div>
+        <div>
+          <% if (histories) { %>
+            <% for (const history of histories) { %>
+              <% const time=(new Date().getTime() - new Date(history.createdAt).getTime())/(1000*3600*24) %>
+                <% if (time>=1 && time<2) { %>
+                    <span>Yesterday</span>
+                    <% break %>
+                      <% } %>
+                        <% } %>
+                          <% } %>
+                            <% if (histories) { %>
+                              <% for (const history of histories) { %>
+                                <% const time=(new Date().getTime() - new
+                                  Date(history.createdAt).getTime())/(1000*3600*24) %>
+                                  <% if (time>=1 && time<2) { %>
+                                      <a href="/watch/<%= history.videoId %>" class="history__link">
+                                        <video src="/<%= history.path %>"></video>
+                                      </a>
+                                      <% } %>
+                                        <% } %>
+                                          <% } %>
+        </div>
+      </main>
+      <%- include('../partials/footer') -%>
+  </div>
+  <script src="/dist/js/view.js"></script>
+  <script src="/dist/js/diffTime.js"></script>

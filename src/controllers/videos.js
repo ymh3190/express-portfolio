@@ -147,10 +147,8 @@ const addView = async_(async (req, res) => {
   if (!video) {
     throw new NotFoundError("Video not found");
   }
-
   sql = "update videos set view=videos.view+1 where id=?";
   await mysql.query(sql, id);
-
   res.status(StatusCodes.OK).end();
 });
 

@@ -38,7 +38,7 @@ const githubCallback = async_(async (req, res) => {
     const { email, avatar_url, name } = data_;
     let sql = "select * from users where email=?";
     const [results] = await mysql.query(sql, email);
-    let user = results[0];
+    const user = results[0];
     if (!user) {
       sql =
         "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
@@ -53,8 +53,8 @@ const githubCallback = async_(async (req, res) => {
       const { insertId } = results_[0];
       sql = "select * from users where id=?";
       const [results__] = await mysql.query(sql, insertId);
-      user = results__[0];
-      req.session.user = user;
+      const user_ = results__[0];
+      req.session.user = user_;
       delete req.session.user.password;
       return res.status(StatusCodes.CREATED).redirect("/");
     }

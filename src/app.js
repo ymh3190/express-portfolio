@@ -5,7 +5,6 @@ require("./db/mysql");
 const helmet = require("helmet");
 const cors = require("cors");
 const xss = require("xss-clean");
-const rateLimit = require("express-rate-limit");
 
 const express = require("express");
 const session = require("express-session");
@@ -29,17 +28,14 @@ const userRouter = require("./routes/users");
 const videoRouter = require("./routes/videos");
 const oauthRouter = require("./routes/oauth");
 const historyRouter = require("./routes/history");
+const authenticationMiddleware = require("./middleware/authentication");
 
 app.set("trust proxy", 1);
 app.set("view engine", "ejs");
 app.set("views", process.cwd() + "/src/views");
 app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-  })
+  helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false })
 );
-app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(xss());
 app.use(express.urlencoded({ extended: true }));
@@ -73,7 +69,7 @@ app.use("/uploads", express.static("uploads"));
 // routes
 app.use("/", mainRouter);
 app.use("/users", userRouter);
-app.use("/videos", videoRouter);
+app.use("/videos", authenticationMiddleware, videoRouter);
 app.use("/oauth", publicOnlyMiddleware, oauthRouter);
 app.use("/history", privateOnlyMiddleware, historyRouter);
 

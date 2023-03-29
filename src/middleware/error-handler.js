@@ -7,9 +7,12 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   };
   if (err.code && err.errno === 1062) {
     customError.msg = `${err.sqlMessage}, please choose another value`;
-    customError.statusCode = 400;
+    customError.statusCode = err.errno;
   }
-  console.log(customError);
+  if (err.code && err.errno === 1251) {
+    customError.msg = `${err.sqlMessage}, disconnected to db`;
+    customError.statusCode = err.errno;
+  }
   res
     .status(customError.statusCode)
     .render("pages/error", { msg: customError.msg });

@@ -1,17 +1,24 @@
 const fs = require("fs");
 
 const getOptions = () => {
-  const options = {
-    host: process.env.NODE_ENV ? process.env.DIGITALOCEAN_HOST : "localhost",
-    user: process.env.NODE_ENV ? process.env.DIGITALOCEAN_USER : "admin",
-    password: process.env.NODE_ENV ? process.env.DIGITALOCEAN_PASSWORD : "",
-    port: process.env.NODE_ENV ? process.env.DIGITALOCEAN_PORT : 3306,
-    database: process.env.NODE_ENV ? process.env.DIGITALOCEAN_DATABASE : "test",
-    waitForConnections: true,
-    ssl: {
-      ca: fs.readFileSync(process.cwd() + "/ca-certificate.crt"),
-    },
-  };
+  const options = process.env.NODE_ENV
+    ? {
+        host: process.env.DIGITALOCEAN_HOST,
+        user: process.env.DIGITALOCEAN_USER,
+        password: process.env.DIGITALOCEAN_PASSWORD,
+        port: process.env.DIGITALOCEAN_PORT,
+        database: process.env.DIGITALOCEAN_DATABASE,
+        waitForConnections: true,
+        ssl: {
+          ca: fs.readFileSync(process.cwd() + "/ca-certificate.crt"),
+        },
+      }
+    : {
+        host: "localhost",
+        user: "admin",
+        database: "test",
+        waitForConnections: true,
+      };
   return options;
 };
 

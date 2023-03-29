@@ -40,12 +40,12 @@ const addHistory = async_(async (req, res) => {
   const history = results[0];
   if (!history) {
     sql =
-      "insert into histories(userId, videoId, userName, path, title, description, view) values(?,?,?,?,?,?,?)";
+      "insert into histories(userId, videoId, path, userName, title, description, view) values(?,?,?,?,?,?,?)";
     await mysql.query(sql, [
       user.id,
       video.id,
-      video.userName,
       video.path,
+      video.userName,
       video.title,
       video.description,
       video.view,

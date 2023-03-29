@@ -1,8 +1,4 @@
 const mysql = require("mysql2/promise");
+const getOptions = require("../utils/getOptions");
 
-module.exports = mysql.createPool({
-  host: "localhost",
-  user: "admin",
-  password: "",
-  database: "test",
-});
+module.exports = mysql.createPool(getOptions());

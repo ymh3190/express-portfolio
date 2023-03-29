@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("./db/mysql");
+const getOptions = require("./utils/getOptions");
 
 // security
 const helmet = require("helmet");
@@ -20,7 +21,6 @@ const notFound = require("./middleware/notFound");
 // middleware
 const localsMiddleware = require("./middleware/locals");
 const publicOnlyMiddleware = require("./middleware/publicOnly");
-const privateOnlyMiddleware = require("./middleware/privateOnly");
 
 // routers
 const mainRouter = require("./routes/main");
@@ -41,44 +41,29 @@ app.use(xss());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// session
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: true,
-    // development mode: secure false
-    cookie: { secure: false },
-    // store
-    store: new MySQLStore({
-      host: "localhost",
-      user: "admin",
-      password: "",
-      database: "test",
-    }),
+    cookie: { secure: process.env.NODE_ENV ? true : false },
+    store: new MySQLStore(getOptions()),
   })
 );
-
-// middleware
 app.use(localsMiddleware);
-
-// static
 app.use("/dist", express.static("dist"));
 app.use("/uploads", express.static("uploads"));
 
-// routes
 app.use("/", mainRouter);
 app.use("/users", userRouter);
 app.use("/videos", authenticationMiddleware, videoRouter);
 app.use("/oauth", publicOnlyMiddleware, oauthRouter);
-app.use("/history", privateOnlyMiddleware, historyRouter);
+app.use("/history", authenticationMiddleware, historyRouter);
 
-// error handler
 app.use(errorHandlerMiddleware);
 app.use(notFound);
 
 const port = process.env.PORT || 8000;
-
 app.listen(port, () => {
   console.log(`Server is listening port ${port}`);
 });

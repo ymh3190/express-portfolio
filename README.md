@@ -15,7 +15,7 @@
   - KAKAO_CLIENT
   - KAKAO_SECRET
 
-- 사용 툴: expressjs, mysql, postman
+- 개발 툴: expressjs, postman
 
 - mysql 설치
 
@@ -34,7 +34,7 @@
     - brew services start mysql
     - sudo mysql -uroot
   - 기본설정
-    - CREATE DATABASE test DEFAULT CAHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci; (utf8 인코딩, ai: 악센트 구분 X, ci: 대소문자 구분 X)
+    - CREATE DATABASE test DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci; (utf8 인코딩, ai: 악센트 구분 X, ci: 대소문자 구분 X)
     - CREATE USER 'admin'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
     - GRANT ALL PRIVILEGES ON test.\* TO 'admin'@'localhost';
     - FLUSH PRIVILEGES;
@@ -43,7 +43,7 @@
     - CREATE TABLE users(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL UNIQUE, name VARCHAR(50) NOT NULL, password VARCHAR(255) NOT NULL, profilePhoto VARCHAR(255), social BOOL DEFAULT FALSE);
     - CREATE TABLE videos(id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255) NOT NULL UNIQUE, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, userId INT, commentId INT, view INT DEFAULT 0, userProfilePhoto VARCHAR(255), userName VARCHAR(50));
     - CREATE TABLE comments(id INT AUTO_INCREMENT PRIMARY KEY, context VARCHAR(255) NOT NULL, videoId INT, userId INT, userName VARCHAR(50));
-    - CREATE TABLE histories(userId INT NOT NULL, videoId INT NOT NULL, path VARCHAR(255) NOT NULL UNIQUE, userName varchar(50) NOT NULL, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, view INT NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP);
+    - CREATE TABLE histories(userId INT, videoId INT, path VARCHAR(255) NOT NULL UNIQUE, userName varchar(50) NOT NULL, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, view INT NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(userId, videoId));
 
 - 구현 기능
   - 백엔드
@@ -76,7 +76,8 @@
     - [x] 페이지
     - [x] 비디오 플레이어 재생, 볼륨, 플레이 타임, 확대
     - [x] 비디오 플레이어 마우스 반응
+    - [] 타임라인
 
   - 배포
-    - [] heroku, postgresql (무료)
-    - [] AWS RDB, AWS S3, AWS EC2 (유료)
+    - [] heroku(paas, 500MB 무료), digitalocean(paas, mysql 무료 호스팅, 2달간),
+    - [] AWS RDB, AWS S3, AWS EC2(iaas) 혹은 EB(paas)

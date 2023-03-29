@@ -2,17 +2,16 @@
   "name": "express-portfolio",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon src/app.js",
-    "build": "webpack -w"
+    "dist": "webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ymh3190/express-portfolio.git"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ymh3190/express-portfolio/issues"
   },
@@ -41,5 +40,8 @@
     "sass-loader": "^13.2.0",
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }

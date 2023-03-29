@@ -9,6 +9,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.msg = `${err.sqlMessage}, please choose another value`;
     customError.statusCode = 400;
   }
+  console.log(customError);
   res
     .status(customError.statusCode)
     .render("pages/error", { msg: customError.msg });

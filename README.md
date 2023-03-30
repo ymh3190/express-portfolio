@@ -1,6 +1,7 @@
 # express-portfolio
 
 - .env 파일 환경 변수 설정
+  - PORT
   - COOKIE_SECRET
   - MAIL_ADDRESS: 맥에서 작업했으며, 이메일 계정 추가가 필요함
   - MAIL_PASSWORD
@@ -41,9 +42,11 @@
     - sudo mysql -uadmin test
   - 테이블 생성
     - CREATE TABLE users(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL UNIQUE, name VARCHAR(50) NOT NULL, password VARCHAR(255) NOT NULL, profilePhoto VARCHAR(255), social BOOL DEFAULT FALSE);
-    - CREATE TABLE videos(id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255) NOT NULL UNIQUE, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, userId INT, commentId INT, view INT DEFAULT 0, userProfilePhoto VARCHAR(255), userName VARCHAR(50));
+    - CREATE TABLE videos(id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255) NOT NULL UNIQUE, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, userId INT, view INT DEFAULT 0, userProfilePhoto VARCHAR(255), userName VARCHAR(50));
     - CREATE TABLE comments(id INT AUTO_INCREMENT PRIMARY KEY, context VARCHAR(255) NOT NULL, videoId INT, userId INT, userName VARCHAR(50));
     - CREATE TABLE histories(userId INT, videoId INT, path VARCHAR(255) NOT NULL UNIQUE, userName varchar(50) NOT NULL, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, view INT NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(userId, videoId));
+  - 칼럼 삭제
+    - ALTER TABLE TALBE_NAME DROP COLUMN_NAME;
 
 - 구현 기능
   - 백엔드
@@ -79,5 +82,5 @@
     - [] 타임라인
 
   - 배포
-    - [] heroku(paas, 500MB 무료), digitalocean(paas, mysql 무료 호스팅, 2달간),
+    - [] heroku(paas, 500MB 무료), google cloud(3달간 무료)
     - [] AWS RDB, AWS S3, AWS EC2(iaas) 혹은 EB(paas)

@@ -71,7 +71,7 @@ const uploadVideo = async_(async (req, res) => {
   const { profilePhoto, name } = results[0];
 
   const sql =
-    "insert into videos(path, title, description, userId, userProfilePhoto, userName) values(?,?,?,?,?,?)";
+    "insert into videos(path, title, description, userId, userProfilePhoto, userName) values(?, ?, ?, ?, ?, ?)";
   await mysql.query(sql, [
     file.path,
     title,
@@ -95,7 +95,7 @@ const addComment = async_(async (req, res) => {
     throw new BadRequestError("Provide videoId");
   }
 
-  let sql = "select id,name from users where id=?";
+  let sql = "select id, name from users where id = ?";
   const [results] = await mysql.query(sql, req.session.user.id);
   const user = results[0];
   if (!user) {
@@ -110,7 +110,7 @@ const addComment = async_(async (req, res) => {
   }
 
   sql =
-    "insert into comments(context, videoId, userId, userName) values(?,?,?,?)";
+    "insert into comments(context, videoId, userId, userName) values(?, ?, ?, ?)";
   const results__ = await mysql.query(sql, [
     context,
     video.id,
@@ -119,8 +119,6 @@ const addComment = async_(async (req, res) => {
   ]);
   const { insertId: commentId } = results__[0];
 
-  sql = "update videos set commentId=? where id=?";
-  await mysql.query(sql, [commentId, video.id]);
   res
     .status(StatusCodes.OK)
     .json({ comment: context, commentId, userName: user.name });

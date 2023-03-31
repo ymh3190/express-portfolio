@@ -16,7 +16,7 @@
   - KAKAO_CLIENT
   - KAKAO_SECRET
 
-- 개발 툴: expressjs, postman
+- 개발 툴: expressjs, postman, swagger(문서화 툴, 배워볼 예정)
 
 - mysql 설치
 
@@ -45,8 +45,8 @@
     - CREATE TABLE videos(id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255) NOT NULL UNIQUE, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, userId INT, view INT DEFAULT 0, userProfilePhoto VARCHAR(255), userName VARCHAR(50));
     - CREATE TABLE comments(id INT AUTO_INCREMENT PRIMARY KEY, context VARCHAR(255) NOT NULL, videoId INT, userId INT, userName VARCHAR(50));
     - CREATE TABLE histories(userId INT, videoId INT, path VARCHAR(255) NOT NULL UNIQUE, userName varchar(50) NOT NULL, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, view INT NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(userId, videoId));
-  - 칼럼 삭제
-    - ALTER TABLE TALBE_NAME DROP COLUMN_NAME;
+  - db 호스팅 서비스 이용시
+    - mysqldump -uadmin test > test.sql를 통해 로컬에서 생성한 데이터베이스를 서버로 쉽게 migrate할 수 있음
 
 - 구현 기능
   - 백엔드
@@ -81,6 +81,14 @@
     - [x] 비디오 플레이어 마우스 반응
     - [] 타임라인
 
-  - 배포
-    - [] heroku(paas, 500MB 무료), google cloud(3달간 무료)
-    - [] AWS RDB, AWS S3, AWS EC2(iaas) 혹은 EB(paas)
+  - 배포 및 경험해 본 툴
+    - iaas vs pass
+      - 비용만 놓고 보면 iaas가 paas보다 압도적으로 낮다고 함. 결국 개발자로서 추구해야 하는 방향은 iaas가 아닐까
+    - [x] heroku(paas, heroku도 AWS EC2위에서 동작함)
+    - [] google cloud(iaas, paas, saas)
+    - [] digitalocean: mysql2 client는 ssl 지원 안함. 해결 방법 찾아보기
+    - [x] AWS RDB
+    - [x] AWS S3
+    - [] AWS EC2(iaas)
+    - [x] AWS EB(paas)
+    - [] docker

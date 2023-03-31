@@ -12,7 +12,10 @@ const {
   addView,
 } = require("../controllers/videos");
 const router = express.Router();
-const uploader = multer({ dest: "uploads/videos" }).single("video");
+const uploader = multer({
+  dest: "uploads/videos",
+  limits: { fileSize: 1000 * 1024 },
+}).single("video");
 
 router.route("/").get(getVideos);
 router.route("/upload").get(getUpload).post(uploader, uploadVideo);

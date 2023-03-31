@@ -88,7 +88,7 @@
       - 비용만 놓고 보면 iaas가 paas보다 압도적으로 낮다고 함. 결국 개발자로서 추구해야 하는 방향은 iaas가 아닐까
     - [x] heroku(paas, heroku도 AWS EC2위에서 동작함)
     - [] google cloud(iaas, paas, saas)
-    - [x] digitalocean: mysql client does not support ssl authentication. 이 에러는 공식문서에 따르면 mysql 버전에 따른 비밀번호 암호화 방식(8.x 이상 caching_sha2_password)의 차이에 기인함. 터미널에서 db서버 접속 후 ALTER USER use_your_user IDENTIFIED WITH mysql_native_password BY 'your_password'; 명령어로 수정 후 접속 가능 확인
+    - [x] digitalocean(paas): mysql client does not support ssl authentication. 이 에러는 공식문서에 따르면 mysql 버전에 따른 비밀번호 암호화 방식(8.x 이상 caching_sha2_password)의 차이에 기인함. 터미널에서 db서버 접속 후 ALTER USER use_your_user IDENTIFIED WITH mysql_native_password BY 'your_password'; 명령어로 수정 후 접속 가능 확인
     - digitalocean volume(storage): ssh 접속
     - [x] AWS RDB
     - [x] AWS S3

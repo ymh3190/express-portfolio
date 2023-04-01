@@ -13,9 +13,10 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.msg = `${err.sqlMessage}, disconnected to db`;
     customError.statusCode = err.errno;
   }
-  res
-    .status(customError.statusCode)
-    .render("pages/error", { msg: customError.msg });
+  res.status(customError.statusCode).render("pages/error", {
+    msg: customError.msg,
+    siteTitle: "Express-Portfolio",
+  });
 };
 
 module.exports = errorHandlerMiddleware;

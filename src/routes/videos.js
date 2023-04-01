@@ -1,7 +1,6 @@
 const express = require("express");
 const multer = require("multer");
 const {
-  getVideos,
   getVideo,
   updateVideo,
   deleteVideo,
@@ -10,12 +9,17 @@ const {
   addComment,
   deleteComment,
   addView,
+  getVideos,
 } = require("../controllers/videos");
 const router = express.Router();
-const ssh = require("../utils/ssh");
+const CustomAPIStorage = require("../utils/storage");
 const uploader = multer({
-  storage: "",
-  // dest: "uploads/videos",
+  storage: CustomAPIStorage({
+    destination: (req, file, cb) => {
+      cb(null, "uploads/videos/");
+    },
+  }),
+  dest: "uploads/videos",
   limits: { fileSize: 1000 * 1024 },
 }).single("video");
 

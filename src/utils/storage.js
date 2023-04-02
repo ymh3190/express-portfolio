@@ -1,4 +1,4 @@
-const ssh = require("../utils/ssh");
+const ssh = require("../db/ssh");
 
 class CustomAPIStorage {
   constructor(opts) {

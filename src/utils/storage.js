@@ -38,7 +38,7 @@ class CustomAPIStorage {
 
   _removeFile(req, file, cb) {
     ssh.sftp((err, sftp) => {
-      if (err) throw err;
+      if (err) return cb(err);
       sftp.unlink(file.path, cb);
       ssh.end();
     });

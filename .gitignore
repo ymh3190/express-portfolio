@@ -4,3 +4,4 @@
 /uploads
 /dist
 ca-certificate.crt
+*.png

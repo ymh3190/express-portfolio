@@ -101,6 +101,3 @@
       - 비디오가 업로드될 스토리지 서버를 설정하지 않았기에 안될 줄 알았던 비디오가 동작함
         - heroku run bash로 heroku에 빌드된 앱 폴더에 접근해서
         - ls 및 find . -name 'uploads' 명령어로 폴더를 찾아봤지만 없음. 근데 왜 될까?
-
-  - multer 구조
-    - /** `DiskStorage` only, destination: string;

@@ -16,7 +16,7 @@ const CustomAPIStorage = require("../utils/storage");
 const uploader = multer({
   storage: CustomAPIStorage({
     destination: (req, file, cb) => {
-      cb(null, "uploads/videos/");
+      cb(null, "uploads/videos");
     },
   }),
   dest: "uploads/videos",

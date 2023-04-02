@@ -9,29 +9,29 @@ class CustomAPIStorage {
     this.getDestination(req, file, (err, path) => {
       if (err) return cb(err);
 
-      ssh.on("ready", () => {
-        ssh.sftp((err, sftp) => {
-          if (err) return cb(err);
+      ssh
+        .on("ready", () => {
+          ssh.sftp((err, sftp) => {
+            if (err) return cb(err);
 
-          const remotePath = `/mnt/volume_sgp1_01/${path}${file.originalname}`;
-          const outStream = sftp.createWriteStream(remotePath);
-          file.stream.pipe(outStream);
+            const remotePath = `/mnt/volume_sgp1_01/${path}/${file.originalname}`;
+            const outStream = sftp.createWriteStream(remotePath);
+            file.stream.pipe(outStream);
 
-          outStream.once("error", cb);
-          outStream.once("finish", () => {
-            cb(null, {
-              path: remotePath,
-              size: outStream.bytesWritten,
+            outStream.once("error", cb);
+            outStream.once("finish", () => {
+              cb(null, {
+                path: remotePath,
+                size: outStream.bytesWritten,
+              });
             });
           });
+        })
+        .connect({
+          host: process.env.DROPLETS_HOST,
+          username: process.env.DROPLETS_USER,
+          password: process.env.DROPLETS_PASSWORD,
         });
-      });
-
-      ssh.connect({
-        host: process.env.DROPLETS_HOST,
-        username: process.env.DROPLETS_USER,
-        password: process.env.DROPLETS_PASSWORD,
-      });
     });
   }
 
@@ -44,6 +44,6 @@ class CustomAPIStorage {
   }
 }
 
-module.exports = function (opts) {
+module.exports = (opts) => {
   return new CustomAPIStorage(opts);
 };

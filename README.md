@@ -93,6 +93,9 @@
     - digitalocean volume(storage, AWS EC2에서 돌아감): ssh 접속 완료. 업로드시 스토리지 서버에 접근해서 해당 파일을 업로드 하지만, url로 어떻게 제공해주지? -> 'public network ipv4 address로 누구든지 접속할 수 있다' 문구 확인
       - ![storage](https://user-images.githubusercontent.com/59950687/229384658-891519f8-1435-49e6-ae1c-9e8085f5423b.png)
       - ![storage server port](https://user-images.githubusercontent.com/59950687/229408382-f5949cc0-378c-4f70-bed0-5781a791dabb.png)
+      - Firewalls Inbound Rules
+        - [x] SSH, PORT 22
+        - [] HTTP(80), HTTPS(443) -> 설정했지만 작동하지 않는 이유는 HTTP 응답이 없기 때문 스토리지 서버 응답을 위한 서버를 빌드하면 되겠네(apache? nginx?)
     - [x] AWS RDB
     - [x] AWS S3
     - [] AWS EC2(iaas)

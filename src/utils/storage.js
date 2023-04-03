@@ -21,6 +21,7 @@ class CustomAPIStorage {
 
             outStream.once("error", cb);
             outStream.once("finish", () => {
+              ssh.end();
               cb(null, {
                 path: remotePath,
                 size: outStream.bytesWritten,
@@ -40,7 +41,6 @@ class CustomAPIStorage {
     ssh.sftp((err, sftp) => {
       if (err) return cb(err);
       sftp.unlink(file.path, cb);
-      ssh.end();
     });
   }
 }

@@ -90,8 +90,9 @@
     - [x] heroku(paas, heroku도 AWS EC2위에서 동작함)
     - [] google cloud(iaas, paas, saas)
     - [x] digitalocean(paas): mysql client does not support ssl authentication. 이 에러는 공식문서에 따르면 mysql 버전에 따른 비밀번호 암호화 방식(8.x 이상 caching_sha2_password)의 차이에 기인함. 터미널에서 db서버 접속 후 ALTER USER use_your_user IDENTIFIED WITH mysql_native_password BY 'your_password'; 명령어로 수정 후 접속 가능 확인
-    - digitalocean volume(storage): ssh 접속 완료. 업로드시 스토리지 서버에 접근해서 해당 파일을 업로드 하지만, url로 어떻게 제공해주지? -> 'public network ipv4 address로 누구든지 접속할 수 있다' 문구 확인
+    - digitalocean volume(storage, AWS EC2에서 돌아감): ssh 접속 완료. 업로드시 스토리지 서버에 접근해서 해당 파일을 업로드 하지만, url로 어떻게 제공해주지? -> 'public network ipv4 address로 누구든지 접속할 수 있다' 문구 확인
       - ![storage](https://user-images.githubusercontent.com/59950687/229384658-891519f8-1435-49e6-ae1c-9e8085f5423b.png)
+      - ![storage server port](https://user-images.githubusercontent.com/59950687/229408382-f5949cc0-378c-4f70-bed0-5781a791dabb.png)
     - [x] AWS RDB
     - [x] AWS S3
     - [] AWS EC2(iaas)

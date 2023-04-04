@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  title: Express-Portfolio
+  version: "1.0.0"
+servers:
+  - url: https://express-portfolio.herokuapp.com
+paths:
+  /:
+    get:
+      tags:
+        - Videos
+      summary: Get all videos
+      operationId: getIndex
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /join:
+    get:
+      tags:
+        - Join
+      summary: Show join page
+      operationId: getJoin
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    post:
+      tags:
+        - Join
+      summary: Join user
+      operationId: join
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JoinRequest"
+            example:
+              email: ymh3190@gmail.com
+              name: ymh3190
+              password: secret
+              confirm: secret
+        required: true
+      responses:
+        "201":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+
+components:
+  schemas:
+    JoinRequest:
+      title: JoinRequest
+      required:
+        - email
+        - name
+        - password
+        - confirm
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+        confirm:
+          type: string
+      example:
+        email: test@test.com
+        name: test
+        password: secret
+        confirm: secret

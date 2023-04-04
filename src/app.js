@@ -7,6 +7,11 @@ const helmet = require("helmet");
 const cors = require("cors");
 const xss = require("xss-clean");
 
+// swagger
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
+
 const express = require("express");
 const session = require("express-session");
 const app = express();
@@ -54,6 +59,7 @@ app.use(localsMiddleware);
 app.use("/dist", express.static("dist"));
 app.use("/uploads", express.static("uploads"));
 
+app.use("/api", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use("/", mainRouter);
 app.use("/users", userRouter);
 app.use("/videos", authenticationMiddleware, videoRouter);

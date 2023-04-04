@@ -32,7 +32,9 @@
     "node-fetch": "^2.6.9",
     "nodemailer": "^6.9.1",
     "ssh2": "^1.11.0",
-    "xss-clean": "^0.1.1"
+    "swagger-ui-express": "^4.6.2",
+    "xss-clean": "^0.1.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "css-loader": "^6.7.3",

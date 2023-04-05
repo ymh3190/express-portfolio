@@ -21,9 +21,16 @@ class CustomAPIStorage {
 
             outStream.once("error", cb);
             outStream.once("finish", () => {
-              ssh.end();
+              ssh
+                .shell((err, stream) => {
+                  if (err) throw err;
+                  stream.end(
+                    `ls -s ${remotePath} /var/www/html/${file.originalname}`
+                  );
+                })
+                .end();
               cb(null, {
-                path: remotePath,
+                path: `http://${DROPLETS_HOST}/${file.originalname}`,
                 size: outStream.bytesWritten,
               });
             });

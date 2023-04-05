@@ -18,10 +18,9 @@
   - KAKAO_CLIENT
   - KAKAO_SECRET
 
-- 개발 툴: expressjs, postman, swagger(문서화 툴, 배워볼 예정)
+- 개발 툴: expressjs, postman, swagger
 
 - mysql 설치
-
   - 윈도우
     - powershell 혹은 cmd 관리자 모드 실행
     - wsl --install
@@ -49,7 +48,8 @@
     - CREATE TABLE histories(userId INT, videoId INT, path VARCHAR(255) NOT NULL UNIQUE, userName varchar(50) NOT NULL, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, view INT NOT NULL, createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(userId, videoId));
   - db 호스팅 서비스 이용시
     - mysqldump -uadmin test > test.sql를 통해 로컬에서 생성한 데이터베이스를 서버로 쉽게 migrate할 수 있음
-  - 스토리지 서버: SSH DROPLETS_USER@DROPLETS_HOST
+  
+- 스토리지 서버 접속: SSH DROPLETS_USER@DROPLETS_HOST
 
 - 구현 기능
   - 백엔드
@@ -95,7 +95,9 @@
       - ![storage server port](https://user-images.githubusercontent.com/59950687/229408382-f5949cc0-378c-4f70-bed0-5781a791dabb.png)
       - Firewalls Inbound Rules
         - [x] SSH, PORT 22
-        - [] HTTP(80), HTTPS(443) -> 설정했지만 작동하지 않는 이유는 HTTP 응답이 없기 때문 스토리지 서버 응답을 위한 서버를 빌드하면 되겠네(apache2)
+        - [] HTTP(80), HTTPS(443) -> 설정했지만 작동하지 않는 이유는 HTTP 응답이 없기 때문 스토리지 서버 응답을 위한 서버를 빌드하면 되겠네(apache)
+        - ![lsof](https://user-images.githubusercontent.com/59950687/229940264-4d426d6d-47b3-427c-84f1-b0773f189132.png)
+        - ![apache](https://user-images.githubusercontent.com/59950687/229939765-8ee5a164-b049-4c3e-b69a-8ed854dde762.png)
     - [x] AWS RDB
     - [x] AWS S3
     - [] AWS EC2(iaas)

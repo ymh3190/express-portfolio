@@ -66,7 +66,7 @@ const githubCallback = async_(async (req, res) => {
 
 const facebook = (req, res) => {
   const config = {
-    client_id: process.env.FACEBOOK_ID,
+    client_id: process.env.FACEBOOK_CLIENT,
     redirect_uri: process.env.NODE_ENV
       ? "https://express-portfolio.herokuapp.com/oauth/facebook/callback"
       : `http://localhost:${process.env.PORT}/oauth/facebook/callback`,
@@ -82,7 +82,7 @@ const facebook = (req, res) => {
 
 const facebookCallback = async_(async (req, res) => {
   let config = {
-    client_id: process.env.FACEBOOK_ID,
+    client_id: process.env.FACEBOOK_CLIENT,
     redirect_uri: process.env.NODE_ENV
       ? "https://express-portfolio.herokuapp.com/oauth/facebook/callback"
       : `http://localhost:${process.env.PORT}/oauth/facebook/callback`,

@@ -1,4 +1,5 @@
 const ssh = require("../db/ssh");
+const random = require("../utils/randomFill");
 
 class CustomAPIStorage {
   constructor(opts) {
@@ -14,24 +15,24 @@ class CustomAPIStorage {
           ssh.sftp((err, sftp) => {
             if (err) return cb(err);
 
-            // TODO: 스토리지 서버 url 제공, 파일 32비트 랜덤 문자(busboy module reference)
-            const remotePath = `/mnt/volume_sgp1_01/${path}/${file.originalname}`;
+            const hex = random();
+            const remotePath = `/mnt/volume_sgp1_01/${path}/${hex}`;
             const outStream = sftp.createWriteStream(remotePath);
             file.stream.pipe(outStream);
 
             outStream.once("error", cb);
             outStream.once("finish", () => {
-              ssh
-                .shell((err, stream) => {
-                  if (err) throw err;
-                  stream.end(
-                    `ls -s ${remotePath} /var/www/html/${file.originalname}`
-                  );
-                })
-                .end();
-              cb(null, {
-                path: `http://${DROPLETS_HOST}/${file.originalname}`,
-                size: outStream.bytesWritten,
+              const command = `ln -s ${remotePath} /var/www/html/${hex}`;
+              ssh.exec(command, (err, stream) => {
+                if (err) return cb(err);
+
+                stream.on("exit", () => {
+                  ssh.end();
+                  cb(null, {
+                    path: `http://${process.env.DROPLETS_HOST}/${hex}`,
+                    size: outStream.bytesWritten,
+                  });
+                });
               });
             });
           });

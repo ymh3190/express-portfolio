@@ -4,6 +4,7 @@ const fetch = require("node-fetch");
 const mysql = require("../db/mysql");
 const bcrypt = require("bcryptjs");
 const socialOptions = require("../utils/socialOptions");
+const randomFill = require("../utils/randomFill");
 
 const github = (req, res) => {
   const params = `client_id=${socialOptions.github.client}&scope=read:user`;
@@ -42,19 +43,13 @@ const githubCallback = async_(async (req, res) => {
     const user = results[0];
     if (!user) {
       sql =
-        "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
+        "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const results_ = await mysql.query(sql, [
-        email,
-        name,
-        hash,
-        avatar_url,
-        true,
-      ]);
-      const { insertId } = results_[0];
+      const hex = randomFill();
+      await mysql.query(sql, [hex, email, name, hash, avatar_url, true]);
       sql = "select * from users where id=?";
-      const [results__] = await mysql.query(sql, insertId);
-      const user_ = results__[0];
+      const [results_] = await mysql.query(sql, hex);
+      const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;
       return res.status(StatusCodes.CREATED).redirect("/");
@@ -114,21 +109,22 @@ const facebookCallback = async_(async (req, res) => {
     const user = results[0];
     if (!user) {
       sql =
-        "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
+        "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const [results_] = await mysql.query(sql, [
+      const hex = randomFill();
+      await mysql.query(sql, [
+        hex,
         email,
         `${first_name} ${last_name}`,
         hash,
         picture.data.url,
         true,
       ]);
-      const { insertId } = results_;
-      const [results__] = await mysql.query(
+      const [results_] = await mysql.query(
         "select * from users where id=?",
-        insertId
+        hex
       );
-      const user_ = results__[0];
+      const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;
       return res.status(StatusCodes.CREATED).redirect("/");
@@ -193,20 +189,22 @@ const googleCallback = async_(async (req, res) => {
     const [results] = await mysql.query(sql, email);
     const user = results[0];
     if (!user) {
-      sql = "insert into users(email, name, password, social) values(?,?,?,?)";
+      sql =
+        "insert into users(id, email, name, password, social) values(?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const [results_] = await mysql.query(sql, [
+      const hex = randomFill();
+      await mysql.query(sql, [
+        hex,
         email,
         `${given_name} ${family_name}`,
         hash,
         true,
       ]);
-      const { insertId } = results_;
-      const [results__] = await mysql.query(
+      const [results_] = await mysql.query(
         "select * from users where id=?",
-        insertId
+        hex
       );
-      const user_ = results__[0];
+      const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;
       return res.status(StatusCodes.CREATED).redirect("/");
@@ -264,21 +262,15 @@ const naverCallback = async_(async (req, res) => {
     const user = results[0];
     if (!user) {
       sql =
-        "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
+        "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const [results_] = await mysql.query(sql, [
-        email,
-        name,
-        hash,
-        profile_image,
-        true,
-      ]);
-      const { insertId } = results_;
-      const [results__] = await mysql.query(
+      const hex = randomFill();
+      await mysql.query(sql, [hex, email, name, hash, profile_image, true]);
+      const [results_] = await mysql.query(
         "select * from users where id=?",
-        insertId
+        hex
       );
-      const user_ = results__[0];
+      const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;
       return res.status(StatusCodes.CREATED).redirect("/");
@@ -340,23 +332,25 @@ const kakaoCallback = async_(async (req, res) => {
     let sql = "select * from users where email=?";
     const [results] = await mysql.query(sql, email);
     const user = results[0];
+
     if (!user) {
       sql =
-        "insert into users(email, name, password, profilePhoto, social) values(?,?,?,?,?)";
+        "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const [results_] = await mysql.query(sql, [
+      const hex = randomFill();
+      await mysql.query(sql, [
+        hex,
         email,
         nickname,
         hash,
         profile_image_url,
         true,
       ]);
-      const { insertId } = results_;
-      const [results__] = await mysql.query(
+      const [results_] = await mysql.query(
         "select * from users where id=?",
-        insertId
+        hex
       );
-      const user_ = results__[0];
+      const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;
       return res.status(StatusCodes.CREATED).redirect("/");

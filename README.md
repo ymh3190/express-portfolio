@@ -1,11 +1,11 @@
 # express-portfolio
 
 - 홈페이지 주소: <https://express-portfolio.herokuapp.com/>
+- API Specification: <https://express-portfolio.herokuapp.com/api>
 
 - 제작의도: 기존 wetube-portfolio에서 db변경과 코드 개선에 목적이 있음
   - 개선코드
-    - [x] multer 모듈 커스텀 / 관련 기술스택: ssh, sftp, ufw, Ubuntu 20.04, Apache
-    - [x] NoSQL -> MySQL / 관련 기술스택: INSERT, SELECT, UPDATE, DELETE
+    - [x] multer 모듈 커스텀: ssh, sftp, ufw, Ubuntu 20.04, Apache
     - [x] async await & try catch 반복 개선
 
 - 개발 툴: expressjs, postman, swagger
@@ -41,7 +41,6 @@
     - [x] 페이지
     - [x] 비디오 플레이어 재생, 볼륨, 플레이 타임, 확대
     - [x] 비디오 플레이어 마우스 반응
-    - [] 타임라인
 
   - 배포
     - [x] heroku

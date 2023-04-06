@@ -27,11 +27,11 @@ const uploader = multer({
 
 router.route("/").get(getVideos);
 router.route("/upload").get(getUpload).post(uploader, uploadVideo);
-router.route("/:id(\\d+)").get(getVideo);
-router.route("/:id(\\d+)/update").post(updateVideo);
-router.route("/:id(\\d+)/delete").get(deleteVideo);
+router.route("/:id(\\w{32})").get(getVideo);
+router.route("/:id(\\w{32})/update").post(updateVideo);
+router.route("/:id(\\w{32})/delete").get(deleteVideo);
 router.route("/api/comment").post(addComment);
 router.route("/api/comment/delete").post(deleteComment);
-router.route("/api/:id(\\d+)/view").post(addView);
+router.route("/api/:id(\\w{32})/view").post(addView);
 
 module.exports = router;

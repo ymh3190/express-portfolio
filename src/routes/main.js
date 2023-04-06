@@ -40,6 +40,6 @@ router
   .all(authenticationMiddleware)
   .get(getInitPassword)
   .post(initPassword);
-router.route("/watch/:id").get(getWatch);
+router.route("/watch/:id(\\w{32})").get(getWatch);
 
 module.exports = router;

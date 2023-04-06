@@ -21,11 +21,11 @@ const uploader = multer({
   limits: { fileSize: 500 * 1024 },
 }).single("profilePhoto");
 
-router.route("/:id(\\d+)").get(authenticationMiddleware, getUser);
+router.route("/:id(\\w{32})").get(authenticationMiddleware, getUser);
 router
-  .route("/:id(\\d+)/update")
+  .route("/:id(\\w{32})/update")
   .post(authenticationMiddleware, uploader, updateUser);
-router.route("/:id(\\d+)/delete").get(authenticationMiddleware, deleteUser);
+router.route("/:id(\\w{32})/delete").get(authenticationMiddleware, deleteUser);
 router.route("/logout").get(authenticationMiddleware, logout);
 
 module.exports = router;

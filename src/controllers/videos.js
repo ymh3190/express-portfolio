@@ -2,6 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const mysql = require("../db/mysql");
 const { BadRequestError, NotFoundError } = require("../errors");
 const async_ = require("../middleware/async");
+const randomFill = require("../utils/randomFill");
 
 const getVideos = async_(async (req, res) => {
   const sql = "select * from videos where userId=?";
@@ -70,9 +71,12 @@ const uploadVideo = async_(async (req, res) => {
   );
   const { profilePhoto, name } = results[0];
 
-  const sql =
-    "insert into videos(path, title, description, userId, userProfilePhoto, userName) values(?, ?, ?, ?, ?, ?)";
+  const inserInto =
+    "insert into videos(id, path, title, description, userId, userProfilePhoto, userName)";
+  const values = "values(?, ?, ?, ?, ?, ?, ?)";
+  const sql = `${inserInto} ${values}`;
   await mysql.query(sql, [
+    randomFill(),
     file.path,
     title,
     description,
@@ -95,7 +99,7 @@ const addComment = async_(async (req, res) => {
     throw new BadRequestError("Provide videoId");
   }
 
-  let sql = "select id, name from users where id = ?";
+  let sql = "select id, name from users where id=?";
   const [results] = await mysql.query(sql, req.session.user.id);
   const user = results[0];
   if (!user) {

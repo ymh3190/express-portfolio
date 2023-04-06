@@ -22,6 +22,7 @@ const addHistory = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
+
   let sql =
     "select id, path, title, description, userName, view from videos where id=?";
   let [results] = await mysql.query(sql, id);

@@ -10,7 +10,7 @@ const getUser = async_(async (req, res) => {
     params: { id },
   } = req;
 
-  if (req.session.user.id !== Number(id)) {
+  if (req.session.user.id !== id) {
     throw new ForbiddenError("Forbidden");
   }
 
@@ -31,7 +31,7 @@ const updateUser = async_(async (req, res) => {
     file,
   } = req;
 
-  if (req.session.user.id !== Number(id)) {
+  if (req.session.user.id !== id) {
     throw new ForbiddenError("Forbidden");
   }
   if (!isEmail(email)) {

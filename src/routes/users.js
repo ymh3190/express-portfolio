@@ -8,13 +8,15 @@ const {
 const router = express.Router();
 const authenticationMiddleware = require("../middleware/authentication");
 const multer = require("multer");
-const CustomAPIStorage = require("../utils/storage");
+const customAPIStorage = require("../utils/storage");
 const uploader = multer({
-  storage: CustomAPIStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads/images");
-    },
-  }),
+  storage: process.env.NODE_ENV
+    ? customAPIStorage({
+        destination: (req, file, cb) => {
+          cb(null, "uploads/images");
+        },
+      })
+    : undefined,
   dest: "uploads/images",
   limits: { fileSize: 500 * 1024 },
 }).single("profilePhoto");

@@ -9,7 +9,6 @@ class CustomAPIStorage {
   _handleFile(req, file, cb) {
     this.getDestination(req, file, (err, path) => {
       if (err) return cb(err);
-
       ssh
         .on("ready", () => {
           ssh.sftp((err, sftp) => {

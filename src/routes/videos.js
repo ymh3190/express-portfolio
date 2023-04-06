@@ -12,13 +12,15 @@ const {
   getVideos,
 } = require("../controllers/videos");
 const router = express.Router();
-const CustomAPIStorage = require("../utils/storage");
+const customAPIStorage = require("../utils/storage");
 const uploader = multer({
-  storage: CustomAPIStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads/videos");
-    },
-  }),
+  storage: process.env.NODE_ENV
+    ? customAPIStorage({
+        destination: (req, file, cb) => {
+          cb(null, "uploads/videos");
+        },
+      })
+    : undefined,
   dest: "uploads/videos",
   limits: { fileSize: 1000 * 1024 },
 }).single("video");

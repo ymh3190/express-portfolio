@@ -17,7 +17,6 @@ const sendMail = async (session) => {
     await transporter.sendMail({
       from: process.env.MAIL_ADDRESS,
       to: session.email,
-      // to: process.env.MAIL_ADDRESS,
       subject: "Express login auth number",
       html: `<h1>Enter the following code to log in:</h1>
             <h2>${session.authNumber}</h2>`,

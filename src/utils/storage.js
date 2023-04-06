@@ -22,14 +22,13 @@ class CustomAPIStorage {
 
             outStream.once("error", cb);
             outStream.once("finish", () => {
-              const command = `ln -s ${remotePath} /var/www/html/${hex}`;
+              const command = `ln -s ${remotePath} /var/www/html/${path}/${hex}`;
               ssh.exec(command, (err, stream) => {
                 if (err) return cb(err);
 
                 stream.on("exit", () => {
-                  ssh.end();
                   cb(null, {
-                    path: `http://${process.env.DROPLETS_HOST}/${hex}`,
+                    path: `http://${process.env.DROPLETS_HOST}/${path}/${hex}`,
                     size: outStream.bytesWritten,
                   });
                 });

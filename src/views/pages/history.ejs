@@ -20,7 +20,7 @@
                                 <% if (time<1) { %>
                                   <% } %>
                                     <a href="/watch/<%= history.videoId %>" class="history__link">
-                                      <video src="/<%= history.path %>"></video>
+                                      <video src="<%= history.path %>"></video>
                                       <div class="history__link-metadata">
                                         <h2>
                                           <%= history.title %>
@@ -58,7 +58,7 @@
                                   Date(history.createdAt).getTime())/(1000*3600*24) %>
                                   <% if (time>=1 && time<2) { %>
                                       <a href="/watch/<%= history.videoId %>" class="history__link">
-                                        <video src="/<%= history.path %>"></video>
+                                        <video src="<%= history.path %>"></video>
                                       </a>
                                       <% } %>
                                         <% } %>

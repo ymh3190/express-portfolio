@@ -60,7 +60,7 @@ const updateUser = async_(async (req, res) => {
     await mysql.query(sql, [email, name, id]);
   } else {
     sql = "update users set email=?, name=?, profilePhoto=? where id=?";
-    await mysql.query(sql, [email, name, `/${file.path}`, id]);
+    await mysql.query(sql, [email, name, file.path, id]);
     sql = "update videos set userProfilePhoto=? where userId=?";
     await mysql.query(sql, [file.path, id]);
   }

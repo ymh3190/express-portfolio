@@ -6,7 +6,7 @@
         <% if (videos) { %>
           <% for (const video of videos) { %>
             <a href="/watch/<%= video.id %>" class="search__link">
-              <video src="/<%= video.path %>"></video>
+              <video src="<%= video.path %>"></video>
               <div class="search__link-metadata">
                 <h2 class="search__link-metadata__title">
                   <%= video.title %>

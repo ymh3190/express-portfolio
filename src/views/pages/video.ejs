@@ -6,7 +6,7 @@
         <% if (videos) { %>
           <% for (const video of videos) { %>
             <div class="videos-container">
-              <video src="/<%= video.path %>"></video>
+              <video src="<%= video.path %>"></video>
               <div class="videos-container-metadata">
                 <div> title: <%= video.title %>
                 </div>
@@ -29,7 +29,7 @@
             <% } %>
               <% } else if (video) { %>
                 <div class="video-container">
-                  <video src="/<%= video.path %>"></video>
+                  <video src="<%= video.path %>"></video>
                   <form method="post" action="/videos/<%= video.id %>/update" class="video-container__form">
                     <div class="video-container__form-title">
                       <div>title: <%= video.title %>

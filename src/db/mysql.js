@@ -1,4 +1,4 @@
 const mysql = require("mysql2/promise");
-const getOptions = require("../utils/getOptions");
+const mysqlOptions = require("../utils/mysqlOptions");
 
-module.exports = mysql.createPool(getOptions());
+module.exports = mysql.createPool(mysqlOptions);

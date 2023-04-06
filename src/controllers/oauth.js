@@ -3,17 +3,18 @@ const async_ = require("../middleware/async");
 const fetch = require("node-fetch");
 const mysql = require("../db/mysql");
 const bcrypt = require("bcryptjs");
+const socialOptions = require("../utils/socialOptions");
 
 const github = (req, res) => {
-  const params = `client_id=${process.env.GITHUB_CLIENT}&scope=read:user`;
+  const params = `client_id=${socialOptions.github.client}&scope=read:user`;
   const url = `https://github.com/login/oauth/authorize?${params}`;
   res.status(StatusCodes.OK).redirect(url);
 };
 
 const githubCallback = async_(async (req, res) => {
   const config = {
-    client_id: process.env.GITHUB_CLIENT,
-    client_secret: process.env.GITHUB_SECRET,
+    client_id: socialOptions.github.client,
+    client_secret: socialOptions.github.secret,
     code: req.query.code,
   };
   const params = new URLSearchParams(config).toString();
@@ -66,7 +67,7 @@ const githubCallback = async_(async (req, res) => {
 
 const facebook = (req, res) => {
   const config = {
-    client_id: process.env.FACEBOOK_CLIENT,
+    client_id: socialOptions.facebook.client,
     redirect_uri: process.env.NODE_ENV
       ? "https://express-portfolio.herokuapp.com/oauth/facebook/callback"
       : `http://localhost:${process.env.PORT}/oauth/facebook/callback`,
@@ -82,11 +83,11 @@ const facebook = (req, res) => {
 
 const facebookCallback = async_(async (req, res) => {
   let config = {
-    client_id: process.env.FACEBOOK_CLIENT,
+    client_id: socialOptions.facebook.client,
     redirect_uri: process.env.NODE_ENV
       ? "https://express-portfolio.herokuapp.com/oauth/facebook/callback"
       : `http://localhost:${process.env.PORT}/oauth/facebook/callback`,
-    client_secret: process.env.FACEBOOK_SECRET,
+    client_secret: socialOptions.facebook.secret,
     code: req.query.code,
   };
   let params = new URLSearchParams(config).toString();
@@ -140,7 +141,7 @@ const facebookCallback = async_(async (req, res) => {
 
 const google = (req, res) => {
   const config = {
-    client_id: process.env.GOOGLE_CLIENT,
+    client_id: socialOptions.google.client,
     response_type: "code",
     state: "state_parameter_passthrough_value",
     scope:
@@ -160,8 +161,8 @@ const google = (req, res) => {
 const googleCallback = async_(async (req, res) => {
   const config = {
     code: req.query.code,
-    client_id: process.env.GOOGLE_CLIENT,
-    client_secret: process.env.GOOGLE_SECRET,
+    client_id: socialOptions.google.client,
+    client_secret: socialOptions.google.secret,
     redirect_uri: process.env.NODE_ENV
       ? "https://express-portfolio.herokuapp.com/oauth/google/callback"
       : `http://localhost:${process.env.PORT}/oauth/google/callback`,
@@ -219,7 +220,7 @@ const googleCallback = async_(async (req, res) => {
 const naver = (req, res) => {
   const config = {
     response_type: "code",
-    client_id: process.env.NAVER_CLIENT,
+    client_id: socialOptions.naver.client,
     redirect_uri: process.env.NODE_ENV
       ? "https://express-portfolio.herokuapp.com/oauth/naver/callback"
       : `http://localhost:${process.env.PORT}/oauth/naver/callback`,
@@ -233,8 +234,8 @@ const naver = (req, res) => {
 const naverCallback = async_(async (req, res) => {
   const config = {
     grant_type: "authorization_code",
-    client_id: process.env.NAVER_CLIENT,
-    client_secret: process.env.NAVER_SECRET,
+    client_id: socialOptions.naver.client,
+    client_secret: socialOptions.naver.secret,
     redirect_uri: process.env.NODE_ENV
       ? "https://express-portfolio.herokuapp.com/oauth/naver/callback"
       : `http://localhost:${process.env.PORT}/oauth/naver/callback`,
@@ -290,7 +291,7 @@ const naverCallback = async_(async (req, res) => {
 
 const kakao = (req, res) => {
   const config = {
-    client_id: process.env.KAKAO_CLIENT,
+    client_id: socialOptions.kakao.client,
     redirect_uri: process.env.NODE_ENV
       ? "https://express-portfolio.herokuapp.com/oauth/kakao/callback"
       : `http://localhost:${process.env.PORT}/oauth/kakao/callback`,
@@ -304,12 +305,12 @@ const kakao = (req, res) => {
 const kakaoCallback = async_(async (req, res) => {
   const config = {
     grant_type: "authorization_code",
-    client_id: process.env.KAKAO_CLIENT,
+    client_id: socialOptions.kakao.client,
     redirect_uri: process.env.NODE_ENV
       ? "https://express-portfolio.herokuapp.com/oauth/kakao/callback"
       : `http://localhost:${process.env.PORT}/oauth/kakao/callback`,
     code: req.query.code,
-    client_secret: process.env.KAKAO_SECRET,
+    client_secret: socialOptions.kakao.secret,
   };
   const params = new URLSearchParams(config).toString();
   const url = `https://kauth.kakao.com/oauth/token?${params}`;

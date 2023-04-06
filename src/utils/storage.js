@@ -1,5 +1,6 @@
-const ssh = require("../db/ssh");
-const random = require("../utils/randomFill");
+const random = require("./randomFill");
+const { Client } = require("ssh2");
+const conn = new Client();
 
 class CustomAPIStorage {
   constructor(opts) {
@@ -9,9 +10,9 @@ class CustomAPIStorage {
   _handleFile(req, file, cb) {
     this.getDestination(req, file, (err, path) => {
       if (err) return cb(err);
-      ssh
+      conn
         .on("ready", () => {
-          ssh.sftp((err, sftp) => {
+          conn.sftp((err, sftp) => {
             if (err) return cb(err);
 
             const hex = random();
@@ -22,7 +23,7 @@ class CustomAPIStorage {
             outStream.once("error", cb);
             outStream.once("finish", () => {
               const command = `ln -s ${remotePath} /var/www/html/${path}/${hex}`;
-              ssh.exec(command, (err, stream) => {
+              conn.exec(command, (err, stream) => {
                 if (err) return cb(err);
 
                 stream.on("exit", () => {
@@ -44,7 +45,7 @@ class CustomAPIStorage {
   }
 
   _removeFile(req, file, cb) {
-    ssh.sftp((err, sftp) => {
+    conn.sftp((err, sftp) => {
       if (err) return cb(err);
       sftp.unlink(file.path, cb);
     });

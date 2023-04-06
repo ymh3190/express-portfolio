@@ -1,6 +1,6 @@
 require("dotenv").config();
 require("./db/mysql");
-const getOptions = require("./utils/getOptions");
+const mysqlOptions = require("./utils/mysqlOptions");
 
 // security
 const helmet = require("helmet");
@@ -52,7 +52,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: { secure: process.env.NODE_ENV ? true : false },
-    store: new MySQLStore(getOptions()),
+    store: new MySQLStore(mysqlOptions),
   })
 );
 app.use(localsMiddleware);

@@ -81,7 +81,7 @@ const deleteUser = async_(async (req, res) => {
     params: { id },
   } = req;
 
-  if (req.session.user.id !== Number(id)) {
+  if (req.session.user.id !== id) {
     throw new ForbiddenError("Forbidden");
   }
 

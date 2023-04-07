@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
 const mysql = require("../db/mysql");
 const bcrypt = require("bcryptjs");
 const socialOptions = require("../utils/socialOptions");
-const randomFill = require("../utils/randomFill");
+const random = require("../utils/randomFill");
 
 const github = (req, res) => {
   const params = `client_id=${socialOptions.github.client}&scope=read:user`;
@@ -45,7 +45,7 @@ const githubCallback = async_(async (req, res) => {
       sql =
         "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = randomFill();
+      const hex = random();
       await mysql.query(sql, [hex, email, name, hash, avatar_url, true]);
       sql = "select * from users where id=?";
       const [results_] = await mysql.query(sql, hex);
@@ -111,7 +111,7 @@ const facebookCallback = async_(async (req, res) => {
       sql =
         "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = randomFill();
+      const hex = random();
       await mysql.query(sql, [
         hex,
         email,
@@ -192,7 +192,7 @@ const googleCallback = async_(async (req, res) => {
       sql =
         "insert into users(id, email, name, password, social) values(?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = randomFill();
+      const hex = random();
       await mysql.query(sql, [
         hex,
         email,
@@ -264,7 +264,7 @@ const naverCallback = async_(async (req, res) => {
       sql =
         "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = randomFill();
+      const hex = random();
       await mysql.query(sql, [hex, email, name, hash, profile_image, true]);
       const [results_] = await mysql.query(
         "select * from users where id=?",
@@ -337,7 +337,7 @@ const kakaoCallback = async_(async (req, res) => {
       sql =
         "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = randomFill();
+      const hex = random();
       await mysql.query(sql, [
         hex,
         email,

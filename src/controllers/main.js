@@ -5,7 +5,7 @@ const { BadRequestError, NotFoundError } = require("../errors");
 const isEmail = require("../utils/isEmail");
 const async_ = require("../middleware/async");
 const sendMail = require("../utils/sendMail");
-const randomFill = require("../utils/randomFill");
+const random = require("../utils/randomFill");
 
 const getIndex = async_(async (req, res) => {
   const sql = "select * from videos";
@@ -43,7 +43,7 @@ const join = async_(async (req, res) => {
 
   const hash = await bcrypt.hash(password, 10);
   const sql = "insert into users(id, email, name, password) values(?, ?, ?, ?)";
-  await mysql.query(sql, [randomFill(), email, name, hash]);
+  await mysql.query(sql, [random(), email, name, hash]);
   res.status(StatusCodes.CREATED).redirect("/");
 });
 

@@ -2,7 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const mysql = require("../db/mysql");
 const { BadRequestError, NotFoundError } = require("../errors");
 const async_ = require("../middleware/async");
-const randomFill = require("../utils/randomFill");
+const random = require("../utils/randomFill");
 
 const getVideos = async_(async (req, res) => {
   const sql = "select * from videos where userId=?";
@@ -76,7 +76,7 @@ const uploadVideo = async_(async (req, res) => {
   const values = "values(?, ?, ?, ?, ?, ?, ?)";
   const sql = `${inserInto} ${values}`;
   await mysql.query(sql, [
-    randomFill(),
+    random(),
     file.path,
     title,
     description,

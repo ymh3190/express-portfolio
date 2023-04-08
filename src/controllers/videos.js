@@ -3,6 +3,7 @@ const mysql = require("../db/mysql");
 const { BadRequestError, NotFoundError } = require("../errors");
 const async_ = require("../middleware/async");
 const random = require("../utils/randomFill");
+const { conn } = require("../utils/ssh");
 
 const getVideos = async_(async (req, res) => {
   const sql = "select * from videos where userId=?";
@@ -44,11 +45,31 @@ const deleteVideo = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
+
+  const [results] = await mysql.query("select path from videos where id=?", id);
+  const video = results[0];
+  if (!video) {
+    throw new NotFoundError("Video not found");
+  }
   const sql = "delete from videos where id=?";
   await mysql.query(sql, id);
   const sql_ = "delete from histories where videoId=?";
   await mysql.query(sql_, id);
-  res.status(StatusCodes.OK).redirect("/videos");
+  const target = video.path.split("uploads/")[1];
+  conn
+    .on("ready", () => {
+      conn.exec(`rm /mnt/volume_sgp1_01/uploads/${target}`, (err, stream) => {
+        if (err) throw err;
+        stream.on("exit", () => {
+          res.status(StatusCodes.OK).redirect("/videos");
+        });
+      });
+    })
+    .connect({
+      host: process.env.DROPLETS_HOST,
+      username: process.env.DROPLETS_USER,
+      password: process.env.DROPLETS_PASSWORD,
+    });
 });
 
 const getUpload = (req, res) => {

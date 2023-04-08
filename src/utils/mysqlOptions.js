@@ -12,13 +12,6 @@ const digitalOcean = {
   },
 };
 
-const local = {
-  host: "localhost",
-  user: "admin",
-  database: "test",
-  waitForConnections: true,
-};
+const mysqlOptions = digitalOcean;
 
-const options = process.env.NODE_ENV ? digitalOcean : local;
-
-module.exports = options;
+module.exports = { mysqlOptions };

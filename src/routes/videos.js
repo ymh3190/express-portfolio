@@ -19,7 +19,6 @@ const uploader = multer({
       cb(null, "uploads/videos");
     },
   }),
-  dest: "uploads/videos",
   limits: { fileSize: 1000 * 1024 },
 }).single("video");
 

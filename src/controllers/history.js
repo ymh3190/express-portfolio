@@ -4,14 +4,8 @@ const async_ = require("../middleware/async");
 const { NotFoundError } = require("../errors");
 
 const getHistories = async_(async (req, res) => {
-  let sql = "select id from users where id=?";
-  let [results] = await mysql.query(sql, req.session.user.id);
-  const user = results[0];
-  if (!user) {
-    throw new NotFoundError("User not found");
-  }
-  sql = "select * from histories where userId=?";
-  [results] = await mysql.query(sql, user.id);
+  const sql = "select * from histories where userId=?";
+  const [results] = await mysql.query(sql, req.session.user.id);
   const histories = results;
   res
     .status(StatusCodes.OK)
@@ -30,20 +24,14 @@ const addHistory = async_(async (req, res) => {
   if (!video) {
     throw new NotFoundError("Video not found");
   }
-  sql = "select id from users where id=?";
-  [results] = await mysql.query(sql, req.session.user.id);
-  const user = results[0];
-  if (!user) {
-    throw new NotFoundError("User not found");
-  }
   sql = "select * from histories where userId=? and videoId=?";
-  [results] = await mysql.query(sql, [user.id, video.id]);
+  [results] = await mysql.query(sql, [req.session.user.id, video.id]);
   const history = results[0];
   if (!history) {
     sql =
       "insert into histories(userId, videoId, path, userName, title, description, view) values(?,?,?,?,?,?,?)";
     await mysql.query(sql, [
-      user.id,
+      req.session.user.id,
       video.id,
       video.path,
       video.userName,

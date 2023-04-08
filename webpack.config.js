@@ -2,8 +2,8 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  mode: process.env.NODE_ENV ? "production" : "development",
-  watch: process.env.NODE_ENV ? false : true,
+  mode: process.env.NODE_ENV,
+  watch: false,
   entry: {
     main: "./src/public/js/main.js",
     videoPlayer: "./src/public/js/videoPlayer.js",

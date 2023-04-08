@@ -56,12 +56,29 @@ const deleteVideo = async_(async (req, res) => {
   const sql_ = "delete from histories where videoId=?";
   await mysql.query(sql_, id);
   const target = video.path.split("uploads/")[1];
+  const volumePath = `/mnt/volume_sgp1_01/uploads/${target}`;
+  const linkPath = `/var/www/html/uploads/${target}`;
   conn
     .on("ready", () => {
-      conn.exec(`rm /mnt/volume_sgp1_01/uploads/${target}`, (err, stream) => {
+      // conn.exec(`rm ${linkPath}`, (err, stream) => {
+      //   if (err) throw err;
+      // });
+      // conn.exec(`rm ${volumePath}`, (err, stream) => {
+      //   if (err) throw err;
+      //   stream.on("exit", () => {
+      //     res.status(StatusCodes.OK).redirect("/videos");
+      //   });
+      // });
+      conn.shell(`rm ${linkPath} ${volumePath}`, (err, stream) => {
         if (err) throw err;
         stream.on("exit", () => {
           res.status(StatusCodes.OK).redirect("/videos");
+        });
+      });
+      conn.shell((err, stream) => {
+        if (err) throw err;
+        stream.on("data", (data) => {
+          console.log(`data :: ${data}`);
         });
       });
     })

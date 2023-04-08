@@ -60,26 +60,13 @@ const deleteVideo = async_(async (req, res) => {
   const linkPath = `/var/www/html/uploads/${target}`;
   conn
     .on("ready", () => {
-      // conn.exec(`rm ${linkPath}`, (err, stream) => {
-      //   if (err) throw err;
-      // });
-      // conn.exec(`rm ${volumePath}`, (err, stream) => {
-      //   if (err) throw err;
-      //   stream.on("exit", () => {
-      //     res.status(StatusCodes.OK).redirect("/videos");
-      //   });
-      // });
-      conn.shell(`rm ${linkPath} ${volumePath}`, (err, stream) => {
-        if (err) throw err;
-        stream.on("exit", () => {
-          res.status(StatusCodes.OK).redirect("/videos");
-        });
-      });
       conn.shell((err, stream) => {
         if (err) throw err;
-        stream.on("data", (data) => {
-          console.log(`data :: ${data}`);
+        stream.on("exit", () => {
+          conn.end();
+          res.status(StatusCodes.OK).redirect("/videos");
         });
+        stream.end(`rm ${linkPath} ${volumePath}\nexit\n`);
       });
     })
     .connect({

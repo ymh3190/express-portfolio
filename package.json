@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node src/app.js",
     "build": "npm run dist",
-    "dev": "nodemon src/app.js",
     "dist": "webpack"
   },
   "repository": {

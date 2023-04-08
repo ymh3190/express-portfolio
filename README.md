@@ -6,7 +6,7 @@
 - 제작의도: 기존 wetube-portfolio에서 db변경과 코드 개선에 목적이 있음
 - 개발 툴: postman, swagger
 - 배포 서버: heroku(paas)
-- 디비 서버: digitalocean database(paas, mysqldb)
+- db 서버: digitalocean database(paas, mysqldb)
 - 스토리지 서버(SSL 문제로, AWS S3로 변경예정): digitalocean volume(iaas, ubuntu 20.04+apache)
 
 - 구현 기능

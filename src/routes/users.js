@@ -10,13 +10,11 @@ const authenticationMiddleware = require("../middleware/authentication");
 const multer = require("multer");
 const customAPIStorage = require("../utils/storage");
 const uploader = multer({
-  storage: process.env.NODE_ENV
-    ? customAPIStorage({
-        destination: (req, file, cb) => {
-          cb(null, "uploads/images");
-        },
-      })
-    : undefined,
+  storage: customAPIStorage({
+    destination: (req, file, cb) => {
+      cb(null, "uploads/images");
+    },
+  }),
   dest: "uploads/images",
   limits: { fileSize: 500 * 1024 },
 }).single("profilePhoto");

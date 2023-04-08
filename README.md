@@ -1,13 +1,9 @@
 # express-portfolio
 
-- 홈페이지 주소: <https://express-portfolio.herokuapp.com/> (비용 발생으로 언제든지 종료될 수 있음, ymh3190@gmail.com으로 연락주시면 서버를 오픈 해드릴 예정입니다.)
-- API Specification: <https://express-portfolio.herokuapp.com/api> (작성중)
+- 홈페이지 주소(과금문제로, AWS EB로 변경예정): <https://express-portfolio.herokuapp.com/>
+- API Specification: <https://express-portfolio.herokuapp.com/api>
 
 - 제작의도: 기존 wetube-portfolio에서 db변경과 코드 개선에 목적이 있음
-  - 개선코드
-    - [x] storage engine: ssh, sftp, ufw, Ubuntu 20.04, Apache
-    - [x] async await & try catch 반복 개선
-
 - 개발 툴: expressjs, postman, swagger
 
 - 구현 기능

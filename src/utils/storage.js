@@ -1,6 +1,5 @@
 const random = require("./randomFill");
-const { Client } = require("ssh2");
-const conn = new Client();
+const { conn } = require("./ssh");
 
 class CustomAPIStorage {
   constructor(opts) {

@@ -23,12 +23,12 @@ const rateLimiter = require("express-rate-limit")({
 router.route("/").get(getIndex);
 router
   .route("/join")
-  .get(publicOnlyMiddleware, getJoin)
-  .post(rateLimiter, join);
+  .get(rateLimiter, publicOnlyMiddleware, getJoin)
+  .post(join);
 router
   .route("/login")
-  .get(publicOnlyMiddleware, getLogin)
-  .post(rateLimiter, login);
+  .get(rateLimiter, publicOnlyMiddleware, getLogin)
+  .post(login);
 router.route("/search").get(search);
 router
   .route("/find-password")

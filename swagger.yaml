@@ -1,15 +1,17 @@
 openapi: 3.0.0
 info:
-  title: Express-Portfolio
-  version: "1.0.0"
+  title: Express-Portfolio API
+  contact: {}
+  version: "1.0"
 servers:
   - url: https://express-portfolio.herokuapp.com
+    variables: {}
 paths:
   /:
     get:
       tags:
-        - Videos
-      summary: Get all videos
+        - /
+      summary: 업로드된 모든 비디오를 렌더합니다.
       operationId: getIndex
       parameters: []
       responses:
@@ -20,18 +22,25 @@ paths:
   /join:
     get:
       tags:
-        - Join
-      summary: Show join page
+        - /
+      summary: 로그인 페이지를 렌더합니다
       operationId: getJoin
+      parameters: []
       responses:
         "200":
           description: ""
-          headers: {}
+          headers:
+            X-Rate-Limit:
+              description: 한 IP당 15분에 100번 요청 제한
+              schema:
+                # TODO: 타입과 포맷 확인하기
+                type:
+                format:
       deprecated: false
     post:
       tags:
-        - Join
-      summary: Join user
+        - /
+      summary: 유저를 가입시킵니다
       operationId: join
       parameters: []
       requestBody:
@@ -39,10 +48,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/JoinRequest"
+              $ref: "#/components/schemas/JoinUserRequest"
             example:
-              email: ymh3190@gmail.com
-              name: ymh3190
+              email: a@a.com
+              name: a
               password: secret
               confirm: secret
         required: true
@@ -50,13 +59,152 @@ paths:
         "201":
           description: ""
           headers: {}
+        "400":
+          description: 잘못된 요청 "email, name, password, confirm"
+          headers: {}
       deprecated: false
-      security: []
-
+  /login:
+    get:
+      tags:
+        - /
+      summary: 로그인 페이지를 렌더합니다
+      operationId: getLogin
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+    post:
+      tags:
+        - /
+      summary: 유저를 로그인시킵니다
+      operationId: login
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginUserRequest"
+            example:
+              email: a@a.com
+              password: secret
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+        "400":
+          description: 잘못된 요청 "email, password"
+          headers: {}
+        "404":
+          description: 유저를 찾을 수 없습니다
+          headers: {}
+  /search:
+    get:
+      tags:
+        - /
+      summary: 비디오를 검색합니다
+      operationId: search
+      parameters:
+        - in: path
+          name: query
+          schema:
+            type: string
+          required: true
+          description: ""
+      responses:
+        "200":
+          description: 관련 검색어로 비디오를 찾습니다
+          headers: {}
+  /find-password:
+    get:
+      tags:
+        - /
+      summary: 비밀번호 찾기 페이지를 렌더합니다
+      operationId: getFindPassword
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+    post:
+      tags:
+        - /
+      summary: 비밀번호를 찾습니다
+      operationId: findPassword
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FindPasswordRequest"
+            example:
+              email: a@a.com
+              authNumber: 123456
+        required: true
+      responses:
+        "200":
+          description: 이메일이 입력되면 인증번호를 입력한 이메일로 보냅니다. 인증번호가 입력되면 비밀번호 초기화 페이지를 렌더합니다
+          headers: {}
+      deprecated: false
+  /init-password:
+    get:
+      tags:
+        - /
+      summary: 비밀번호 초기화 페이지를 렌더합니다
+      operationId: getInitPassword
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+    post:
+      tags:
+        - /
+      summary: 비밀번호를 초기화합니다
+      operationId: initPassword
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InitPasswordRequest"
+            example:
+              password: secret
+              confirm: secret
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+        "400":
+          description: 잘못된 요청 "password, confirm"
+          headers: {}
+      deprecated: false
+  /watch/${id(\w{32})}:
+    get:
+      tags:
+        - /
+      summary: 특정 비디오를 시청합니다
+      operationId: getWatch
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
 components:
   schemas:
-    JoinRequest:
-      title: JoinRequest
+    JoinUserRequest:
+      title: JoinUserRequest
       required:
         - email
         - name
@@ -73,7 +221,50 @@ components:
         confirm:
           type: string
       example:
-        email: test@test.com
-        name: test
+        email: a@a.com
+        name: a
         password: secret
         confirm: secret
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: a@a.com
+        password: secret
+    FindPasswordRequest:
+      title: FindPasswordRequest
+      required:
+        - email
+        - authNumber
+      properties:
+        email:
+          type: string
+        authNumber:
+          type: number
+      example:
+        email: a@a.com
+        authNumber: 123456
+    InitPasswordRequest:
+      title: InitPasswordRequest
+      required:
+        - password
+        - confirm
+      properties:
+        password:
+          type: string
+        confirm:
+          type: string
+      example:
+        password: secret
+        confirm: secret
+tags:
+  - name: Video
+    description: ""

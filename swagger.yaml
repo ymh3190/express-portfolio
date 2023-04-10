@@ -266,5 +266,9 @@ components:
         password: secret
         confirm: secret
 tags:
+  - name: /
+    description: ""
+  - name: User
+    description: ""
   - name: Video
     description: ""

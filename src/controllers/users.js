@@ -14,7 +14,7 @@ const getUser = async_(async (req, res) => {
     throw new ForbiddenError("Forbidden");
   }
 
-  const sql = "select * from users where id=?";
+  const sql = "SELECT * FROM `users` WHERE `id` = ?";
   const [results] = await mysql.query(sql, id);
   const user = results[0];
   if (!user) {
@@ -38,8 +38,10 @@ const updateUser = async_(async (req, res) => {
     throw new BadRequestError("Email invalid");
   }
 
-  let sql = "select password, social from users where id=? and email=?";
-  const [results] = await mysql.query(sql, [id, email]);
+  let sql =
+    "SELECT password, social FROM `users` WHERE `id` = ? AND `email` = ?";
+  let values = [id, email];
+  const [results] = await mysql.query(sql, values);
   const user = results[0];
   if (!user) {
     throw new NotFoundError("User not found");
@@ -56,16 +58,20 @@ const updateUser = async_(async (req, res) => {
   }
 
   if (!file) {
-    sql = "update users set email=?, name=? where id=?";
-    await mysql.query(sql, [email, name, id]);
+    sql = "UPDATE `users` SET email = ?, name = ? WHERE `id` = ?";
+    values = [email, name, id];
+    await mysql.query(sql, values);
   } else {
-    sql = "update users set email=?, name=?, profilePhoto=? where id=?";
-    await mysql.query(sql, [email, name, file.path, id]);
-    sql = "update videos set userProfilePhoto=? where userId=?";
-    await mysql.query(sql, [file.path, id]);
+    sql =
+      "UPDATE `users` SET email = ?, name = ?, profilePhoto = ? WHERE `id` = ?";
+    values = [email, name, file.path, id];
+    await mysql.query(sql, values);
+    sql = "UPDATE `videos` SET userProfilePhoto = ? WHERE `userId` = ?";
+    values = [file.path, id];
+    await mysql.query(sql, values);
   }
 
-  sql = "select * from users where id=?";
+  sql = "SELECT * FROM `users` WHERE `id` = ?";
   const [results_] = await mysql.query(sql, id);
   const user_ = results_[0];
   if (!user_) {
@@ -85,9 +91,9 @@ const deleteUser = async_(async (req, res) => {
     throw new ForbiddenError("Forbidden");
   }
 
-  await mysql.query("delete from videos where userId=?", id);
-  await mysql.query("delete from comments where userId=?", id);
-  const [results] = await mysql.query("delete from users where id=?", id);
+  await mysql.query("DELETE FROM `videos` WHERE `userId` = ?", id);
+  await mysql.query("DELETE FROM `comments` WHERE `userId` = ?", id);
+  const [results] = await mysql.query("DELETE FROM `users` WHERE `id` = ?", id);
   if (!results.affectedRows) {
     throw new NotFoundError("User not found");
   }

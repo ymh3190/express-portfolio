@@ -6,7 +6,7 @@ const random = require("../utils/randomFill");
 const { conn } = require("../utils/ssh");
 
 const getVideos = async_(async (req, res) => {
-  const sql = "select * from videos where userId=?";
+  const sql = "SELECT * FROM `videos` WHERE `userId` = ?";
   const [results] = await mysql.query(sql, req.session.user.id);
   const videos = results;
   res
@@ -19,8 +19,9 @@ const getVideo = async_(async (req, res) => {
     params: { id },
   } = req;
 
-  const sql = "select * from videos where id=? and userId=?";
-  const [results] = await mysql.query(sql, [id, req.session.user.id]);
+  const sql = "SELECT * FROM `videos` WHERE `id` = ? AND `userId` = ?";
+  const values = [id, req.session.user.id];
+  const [results] = await mysql.query(sql, values);
   const video = results[0];
   res
     .status(StatusCodes.OK)
@@ -36,8 +37,9 @@ const updateVideo = async_(async (req, res) => {
   if (!title || !description) {
     throw new BadRequestError("Provide title and description");
   }
-  const sql = "update videos set title=?, description=? where id=?";
-  await mysql.query(sql, [title, description, id]);
+  const sql = "UPDATE `videos` SET title = ?, description = ? WHERE `id` = ?";
+  const values = [title, description, id];
+  await mysql.query(sql, values);
   res.status(StatusCodes.OK).redirect(`/videos/${id}`);
 });
 
@@ -46,15 +48,16 @@ const deleteVideo = async_(async (req, res) => {
     params: { id },
   } = req;
 
-  const [results] = await mysql.query("select path from videos where id=?", id);
+  let sql = "SELECT path FROM `videos` WHERE `id` = ?";
+  const [results] = await mysql.query(sql, id);
   const video = results[0];
   if (!video) {
     throw new NotFoundError("Video not found");
   }
-  const sql = "delete from videos where id=?";
+  sql = "DELETE FROM `videos` WHERE `id` = ?";
   await mysql.query(sql, id);
-  const sql_ = "delete from histories where videoId=?";
-  await mysql.query(sql_, id);
+  sql = "DELETE FROM `histories` WHERE `videoId` = ?";
+  await mysql.query(sql, id);
   const target = video.path.split("uploads/")[1];
   const volumePath = `/mnt/volume_sgp1_01/uploads/${target}`;
   const linkPath = `/var/www/html/uploads/${target}`;
@@ -91,24 +94,24 @@ const uploadVideo = async_(async (req, res) => {
   }
 
   const [results] = await mysql.query(
-    "select profilePhoto, name from users where id=?",
+    "SELECT profilePhoto, name FROM `users` WHERE `id` = ?",
     req.session.user.id
   );
   const { profilePhoto, name } = results[0];
 
-  const inserInto =
-    "insert into videos(id, path, title, description, userId, userProfilePhoto, userName)";
-  const values = "values(?, ?, ?, ?, ?, ?, ?)";
-  const sql = `${inserInto} ${values}`;
-  await mysql.query(sql, [
-    random(),
+  const sql =
+    "INSERT INTO `videos`(id, path, title, description, userId, userProfilePhoto, userName) VALUES(?, ?, ?, ?, ?, ?, ?)";
+  const id = random();
+  const values = [
+    id,
     file.path,
     title,
     description,
     req.session.user.id,
     profilePhoto,
     name,
-  ]);
+  ];
+  await mysql.query(sql, values);
   res.status(StatusCodes.CREATED).redirect("/");
 });
 
@@ -124,14 +127,14 @@ const addComment = async_(async (req, res) => {
     throw new BadRequestError("Provide videoId");
   }
 
-  let sql = "select id, name from users where id=?";
+  let sql = "SELECT id, name FROM `users` WHERE `id` = ?";
   const [results] = await mysql.query(sql, req.session.user.id);
   const user = results[0];
   if (!user) {
     throw new NotFoundError("User not found");
   }
 
-  sql = "select id from videos where id=?";
+  sql = "SELECT id FROM `videos` WHERE `id` = ?";
   const [results_] = await mysql.query(sql, videoId);
   const video = results_[0];
   if (!video) {
@@ -139,13 +142,9 @@ const addComment = async_(async (req, res) => {
   }
 
   sql =
-    "insert into comments(context, videoId, userId, userName) values(?, ?, ?, ?)";
-  const results__ = await mysql.query(sql, [
-    context,
-    video.id,
-    user.id,
-    user.name,
-  ]);
+    "INSERT INTO `comments`(context, videoId, userId, userName) VALUES(?, ?, ?, ?)";
+  const values = [context, video.id, user.id, user.name];
+  const results__ = await mysql.query(sql, values);
   const { insertId: commentId } = results__[0];
 
   res
@@ -158,7 +157,7 @@ const deleteComment = async_(async (req, res) => {
     body: { commentId },
   } = req;
 
-  const sql = "delete from comments where id=?";
+  const sql = "DELETE FROM `comments` WHERE `id` = ?";
   await mysql.query(sql, commentId);
   res.status(StatusCodes.OK).end();
 });
@@ -168,13 +167,13 @@ const addView = async_(async (req, res) => {
     params: { id },
   } = req;
 
-  let sql = "select * from videos where id=?";
+  let sql = "SELECT * FROM `videos` WHERE `id` = ?";
   const [results] = await mysql.query(sql, id);
   const video = results[0];
   if (!video) {
     throw new NotFoundError("Video not found");
   }
-  sql = "update videos set view=videos.view+1 where id=?";
+  sql = "UPDATE `videos` SET view = videos.view+1 WHERE `id` = ?";
   await mysql.query(sql, id);
   res.status(StatusCodes.OK).end();
 });

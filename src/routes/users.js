@@ -6,7 +6,6 @@ const {
   logout,
 } = require("../controllers/users");
 const router = express.Router();
-const authenticationMiddleware = require("../middleware/authentication");
 const multer = require("multer");
 const customAPIStorage = require("../utils/storage");
 const uploader = multer({
@@ -18,11 +17,9 @@ const uploader = multer({
   limits: { fileSize: 500 * 1024 },
 }).single("profilePhoto");
 
-router.route("/:id(\\w{32})").get(authenticationMiddleware, getUser);
-router
-  .route("/:id(\\w{32})/update")
-  .post(authenticationMiddleware, uploader, updateUser);
-router.route("/:id(\\w{32})/delete").get(authenticationMiddleware, deleteUser);
-router.route("/logout").get(authenticationMiddleware, logout);
+router.route("/:id(\\w{32})").get(getUser);
+router.route("/:id(\\w{32})/update").post(uploader, updateUser);
+router.route("/:id(\\w{32})/delete").get(deleteUser);
+router.route("/logout").get(logout);
 
 module.exports = router;

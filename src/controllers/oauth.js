@@ -38,17 +38,18 @@ const githubCallback = async_(async (req, res) => {
     });
     const data_ = await response_.json();
     const { email, avatar_url, name } = data_;
-    let sql = "select * from users where email=?";
+    let sql = "SELECT * FROM `users` WHERE `email` = ?";
     const [results] = await mysql.query(sql, email);
     const user = results[0];
     if (!user) {
       sql =
-        "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
+        "INSERT INTO `users`(id, email, name, password, profilePhoto, social) VALUES(?, ?, ?, ?, ?, ?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = random();
-      await mysql.query(sql, [hex, email, name, hash, avatar_url, true]);
-      sql = "select * from users where id=?";
-      const [results_] = await mysql.query(sql, hex);
+      const id = random();
+      const values = [id, email, name, hash, avatar_url, true];
+      await mysql.query(sql, values);
+      sql = "SELECT * FROM `users` WHERE `id` = ?";
+      const [results_] = await mysql.query(sql, id);
       const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;
@@ -102,26 +103,19 @@ const facebookCallback = async_(async (req, res) => {
     const data_ = await fetch(url);
     const { email, first_name, last_name, picture } = await data_.json();
 
-    let sql = "select * from users where email=?";
+    let sql = "SELECT * FROM `users` WHERE `email` = ?";
     const [results] = await mysql.query(sql, email);
     const user = results[0];
     if (!user) {
       sql =
-        "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
+        "INSERT INTO `users`(id, email, name, password, profilePhoto, social) VALUES(?, ?, ?, ?, ?, ?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = random();
-      await mysql.query(sql, [
-        hex,
-        email,
-        `${first_name} ${last_name}`,
-        hash,
-        picture.data.url,
-        true,
-      ]);
-      const [results_] = await mysql.query(
-        "select * from users where id=?",
-        hex
-      );
+      const id = random();
+      const name = `${first_name} ${last_name}`;
+      const values = [id, email, name, hash, picture.data.url, true];
+      await mysql.query(sql, values);
+      sql = "SELECT * FROM `users` WHERE `id` = ?";
+      const [results_] = await mysql.query(sql, id);
       const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;
@@ -181,25 +175,18 @@ const googleCallback = async_(async (req, res) => {
     const data_ = await response_.json();
     const { email, given_name, family_name } = data_;
 
-    let sql = "select * from users where email=?";
+    let sql = "SELECT * FROM `users` WHERE `email` = ?";
     const [results] = await mysql.query(sql, email);
     const user = results[0];
     if (!user) {
       sql =
-        "insert into users(id, email, name, password, social) values(?,?,?,?,?)";
+        "INSERT INTO `users`(id, email, name, password, profilePhoto, social) VALUES(?, ?, ?, ?, ?, ?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = random();
-      await mysql.query(sql, [
-        hex,
-        email,
-        `${given_name} ${family_name}`,
-        hash,
-        true,
-      ]);
-      const [results_] = await mysql.query(
-        "select * from users where id=?",
-        hex
-      );
+      const id = random();
+      const values = [id, email, `${given_name} ${family_name}`, hash, true];
+      await mysql.query(sql, values);
+      sql = "SELECT * FROM `users` WHERE `id` = ?";
+      const [results_] = await mysql.query(sql, id);
       const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;
@@ -251,19 +238,17 @@ const naverCallback = async_(async (req, res) => {
       response: { email, name, profile_image },
     } = data_;
 
-    let sql = "select * from users where email=?";
+    let sql = "SELECT * FROM `users` WHERE `email` = ?";
     const [results] = await mysql.query(sql, email);
     const user = results[0];
     if (!user) {
       sql =
-        "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
+        "INSERT INTO `users`(id, email, name, password, profilePhoto, social) VALUES(?, ?, ?, ?, ?, ?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = random();
-      await mysql.query(sql, [hex, email, name, hash, profile_image, true]);
-      const [results_] = await mysql.query(
-        "select * from users where id=?",
-        hex
-      );
+      const id = random();
+      await mysql.query(sql, [id, email, name, hash, profile_image, true]);
+      sql = "SELECT * FROM `users` WHERE `id` = ?";
+      const [results_] = await mysql.query(sql, id);
       const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;
@@ -321,27 +306,18 @@ const kakaoCallback = async_(async (req, res) => {
       },
     } = data_;
 
-    let sql = "select * from users where email=?";
+    let sql = "SELECT * FROM `users` WHERE `email` = ?";
     const [results] = await mysql.query(sql, email);
     const user = results[0];
-
     if (!user) {
       sql =
-        "insert into users(id, email, name, password, profilePhoto, social) values(?,?,?,?,?,?)";
+        "INSERT INTO `users`(id, email, name, password, profilePhoto, social) VALUES(?, ?, ?, ?, ?, ?)";
       const hash = await bcrypt.hash("", 10);
-      const hex = random();
-      await mysql.query(sql, [
-        hex,
-        email,
-        nickname,
-        hash,
-        profile_image_url,
-        true,
-      ]);
-      const [results_] = await mysql.query(
-        "select * from users where id=?",
-        hex
-      );
+      const id = random();
+      const values = [id, email, nickname, hash, profile_image_url, true];
+      await mysql.query(sql, values);
+      sql = "SELECT * FROM `users` WHERE `id` = ?";
+      const [results_] = await mysql.query(sql, id);
       const user_ = results_[0];
       req.session.user = user_;
       delete req.session.user.password;

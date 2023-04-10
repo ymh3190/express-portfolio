@@ -39,7 +39,10 @@ app.set("trust proxy", 1);
 app.set("view engine", "ejs");
 app.set("views", process.cwd() + "/src/views");
 app.use(
-  helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false })
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
 );
 app.use(cors());
 app.use(xss());
@@ -57,11 +60,10 @@ app.use(
 );
 app.use(localsMiddleware);
 app.use("/dist", express.static("dist"));
-app.use("/uploads", express.static("uploads"));
 
 app.use("/api", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use("/", mainRouter);
-app.use("/users", userRouter);
+app.use("/users", authenticationMiddleware, userRouter);
 app.use("/videos", authenticationMiddleware, videoRouter);
 app.use("/oauth", publicOnlyMiddleware, oauthRouter);
 app.use("/history", authenticationMiddleware, historyRouter);

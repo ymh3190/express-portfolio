@@ -8,7 +8,7 @@ const sendMail = require("../utils/sendMail");
 const random = require("../utils/randomFill");
 
 const getIndex = async_(async (req, res) => {
-  const sql = "select * from videos";
+  const sql = "SELECT * FROM videos";
   const [results] = await mysql.query(sql);
   const videos = results;
   res
@@ -42,7 +42,8 @@ const join = async_(async (req, res) => {
   }
 
   const hash = await bcrypt.hash(password, 10);
-  const sql = "insert into users(id, email, name, password) values(?, ?, ?, ?)";
+  const sql =
+    "INSERT INTO `users`(id, email, name, password) VALUES(?, ?, ?, ?)";
   await mysql.query(sql, [random(), email, name, hash]);
   res.status(StatusCodes.CREATED).redirect("/");
 });
@@ -59,7 +60,7 @@ const login = async_(async (req, res) => {
     throw new BadRequestError("Email invalid");
   }
 
-  const sql = "select * from users where email=?";
+  const sql = "SELECT * FROM `users` WHERE `email` = ?";
   const [results] = await mysql.query(sql, email);
   const user = results[0];
   if (!user) {
@@ -79,7 +80,8 @@ const search = async_(async (req, res) => {
     query: { query },
   } = req;
 
-  const sql = "select * from videos where title like ? or description like ?";
+  const sql =
+    "SELECT * FROM `videos` WHERE `title` LIKE ? OR `description` LIKE ?";
   const [results] = await mysql.query(sql, [`%${query}%`, `%${query}%`]);
   const videos = results;
   res
@@ -106,7 +108,7 @@ const findPassword = async_(async (req, res) => {
     if (!isEmail(email)) {
       throw new BadRequestError("Email invalid");
     }
-    const sql = "select email from users where email=?";
+    const sql = "SELECT email FROM `users` WHERE `email` = ?";
     const [results] = await mysql.query(sql, email);
     const user = results[0];
     if (!user) {
@@ -119,7 +121,7 @@ const findPassword = async_(async (req, res) => {
     if (req.session.authNumber !== Number(authNumber)) {
       throw new BadRequestError("authNumber invalid");
     }
-    const sql = "select * from users where email=?";
+    const sql = "SELECT * FROM `users` WHERE `email` = ?";
     const [results] = await mysql.query(sql, req.session.email);
     delete req.session.email;
     delete req.session.authNumber;
@@ -151,7 +153,7 @@ const initPassword = async_(async (req, res) => {
     throw new BadRequestError("Password does not match confirm password");
   }
   const hash = await bcrypt.hash(password, 10);
-  const sql = "update users set password=? where id=?";
+  const sql = "UPDATE `users` SET password = ? WHERE `id` = ?";
   await mysql.query(sql, [hash, req.session.user.id]);
   delete req.session.user;
   res.status(StatusCodes.OK).redirect("/");
@@ -162,13 +164,13 @@ const getWatch = async_(async (req, res) => {
     params: { id },
   } = req;
 
-  let sql = "select * from videos where id=?";
+  let sql = "SELECT * FROM `videos` WHERE `id` = ?";
   const [results] = await mysql.query(sql, id);
   const video = results[0];
   if (!video) {
     throw new NotFoundError("Video not found");
   }
-  sql = "select * from comments where videoId=?";
+  sql = "SELECT * FROM `comments` WHERE `videoId` = ?";
   const [results_] = await mysql.query(sql, id);
   const comments = results_;
   res.status(StatusCodes.OK).render("pages/watch", {

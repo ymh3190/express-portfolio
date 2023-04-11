@@ -91,8 +91,6 @@ const deleteUser = async_(async (req, res) => {
     throw new ForbiddenError("Forbidden");
   }
 
-  await mysql.query("DELETE FROM `videos` WHERE `userId` = ?", id);
-  await mysql.query("DELETE FROM `comments` WHERE `userId` = ?", id);
   const [results] = await mysql.query("DELETE FROM `users` WHERE `id` = ?", id);
   if (!results.affectedRows) {
     throw new NotFoundError("User not found");

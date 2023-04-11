@@ -56,8 +56,6 @@ const deleteVideo = async_(async (req, res) => {
   }
   sql = "DELETE FROM `videos` WHERE `id` = ?";
   await mysql.query(sql, id);
-  sql = "DELETE FROM `histories` WHERE `videoId` = ?";
-  await mysql.query(sql, id);
   const target = video.path.split("uploads/")[1];
   const volumePath = `/mnt/volume_sgp1_01/uploads/${target}`;
   const linkPath = `/var/www/html/uploads/${target}`;
@@ -98,7 +96,6 @@ const uploadVideo = async_(async (req, res) => {
     req.session.user.id
   );
   const { profilePhoto, name } = results[0];
-
   const sql =
     "INSERT INTO `videos`(id, path, title, description, userId, userProfilePhoto, userName) VALUES(?, ?, ?, ?, ?, ?, ?)";
   const id = random();

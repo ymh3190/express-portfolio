@@ -5,8 +5,8 @@
 - SQL
 
   ```zsh
-  mysqldump -uroot --database db_name > dump_name.sql
-  mysql -u doadmin -p -h express-portfolio-do-user-13829492-0.b.db.ondigitalocean.com -P 25060 -D defaultdb < dump_name.sql
+    mysqldump -uroot --database db_name > dump_name.sql
+    mysql -u doadmin -p -h express-portfolio-do-user-13829492-0.b.db.ondigitalocean.com -P 25060 -D defaultdb < dump_name.sql
   ```
 
   ```zsh
@@ -59,7 +59,9 @@
     description VARCHAR(100),
     view INT DEFAULT 0,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (user_id, video_id));
+    PRIMARY KEY (user_id, video_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (video_id) REFERENCES videos(id) ON DELETE CASCADE);
   ```
 
 - Linux

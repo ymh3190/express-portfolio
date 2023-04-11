@@ -139,14 +139,14 @@ const addComment = async_(async (req, res) => {
   }
 
   sql =
-    "INSERT INTO `comments`(context, videoId, userId, userName) VALUES(?, ?, ?, ?)";
-  const values = [context, video.id, user.id, user.name];
-  const results__ = await mysql.query(sql, values);
-  const { insertId: commentId } = results__[0];
+    "INSERT INTO `comments`(id, context, videoId, userId, userName) VALUES(?, ?, ?, ?, ?)";
+  const id = random();
+  const values = [id, context, video.id, user.id, user.name];
+  await mysql.query(sql, values);
 
   res
     .status(StatusCodes.OK)
-    .json({ comment: context, commentId, userName: user.name });
+    .json({ comment: context, commentId: id, userName: user.name });
 });
 
 const deleteComment = async_(async (req, res) => {

@@ -2,23 +2,6 @@
 
 - 홈페이지(과금 문제로, AWS EB로 변경예정): <https://express-portfolio.herokuapp.com/> (9~18시 런타임)
 
-  ```
-  1. 현재 동영상 업로드 후 보이지 않는 문제는 HTTPS(IP주소만으론 SSL발급 불가)프토토콜 구현 불가에 기인한 것으로 기능엔 문제 없습니다
-  2. 실제 서비스가 아니기에 소셜 로그인은 개발 ID로만 가능합니다. 이메일 가입후 테스트하시기 바랍니다
-  3. 파일업로드시 동영상은 1000K, 프로필사진은 500K로 용량 제한이 있습니다
-  ```
-
-- API Specification: <https://express-portfolio.herokuapp.com/api> (작성중)
-
-- 제작의도: 기존 wetube-portfolio에서 db와 뷰엔진 변경 그리고 +@에 목적이 있습니다.
-- 관련기술
-  - iaas: ubuntu + apache로 서버 환경 구축
-  - ssh: <https://github.com/ymh3190/express-portfolio/blob/main/src/utils/storage.js>
-- 개발 툴: Postman, Swagger
-- 배포 서버: Heroku(paas)
-- db 서버: Digitalocean database(paas, mysql)
-- storage 서버(SSL 문제로, AWS S3로 변경예정): Digitalocean volume(iaas, ubuntu20.04+apache2)
-
 - 구현 기능
   - 유저, 비디오에 대한 CRUD(CREATE, READ, UPDATE, DELETE)
   - 소셜 로그인(Github, Facebook, Google, Naver, Kakao)
@@ -38,7 +21,7 @@
   - <img src="https://user-images.githubusercontent.com/59950687/230854382-3037c59c-1158-4e74-8fea-a0fad4269824.gif" alt="" width="500px">
 
   ```
-  Github 소셜 로그인
+  깃허브 소셜 로그인
   ```
 
   - <img src="https://user-images.githubusercontent.com/59950687/230854391-c6eaac73-92ff-48dc-a1b4-c4b62cb8f660.gif" alt="" width="500px">
@@ -66,3 +49,21 @@
   ```
 
   - <img src="https://user-images.githubusercontent.com/59950687/230854387-4c507501-faaa-43fc-9e28-52c337e58c5a.gif" alt="" width="500px">
+
+  ```
+  1. 현재 동영상 업로드 후 보이지 않는 문제는 HTTPS(IP주소만으론 SSL발급 불가)프토토콜 구현 불가에 기인한 것으로 기능엔 문제 없습니다
+  2. 실제 서비스가 아니기에 소셜 로그인은 개발 ID로만 가능합니다. 이메일 가입후 테스트하시기 바랍니다
+  3. 파일업로드시 동영상은 1000K, 프로필사진은 500K로 용량 제한이 있습니다
+  ```
+
+- API Specification: <https://express-portfolio.herokuapp.com/api> (작성중)
+
+- 제작의도: mysql, ejs 사용법 그리고 +@에 목적이 있습니다.
+
+- 관련기술
+  - iaas: ubuntu + apache로 서버 환경 구축
+  - ssh: <https://github.com/ymh3190/express-portfolio/blob/main/src/utils/storage.js>
+- 개발 툴: Postman, Swagger
+- 배포 서버: Heroku(paas)
+- db 서버: Digitalocean database(paas, mysql)
+- storage 서버(SSL 문제로, AWS S3로 변경예정): Digitalocean volume(iaas, ubuntu20.04+apache2)

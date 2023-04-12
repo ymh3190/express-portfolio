@@ -1,8 +1,20 @@
 # express-portfolio
 
-- AWS EB 변경예정: <https://express-portfolio.herokuapp.com/> (9~18시 ON)
-- API Specification: <https://express-portfolio.herokuapp.com/api>
-- SQL
+- [홈페이지, AWS EB 변경예정, (9~18시 ON), Heroku 사용 &rarr;](https://express-portfolio.herokuapp.com/)
+- [API Specification(틈틈이 작성중) &rarr;](https://express-portfolio.herokuapp.com/api)
+- [Custom storage engine 설명 &rarr;](https://github.com/ymh3190/express-portfolio/blob/main/src/utils/storage.js)
+- 관련 Linux 명령어
+  - chmod 777 -R folder_path\n lsof -i | grep -i tcp\n rm file_path file_path\n ln -s file_path file_path\n
+- 실제 동작
+  [MySQL](https://user-images.githubusercontent.com/59950687/230854366-a76bacc0-71c2-42c6-bba9-0b4a24d54e28.gif)
+  [Apache](https://user-images.githubusercontent.com/59950687/230854382-3037c59c-1158-4e74-8fea-a0fad4269824.gif)
+  [Github](https://user-images.githubusercontent.com/59950687/230854391-c6eaac73-92ff-48dc-a1b4-c4b62cb8f660.gif)
+  [Kakao](https://user-images.githubusercontent.com/59950687/230854396-6963a2cc-a00a-490c-b61b-e21fca4887fa.gif)
+  [Naver](https://user-images.githubusercontent.com/59950687/230854397-536aa3ec-3b17-49f0-8cc5-7f0be072108c.gif)
+  [Google](https://user-images.githubusercontent.com/59950687/230854393-b7887e99-d91f-4e4a-9086-58a1d5b4eed8.gif)
+  [Facebook](https://user-images.githubusercontent.com/59950687/230854387-4c507501-faaa-43fc-9e28-52c337e58c5a.gif)
+
+- MySQL
 
   ```zsh
     mysqldump -uroot --database db_name > dump_name.sql
@@ -63,21 +75,4 @@
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
       FOREIGN KEY (video_id) REFERENCES videos(id) ON DELETE CASCADE);
   ```
-
-- Linux
-  - chmod 777 -R folder_path
-  - lsof -i | grep -i tcp
-  - rm file file
-  - ln -s file_path file_path
   
-- 동작 화면
-  [MySQL](https://user-images.githubusercontent.com/59950687/230854366-a76bacc0-71c2-42c6-bba9-0b4a24d54e28.gif)
-  [Apache](https://user-images.githubusercontent.com/59950687/230854382-3037c59c-1158-4e74-8fea-a0fad4269824.gif)
-  [Github](https://user-images.githubusercontent.com/59950687/230854391-c6eaac73-92ff-48dc-a1b4-c4b62cb8f660.gif)
-  [Kakao](https://user-images.githubusercontent.com/59950687/230854396-6963a2cc-a00a-490c-b61b-e21fca4887fa.gif)
-  [Naver](https://user-images.githubusercontent.com/59950687/230854397-536aa3ec-3b17-49f0-8cc5-7f0be072108c.gif)
-  [Google](https://user-images.githubusercontent.com/59950687/230854393-b7887e99-d91f-4e4a-9086-58a1d5b4eed8.gif)
-  [Facebook](https://user-images.githubusercontent.com/59950687/230854387-4c507501-faaa-43fc-9e28-52c337e58c5a.gif)
-  
-- 스토리지 커스텀
-  [Storage](https://github.com/ymh3190/express-portfolio/blob/main/src/utils/storage.js)

@@ -1,10 +1,11 @@
 # express-portfolio
 
-- [홈페이지, AWS EB 변경예정, (9~18시 ON), Heroku 사용 &rarr;](https://express-portfolio.herokuapp.com/)
+- [홈페이지, Heroku, (9~18시 ON), Heroku 사용 &rarr;](https://express-portfolio.herokuapp.com/)
+- [홈페이지, AWS EB, 세부 설정 변경 예정 &rarr;](http://expressportfolio-env-1.eba-jz3jnp7v.ap-northeast-2.elasticbeanstalk.com)
 - [API Specification(틈틈이 작성중) &rarr;](https://express-portfolio.herokuapp.com/api)
 - [Custom storage engine 설명 &rarr;](https://github.com/ymh3190/express-portfolio/blob/main/src/utils/storage.js)
 - 관련 Linux 명령어
-  - chmod 777 -R folder_path\n lsof -i | grep -i tcp\n rm file_path file_path\n ln -s file_path file_path\n
+  - chmod 777 -R folder_path\n lsof -i | grep -i tcp\n rm file_path file_path\n ln -s file_path file_path\n zip file_path -r \* .[^.]*\n
 - 실제 동작
   [MySQL](https://user-images.githubusercontent.com/59950687/230854366-a76bacc0-71c2-42c6-bba9-0b4a24d54e28.gif)
   [Apache](https://user-images.githubusercontent.com/59950687/230854382-3037c59c-1158-4e74-8fea-a0fad4269824.gif)

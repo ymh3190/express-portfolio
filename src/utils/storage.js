@@ -25,7 +25,7 @@ class CustomAPIStorage {
    * sftp의 쓰기 스트림을 통해 상기 서버에 파일을 쓰고, 읽기 스트림 pipe함수를 통해 uploadVideo함수에서 처리된 결과가 반영된 file객체로 접근 가능토록 합니다
    * finish 이벤트를 on하여 쓰기 스트림의 끝났을 때를 처리합니다.
    * shell 함수로 Apache서버 기본 파일 경로인 /var/www/html에 해당 파일을 soft link하고
-   * cb함수로 uploadVideo함수에 전달될 file객체를 갱신하고 ssh 연결을 끝습니다
+   * cb함수로 uploadVideo함수에 전달될 file객체를 갱신하고 ssh 연결을 끊습니다
    */
   _handleFile(req, file, cb) {
     this.getDestination(req, file, (err, path) => {

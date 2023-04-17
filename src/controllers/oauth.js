@@ -203,7 +203,7 @@ const naver = (req, res) => {
     response_type: "code",
     client_id: socialOptions.naver.client,
     redirect_uri:
-      "https://express-portfolio.herokuapp.com/oauth/naver/callback",
+      "http://expressportfolio-env-1.eba-jz3jnp7v.ap-northeast-2.elasticbeanstalk.com/oauth/naver/callback",
     state: "RANDOM_STATE",
   };
   const params = new URLSearchParams(config).toString();
@@ -217,7 +217,7 @@ const naverCallback = async_(async (req, res) => {
     client_id: socialOptions.naver.client,
     client_secret: socialOptions.naver.secret,
     redirect_uri:
-      "https://express-portfolio.herokuapp.com/oauth/naver/callback",
+      "http://expressportfolio-env-1.eba-jz3jnp7v.ap-northeast-2.elasticbeanstalk.com/oauth/naver/callback",
     code: req.query.code,
     state: req.query.state,
   };
@@ -264,7 +264,7 @@ const kakao = (req, res) => {
   const config = {
     client_id: socialOptions.kakao.client,
     redirect_uri:
-      "https://express-portfolio.herokuapp.com/oauth/kakao/callback",
+      "http://expressportfolio-env-1.eba-jz3jnp7v.ap-northeast-2.elasticbeanstalk.com/oauth/kakao/callback",
     response_type: "code",
   };
   const params = new URLSearchParams(config).toString();
@@ -277,7 +277,7 @@ const kakaoCallback = async_(async (req, res) => {
     grant_type: "authorization_code",
     client_id: socialOptions.kakao.client,
     redirect_uri:
-      "https://express-portfolio.herokuapp.com/oauth/kakao/callback",
+      "http://expressportfolio-env-1.eba-jz3jnp7v.ap-northeast-2.elasticbeanstalk.com/oauth/kakao/callback",
     code: req.query.code,
     client_secret: socialOptions.kakao.secret,
   };

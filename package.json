@@ -5,7 +5,6 @@
   "main": "app.js",
   "scripts": {
     "start": "node src/app.js",
-    "build": "npm run dist",
     "dist": "webpack"
   },
   "repository": {

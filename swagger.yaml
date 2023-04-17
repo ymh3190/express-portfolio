@@ -4,7 +4,7 @@ info:
   contact: {}
   version: "1.0"
 servers:
-  - url: https://express-portfolio.herokuapp.com
+  - url: http://expressportfolio-env.eba-nuampp4q.us-east-1.elasticbeanstalk.com
     variables: {}
 paths:
   /:

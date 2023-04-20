@@ -1,17 +1,16 @@
 const fs = require("fs");
 
-const digitalOcean = {
-  host: process.env.DIGITALOCEAN_HOST,
-  user: process.env.DIGITALOCEAN_USER,
-  password: process.env.DIGITALOCEAN_PASSWORD,
-  port: process.env.DIGITALOCEAN_PORT,
-  database: process.env.DIGITALOCEAN_DATABASE,
+const awsRds = {
+  host: process.env.AWS_RDS_HOST,
+  user: process.env.AWS_RDS_USER,
+  password: process.env.AWS_RDS_PASSWORD,
+  database: process.env.AWS_RDS_DATABASE,
   waitForConnections: true,
   ssl: {
     ca: fs.readFileSync(process.cwd() + "/ca-certificate.crt"),
   },
 };
 
-const mysqlOptions = digitalOcean;
+const mysqlOptions = awsRds;
 
 module.exports = { mysqlOptions };

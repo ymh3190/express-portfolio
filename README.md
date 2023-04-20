@@ -38,7 +38,7 @@
       id CHAR(32) PRIMARY KEY,
       email VARCHAR(255) NOT NULL UNIQUE,
       password char(60) NOT NULL,
-      profile_photo varchar(137),
+      profilePhoto varchar(137),
       social BOOLEAN DEFAULT 0);
   ```
 
@@ -48,36 +48,36 @@
       path varchar(70) NOT NULL,
       title varchar(50) NOT NULL,
       description varchar(100) NOT NULL,
-      user_id char(32) NOT NULL,
-      user_profile_photo VARCHAR(137),
-      user_name VARCHAR(20),
+      userId char(32) NOT NULL,
+      userProfilePhoto VARCHAR(137),
+      userName VARCHAR(20),
       view INT DEFAULT 0,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE);
+      FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE);
   ```
 
   ```zsh
     CREATE TABLE comments(
       id CHAR(32) PRIMARY KEY,
       context VARCHAR(255) NOT NULL,
-      video_id CHAR(32) NOT NULL,
-      user_id CHAR(32) NOT NULL,
-      user_name VARCHAR(20),
-      FOREIGN KEY video_id REFERENCES videos(id) ON DELETE CASCADE,
-      FOREIGN KEY user_id REFERENCES users(id) ON DELETE CASCADE);
+      videoId CHAR(32) NOT NULL,
+      userId CHAR(32) NOT NULL,
+      userName VARCHAR(20),
+      FOREIGN KEY (videoId) REFERENCES videos(id) ON DELETE CASCADE,
+      FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE);
   ```
 
   ```zsh
     CREATE TABLE histories(
-      user_id CHAR(32),
-      video_id CHAR(32),
+      userId CHAR(32),
+      videoId CHAR(32),
       path VARCHAR(70) NOT NULL,
-      user_name VARCHAR(20) NOT NULL,
+      userName VARCHAR(20) NOT NULL,
       title VARCHAR(50) NOT NULL,
       description VARCHAR(100),
       view INT DEFAULT 0,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY (user_id, video_id),
-      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-      FOREIGN KEY (video_id) REFERENCES videos(id) ON DELETE CASCADE);
+      PRIMARY KEY (userId, videoId),
+      FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY (videoId) REFERENCES videos(id) ON DELETE CASCADE);
   ```

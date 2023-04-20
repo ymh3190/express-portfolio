@@ -37,6 +37,7 @@
     CREATE TABLE users(
       id CHAR(32) PRIMARY KEY,
       email VARCHAR(255) NOT NULL UNIQUE,
+      name varchar(20) NOT NULL,
       password char(60) NOT NULL,
       profilePhoto varchar(137),
       social BOOLEAN DEFAULT 0);

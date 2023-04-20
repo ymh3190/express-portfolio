@@ -1,9 +1,8 @@
 # express-portfolio
 
-- [Heroku(OFF), Heroku 사용](https://express-portfolio.herokuapp.com/)
-- [홈페이지, AWS EB, 세부 설정 변경 예정 &rarr;](http://expressportfolio-env.eba-nuampp4q.us-east-1.elasticbeanstalk.com/)
+- [홈페이지, AWS EB, 세부 설정 변경 예정 &rarr;](http://expressportfolio-env.eba-7rezypbh.ap-northeast-2.elasticbeanstalk.com)
 - 홈페이지, AWS Kubernetes 사용 예정
-- [API Specification(틈틈이 작성중) &rarr;](https://express-portfolio.herokuapp.com/api)
+- [API Specification(틈틈이 작성중) &rarr;](http://expressportfolio-env.eba-7rezypbh.ap-northeast-2.elasticbeanstalk.com/api)
 - [Custom storage engine 설명 &rarr;](https://github.com/ymh3190/express-portfolio/blob/main/src/utils/storage.js)
 - TODO
   - [] AWS HTTP -> HTTPS(DNS + SSL)

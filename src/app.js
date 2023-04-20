@@ -54,7 +54,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    cookie: { secure: true },
     store: new MySQLStore(mysqlOptions),
   })
 );

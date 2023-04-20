@@ -6,9 +6,6 @@ const awsRds = {
   password: process.env.AWS_RDS_PASSWORD,
   database: process.env.AWS_RDS_DATABASE,
   waitForConnections: true,
-  ssl: {
-    ca: fs.readFileSync(process.cwd() + "/ca-certificate.crt"),
-  },
 };
 
 const mysqlOptions = awsRds;

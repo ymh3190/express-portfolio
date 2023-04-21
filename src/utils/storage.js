@@ -1,5 +1,5 @@
 const random = require("./randomFill");
-const { conn } = require("./ssh");
+const conn = require("./ssh");
 
 class CustomAPIStorage {
   constructor(opts) {
@@ -21,10 +21,8 @@ class CustomAPIStorage {
 
             outStream.once("error", cb);
             outStream.once("finish", () => {
-              const command = `ln -s ${remotePath} /var/www/html/${path}/${hex}\nexit\n`;
               conn.shell((err, stream) => {
                 if (err) return cb(err);
-
                 stream.on("exit", () => {
                   cb(null, {
                     path: `http://${process.env.DROPLETS_HOST}/${path}/${hex}`,
@@ -32,6 +30,7 @@ class CustomAPIStorage {
                   });
                   conn.end();
                 });
+                const command = `ln -s ${remotePath} /var/www/html/${path}/${hex}\nexit\n`;
                 stream.end(command);
               });
             });
@@ -45,9 +44,6 @@ class CustomAPIStorage {
     });
   }
 
-  /**
-   * Delete files when the limit is exceeded
-   */
   _removeFile(req, file, cb) {
     conn.sftp((err, sftp) => {
       if (err) return cb(err);

@@ -3,7 +3,7 @@ const mysql = require("../db/mysql");
 const { BadRequestError, NotFoundError } = require("../errors");
 const async_ = require("../middleware/async");
 const random = require("../utils/randomFill");
-const { conn } = require("../utils/ssh");
+const conn = require("../utils/ssh");
 
 const getVideos = async_(async (req, res) => {
   const sql = "SELECT * FROM `videos` WHERE `userId` = ?";

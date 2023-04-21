@@ -1,5 +1,3 @@
-const fs = require("fs");
-
 const awsRds = {
   host: process.env.AWS_RDS_HOST,
   user: process.env.AWS_RDS_USER,

@@ -12,13 +12,11 @@ const {
   getVideos,
 } = require("../controllers/videos");
 const router = express.Router();
-const customAPIStorage = require("../utils/storage");
+// const customAPIStorage = require("../utils/storage");
+const multerS3 = require("../utils/multerS3");
+
 const uploader = multer({
-  storage: customAPIStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads/videos");
-    },
-  }),
+  storage: multerS3("videos"),
   limits: { fileSize: 1000 * 1024 },
 }).single("video");
 

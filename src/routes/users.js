@@ -7,15 +7,12 @@ const {
 } = require("../controllers/users");
 const router = express.Router();
 const multer = require("multer");
-const customAPIStorage = require("../utils/storage");
+// const customAPIStorage = require("../utils/storage");
+const multerS3 = require("../utils/multerS3");
 const uploader = multer({
-  storage: customAPIStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads/images");
-    },
-  }),
+  storage: multerS3("images"),
   limits: { fileSize: 500 * 1024 },
-}).single("profilePhoto");
+}).single("video");
 
 router.route("/:id(\\w{32})").get(getUser);
 router.route("/:id(\\w{32})/update").post(uploader, updateUser);

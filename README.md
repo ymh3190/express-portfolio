@@ -4,13 +4,8 @@
 - 홈페이지, AWS Kubernetes 사용 예정
 - [API Specification(틈틈이 작성중) &rarr;](http://expressportfolio-env.eba-7rezypbh.ap-northeast-2.elasticbeanstalk.com/api)
 - [Custom storage engine 설명 &rarr;](https://github.com/ymh3190/express-portfolio/blob/main/src/utils/storage.js)
-- TODO
-  - [] AWS HTTP -> HTTPS(DNS + SSL)
-  - [] AWS kubernetes
-  - [] 결제 시스템 Stripe
 - 관련 Linux 명령어
   - chmod 777 -R folder_path\n lsof -i | grep -i tcp\n rm file_path file_path\n ln -s file_path file_path\n zip file_path -r \* .[^.]*\n
-  - lima(맥 리눅스 VM), nerdctl
 - 실제 동작
   [MySQL](https://user-images.githubusercontent.com/59950687/230854366-a76bacc0-71c2-42c6-bba9-0b4a24d54e28.gif)
   [Apache](https://user-images.githubusercontent.com/59950687/230854382-3037c59c-1158-4e74-8fea-a0fad4269824.gif)

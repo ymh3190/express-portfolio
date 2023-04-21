@@ -101,7 +101,7 @@ const uploadVideo = async_(async (req, res) => {
   const id = random();
   const values = [
     id,
-    file.path,
+    file.location,
     title,
     description,
     req.session.user.id,

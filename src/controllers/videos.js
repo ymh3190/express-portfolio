@@ -95,6 +95,7 @@ const uploadVideo = async_(async (req, res) => {
     "SELECT profilePhoto, name FROM `users` WHERE `id` = ?",
     req.session.user.id
   );
+  console.log(file.location);
   const { profilePhoto, name } = results[0];
   const sql =
     "INSERT INTO `videos`(id, path, title, description, userId, userProfilePhoto, userName) VALUES(?, ?, ?, ?, ?, ?, ?)";

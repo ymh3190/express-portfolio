@@ -10,7 +10,7 @@ const s3 = new aws.S3({
 
 module.exports = (path) => {
   return multerS3({
-    s3,
+    s3: s3,
     bucket: `express-portfolio/${path}`,
     acl: "public-read",
   });

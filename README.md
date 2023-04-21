@@ -40,10 +40,10 @@
 
   ```zsh
     CREATE TABLE videos(
-      id char(32) PRIMARY KEY,
-      path varchar(70) NOT NULL,
-      title varchar(50) NOT NULL,
-      description varchar(100) NOT NULL,
+      id CHAR(32) PRIMARY KEY,
+      path CHAR(97) NOT NULL,
+      title VARCHAR(50) NOT NULL,
+      description VARCHAR(100) NOT NULL,
       userId char(32) NOT NULL,
       userProfilePhoto VARCHAR(137),
       userName VARCHAR(20),
@@ -67,7 +67,7 @@
     CREATE TABLE histories(
       userId CHAR(32),
       videoId CHAR(32),
-      path VARCHAR(70) NOT NULL,
+      path CHAR(97) NOT NULL,
       userName VARCHAR(20) NOT NULL,
       title VARCHAR(50) NOT NULL,
       description VARCHAR(100),

@@ -7,7 +7,6 @@ const {
 } = require("../controllers/users");
 const router = express.Router();
 const multer = require("multer");
-// const customAPIStorage = require("../utils/storage");
 const multerS3 = require("../utils/multerS3");
 const uploader = multer({
   storage: multerS3("images"),

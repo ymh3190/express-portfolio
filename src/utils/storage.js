@@ -1,6 +1,11 @@
 const random = require("./randomFill");
 const conn = require("./ssh");
 
+/*
+ * AWS EB Server <--> DigitalOcean Singapore Proxy Server <--> My Computing Server
+ * Safari에서는 업로드 후 재업로드가 가능한데, Chrome에서는 안됨
+ * 사라피에서는 비디오가 보이지 않고, 크롬에서는 보임
+ */
 class CustomAPIStorage {
   constructor(opts) {
     this.getDestination = opts.destination;

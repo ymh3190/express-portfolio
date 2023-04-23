@@ -3,9 +3,9 @@ require("./db/mysql");
 const { mysqlOptions } = require("./utils/mysqlOptions");
 
 // security
-const helmet = require("helmet");
-const cors = require("cors");
-const xss = require("xss-clean");
+import helmet from "helmet";
+import cors from "cors";
+import xss from "xss-clean";
 
 // swagger
 const swaggerUI = require("swagger-ui-express");

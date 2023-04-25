@@ -1,12 +1,17 @@
 # express-portfolio
 
-- [홈페이지 &rarr;](http://expressportfolio-env.eba-7rezypbh.ap-northeast-2.elasticbeanstalk.com)
+- [홈페이지 &rarr;](https://agliofolio.com/)
 
 - 기술스택
   - Nodejs, Expressjs, MySQL, MongoDB, HTML, CSS
-  - AWS EB, AWS RDS, AWS S3
+  - AWS EB, RDS, S3, Route 53, CM
+  - SSH
 
-- 실제 동작
+- 사용 가능한 언어
+  - C/C++
+  - Python
+
+- 동작 화면
 
   <img src='https://user-images.githubusercontent.com/59950687/230854391-c6eaac73-92ff-48dc-a1b4-c4b62cb8f660.gif' alt='' width='300px'>
   <img src='https://user-images.githubusercontent.com/59950687/230854396-6963a2cc-a00a-490c-b61b-e21fca4887fa.gif' alt='' width='300px'>

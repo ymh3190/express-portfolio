@@ -64,8 +64,7 @@ const githubCallback = async_(async (req, res) => {
 const facebook = (req, res) => {
   const config = {
     client_id: socialOptions.facebook.client,
-    redirect_uri:
-      "https://express-portfolio.herokuapp.com/oauth/facebook/callback",
+    redirect_uri: "https://agliofolio.com/oauth/facebook/callback",
     scope: "email public_profile",
     auth_type: "rerequest",
     state: "{st=state123abc,ds=123456789}",
@@ -79,8 +78,7 @@ const facebook = (req, res) => {
 const facebookCallback = async_(async (req, res) => {
   let config = {
     client_id: socialOptions.facebook.client,
-    redirect_uri:
-      "https://express-portfolio.herokuapp.com/oauth/facebook/callback",
+    redirect_uri: "https://agliofolio.com/oauth/facebook/callback",
     client_secret: socialOptions.facebook.secret,
     code: req.query.code,
   };
@@ -135,8 +133,7 @@ const google = (req, res) => {
     scope:
       "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
     access_type: "offline",
-    redirect_uri:
-      "https://express-portfolio.herokuapp.com/oauth/google/callback",
+    redirect_uri: "https://agliofolio.com/oauth/google/callback",
     prompt: "consent",
     include_granted_scopes: true,
   };
@@ -150,8 +147,7 @@ const googleCallback = async_(async (req, res) => {
     code: req.query.code,
     client_id: socialOptions.google.client,
     client_secret: socialOptions.google.secret,
-    redirect_uri:
-      "https://express-portfolio.herokuapp.com/oauth/google/callback",
+    redirect_uri: "https://agliofolio.com/oauth/google/callback",
     grant_type: "authorization_code",
   };
   const params = new URLSearchParams(config).toString();
@@ -202,8 +198,7 @@ const naver = (req, res) => {
   const config = {
     response_type: "code",
     client_id: socialOptions.naver.client,
-    redirect_uri:
-      "http://expressportfolio-env.eba-7rezypbh.ap-northeast-2.elasticbeanstalk.com/oauth/naver/callback",
+    redirect_uri: "https://agliofolio.com/oauth/naver/callback",
     state: "RANDOM_STATE",
   };
   const params = new URLSearchParams(config).toString();
@@ -216,8 +211,7 @@ const naverCallback = async_(async (req, res) => {
     grant_type: "authorization_code",
     client_id: socialOptions.naver.client,
     client_secret: socialOptions.naver.secret,
-    redirect_uri:
-      "http://expressportfolio-env.eba-7rezypbh.ap-northeast-2.elasticbeanstalk.com/oauth/naver/callback",
+    redirect_uri: "https://agliofolio.com/oauth/naver/callback",
     code: req.query.code,
     state: req.query.state,
   };
@@ -263,8 +257,7 @@ const naverCallback = async_(async (req, res) => {
 const kakao = (req, res) => {
   const config = {
     client_id: socialOptions.kakao.client,
-    redirect_uri:
-      "http://expressportfolio-env.eba-7rezypbh.ap-northeast-2.elasticbeanstalk.com/oauth/kakao/callback",
+    redirect_uri: "https://agliofolio.com/oauth/kakao/callback",
     response_type: "code",
   };
   const params = new URLSearchParams(config).toString();
@@ -276,8 +269,7 @@ const kakaoCallback = async_(async (req, res) => {
   const config = {
     grant_type: "authorization_code",
     client_id: socialOptions.kakao.client,
-    redirect_uri:
-      "http://expressportfolio-env.eba-7rezypbh.ap-northeast-2.elasticbeanstalk.com/oauth/kakao/callback",
+    redirect_uri: "https://agliofolio.com/oauth/kakao/callback",
     code: req.query.code,
     client_secret: socialOptions.kakao.secret,
   };

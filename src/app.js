@@ -17,9 +17,8 @@ import session from "express-session";
 const app = express();
 
 // session storage
-import MySQLStore from "express-mysql-session";
-MySQLStore(session);
-// const MySQLStore = require("express-mysql-session")(session);
+import mySQLStore from "express-mysql-session";
+const MySQLStore = mySQLStore(session);
 
 // error handler
 import errorHandlerMiddleware from "./middleware/error-handler.js";

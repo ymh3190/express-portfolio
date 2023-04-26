@@ -12,20 +12,20 @@ import {
   getVideos,
 } from "../controllers/videos.js";
 const router = express.Router();
-// const multerS3 = require("../utils/multerS3");
-// const uploader = multer({
-//   storage: multerS3("videos"),
-//   limits: { fileSize: 1000 * 1024 },
-// }).single("video");
-import customAPIStorage from "../utils/storage.js";
+import multerS3 from "../utils/multerS3.js";
 const uploader = multer({
-  storage: customAPIStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads/videos");
-    },
-  }),
+  storage: multerS3("videos"),
   limits: { fileSize: 1000 * 1024 },
 }).single("video");
+// import customAPIStorage from "../utils/storage.js";
+// const uploader = multer({
+//   storage: customAPIStorage({
+//     destination: (req, file, cb) => {
+//       cb(null, "uploads/videos");
+//     },
+//   }),
+//   limits: { fileSize: 1000 * 1024 },
+// }).single("video");
 
 router.route("/").get(getVideos);
 router.route("/upload").get(getUpload).post(uploader, uploadVideo);

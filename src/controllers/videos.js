@@ -3,7 +3,7 @@ import mysql from "../db/mysql.js";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import async_ from "../middleware/async.js";
 import random from "../utils/randomFill.js";
-import conn from "../utils/ssh.js";
+// import conn from "../utils/ssh.js";
 
 export const getVideos = async_(async (req, res) => {
   const sql = "SELECT * FROM `videos` WHERE `userId` = ?";
@@ -56,25 +56,26 @@ export const deleteVideo = async_(async (req, res) => {
   }
   sql = "DELETE FROM `videos` WHERE `id` = ?";
   await mysql.query(sql, id);
-  const target = video.path.split("uploads/")[1];
-  const volumePath = `/mnt/volume_sgp1_01/uploads/${target}`;
-  const linkPath = `/var/www/html/uploads/${target}`;
-  conn
-    .on("ready", () => {
-      conn.shell((err, stream) => {
-        if (err) throw err;
-        stream.on("exit", () => {
-          conn.end();
-          res.status(StatusCodes.OK).redirect("/videos");
-        });
-        stream.end(`rm ${linkPath} ${volumePath}\nexit\n`);
-      });
-    })
-    .connect({
-      host: process.env.DROPLETS_HOST,
-      username: process.env.DROPLETS_USER,
-      password: process.env.DROPLETS_PASSWORD,
-    });
+  res.status(StatusCodes.OK).redirect("/videos");
+  // const target = video.path.split("uploads/")[1];
+  // const volumePath = `/mnt/volume_sgp1_01/uploads/${target}`;
+  // const linkPath = `/var/www/html/uploads/${target}`;
+  // conn
+  //   .on("ready", () => {
+  //     conn.shell((err, stream) => {
+  //       if (err) throw err;
+  //       stream.on("exit", () => {
+  //         conn.end();
+  //         res.status(StatusCodes.OK).redirect("/videos");
+  //       });
+  //       stream.end(`rm ${linkPath} ${volumePath}\nexit\n`);
+  //     });
+  //   })
+  //   .connect({
+  //     host: process.env.DROPLETS_HOST,
+  //     username: process.env.DROPLETS_USER,
+  //     password: process.env.DROPLETS_PASSWORD,
+  //   });
 });
 
 export const getUpload = (req, res) => {
@@ -101,7 +102,7 @@ export const uploadVideo = async_(async (req, res) => {
   const id = random();
   const values = [
     id,
-    file.path,
+    file.location,
     title,
     description,
     req.session.user.id,

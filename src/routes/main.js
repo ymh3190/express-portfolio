@@ -1,5 +1,5 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getIndex,
   getJoin,
   getLogin,
@@ -11,11 +11,12 @@ const {
   getInitPassword,
   initPassword,
   getWatch,
-} = require("../controllers/main");
-const authenticationMiddleware = require("../middleware/authentication");
-const publicOnlyMiddleware = require("../middleware/publicOnly");
+} from "../controllers/main.js";
+import authenticationMiddleware from "../middleware/authentication.js";
+import publicOnlyMiddleware from "../middleware/publicOnly.js";
 const router = express.Router();
-const rateLimiter = require("express-rate-limit")({
+import rateLimit from "express-rate-limit";
+const rateLimiter = rateLimit({
   windowMs: 60 * 1000 * 15,
   max: 100,
 });
@@ -42,4 +43,4 @@ router
   .post(initPassword);
 router.route("/watch/:id(\\w{32})").get(getWatch);
 
-module.exports = router;
+export default router;

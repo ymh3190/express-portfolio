@@ -1,18 +1,18 @@
-const { StatusCodes } = require("http-status-codes");
-const async_ = require("../middleware/async");
-const fetch = require("node-fetch");
-const mysql = require("../db/mysql");
-const bcrypt = require("bcryptjs");
-const { socialOptions } = require("../utils/socialOptions");
-const random = require("../utils/randomFill");
+import { StatusCodes } from "http-status-codes";
+import async_ from "../middleware/async.js";
+import fetch from "node-fetch";
+import mysql from "../db/mysql.js";
+import bcrypt from "bcryptjs";
+import { socialOptions } from "../utils/socialOptions.js";
+import random from "../utils/randomFill.js";
 
-const github = (req, res) => {
+export const github = (req, res) => {
   const params = `client_id=${socialOptions.github.client}&scope=read:user`;
   const url = `https://github.com/login/oauth/authorize?${params}`;
   res.status(StatusCodes.OK).redirect(url);
 };
 
-const githubCallback = async_(async (req, res) => {
+export const githubCallback = async_(async (req, res) => {
   const config = {
     client_id: socialOptions.github.client,
     client_secret: socialOptions.github.secret,
@@ -61,7 +61,7 @@ const githubCallback = async_(async (req, res) => {
   }
 });
 
-const facebook = (req, res) => {
+export const facebook = (req, res) => {
   const config = {
     client_id: socialOptions.facebook.client,
     redirect_uri: "https://agliofolio.com/oauth/facebook/callback",
@@ -75,7 +75,7 @@ const facebook = (req, res) => {
   res.redirect(url);
 };
 
-const facebookCallback = async_(async (req, res) => {
+export const facebookCallback = async_(async (req, res) => {
   let config = {
     client_id: socialOptions.facebook.client,
     redirect_uri: "https://agliofolio.com/oauth/facebook/callback",
@@ -125,7 +125,7 @@ const facebookCallback = async_(async (req, res) => {
   }
 });
 
-const google = (req, res) => {
+export const google = (req, res) => {
   const config = {
     client_id: socialOptions.google.client,
     response_type: "code",
@@ -142,7 +142,7 @@ const google = (req, res) => {
   res.redirect(url);
 };
 
-const googleCallback = async_(async (req, res) => {
+export const googleCallback = async_(async (req, res) => {
   const config = {
     code: req.query.code,
     client_id: socialOptions.google.client,
@@ -194,7 +194,7 @@ const googleCallback = async_(async (req, res) => {
   }
 });
 
-const naver = (req, res) => {
+export const naver = (req, res) => {
   const config = {
     response_type: "code",
     client_id: socialOptions.naver.client,
@@ -206,7 +206,7 @@ const naver = (req, res) => {
   res.redirect(url);
 };
 
-const naverCallback = async_(async (req, res) => {
+export const naverCallback = async_(async (req, res) => {
   const config = {
     grant_type: "authorization_code",
     client_id: socialOptions.naver.client,
@@ -254,7 +254,7 @@ const naverCallback = async_(async (req, res) => {
   }
 });
 
-const kakao = (req, res) => {
+export const kakao = (req, res) => {
   const config = {
     client_id: socialOptions.kakao.client,
     redirect_uri: "https://agliofolio.com/oauth/kakao/callback",
@@ -265,7 +265,7 @@ const kakao = (req, res) => {
   res.redirect(url);
 };
 
-const kakaoCallback = async_(async (req, res) => {
+export const kakaoCallback = async_(async (req, res) => {
   const config = {
     grant_type: "authorization_code",
     client_id: socialOptions.kakao.client,
@@ -320,16 +320,3 @@ const kakaoCallback = async_(async (req, res) => {
     res.status(StatusCodes.OK).redirect("/");
   }
 });
-
-module.exports = {
-  github,
-  githubCallback,
-  facebook,
-  facebookCallback,
-  google,
-  googleCallback,
-  naver,
-  naverCallback,
-  kakao,
-  kakaoCallback,
-};

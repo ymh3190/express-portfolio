@@ -1,6 +1,6 @@
-require("dotenv").config();
-require("./db/mysql");
-const { mysqlOptions } = require("./utils/mysqlOptions");
+import "dotenv/config";
+import "./db/mysql.js";
+import { mysqlOptions } from "./utils/mysqlOptions.js";
 
 // security
 import helmet from "helmet";
@@ -8,32 +8,34 @@ import cors from "cors";
 import xss from "xss-clean";
 
 // swagger
-const swaggerUI = require("swagger-ui-express");
-const YAML = require("yamljs");
+import swaggerUI from "swagger-ui-express";
+import YAML from "yamljs";
 const swaggerDocument = YAML.load("./swagger.yaml");
 
-const express = require("express");
-const session = require("express-session");
+import express from "express";
+import session from "express-session";
 const app = express();
 
 // session storage
-const MySQLStore = require("express-mysql-session")(session);
+import MySQLStore from "express-mysql-session";
+MySQLStore(session);
+// const MySQLStore = require("express-mysql-session")(session);
 
 // error handler
-const errorHandlerMiddleware = require("./middleware/error-handler");
-const notFound = require("./middleware/notFound");
+import errorHandlerMiddleware from "./middleware/error-handler.js";
+import notFound from "./middleware/notFound.js";
 
 // middleware
-const localsMiddleware = require("./middleware/locals");
-const publicOnlyMiddleware = require("./middleware/publicOnly");
+import localsMiddleware from "./middleware/locals.js";
+import publicOnlyMiddleware from "./middleware/publicOnly.js";
 
 // routers
-const mainRouter = require("./routes/main");
-const userRouter = require("./routes/users");
-const videoRouter = require("./routes/videos");
-const oauthRouter = require("./routes/oauth");
-const historyRouter = require("./routes/history");
-const authenticationMiddleware = require("./middleware/authentication");
+import mainRouter from "./routes/main.js";
+import userRouter from "./routes/users.js";
+import videoRouter from "./routes/videos.js";
+import oauthRouter from "./routes/oauth.js";
+import historyRouter from "./routes/history.js";
+import authenticationMiddleware from "./middleware/authentication.js";
 
 app.set("trust proxy", 1);
 app.set("view engine", "ejs");
@@ -53,8 +55,8 @@ app.use(
   session({
     secret: process.env.COOKIE_SECRET,
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
+    saveUninitialized: false,
+    cookie: { secure: true },
     store: new MySQLStore(mysqlOptions),
   })
 );

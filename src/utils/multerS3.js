@@ -1,5 +1,5 @@
-const aws = require("aws-sdk");
-const multerS3 = require("multer-s3");
+import aws from "aws-sdk";
+import multerS3 from "multer-s3";
 
 const s3 = new aws.S3({
   credentials: {
@@ -8,7 +8,7 @@ const s3 = new aws.S3({
   },
 });
 
-module.exports = (path) => {
+export default (path) => {
   return multerS3({
     s3: s3,
     bucket: `express-portfolio/${path}`,

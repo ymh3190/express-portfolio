@@ -6,6 +6,4 @@ const awsRds = {
   waitForConnections: true,
 };
 
-const mysqlOptions = awsRds;
-
-module.exports = { mysqlOptions };
+export const mysqlOptions = awsRds;

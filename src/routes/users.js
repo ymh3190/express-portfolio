@@ -1,13 +1,13 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getUser,
   updateUser,
   deleteUser,
   logout,
-} = require("../controllers/users");
+} from "../controllers/users.js";
 const router = express.Router();
-const multer = require("multer");
-const multerS3 = require("../utils/multerS3");
+import multer from "multer";
+import multerS3 from "../utils/multerS3.js";
 const uploader = multer({
   storage: multerS3("images"),
   limits: { fileSize: 500 * 1024 },
@@ -18,4 +18,4 @@ router.route("/:id(\\w{32})/update").post(uploader, updateUser);
 router.route("/:id(\\w{32})/delete").get(deleteUser);
 router.route("/logout").get(logout);
 
-module.exports = router;
+export default router;

@@ -1,13 +1,13 @@
-const { StatusCodes } = require("http-status-codes");
-const mysql = require("../db/mysql");
-const bcrypt = require("bcryptjs");
-const { BadRequestError, NotFoundError } = require("../errors");
-const isEmail = require("../utils/isEmail");
-const async_ = require("../middleware/async");
-const sendMail = require("../utils/sendMail");
-const random = require("../utils/randomFill");
+import { StatusCodes } from "http-status-codes";
+import mysql from "../db/mysql.js";
+import bcrypt from "bcryptjs";
+import { BadRequestError, NotFoundError } from "../errors/index.js";
+import isEmail from "../utils/isEmail.js";
+import async_ from "../middleware/async.js";
+import sendMail from "../utils/sendMail.js";
+import random from "../utils/randomFill.js";
 
-const getIndex = async_(async (req, res) => {
+export const getIndex = async_(async (req, res) => {
   const sql = "SELECT * FROM videos";
   const [results] = await mysql.query(sql);
   const videos = results;
@@ -16,15 +16,15 @@ const getIndex = async_(async (req, res) => {
     .render("pages/index", { pageTitle: "Index", videos });
 });
 
-const getJoin = (req, res) => {
+export const getJoin = (req, res) => {
   res.status(StatusCodes.OK).render("pages/join", { pageTitle: "Join" });
 };
 
-const getLogin = (req, res) => {
+export const getLogin = (req, res) => {
   res.status(StatusCodes.OK).render("pages/login", { pageTitle: "Login" });
 };
 
-const join = async_(async (req, res) => {
+export const join = async_(async (req, res) => {
   const {
     body: { email, name, password, confirm },
   } = req;
@@ -48,7 +48,7 @@ const join = async_(async (req, res) => {
   res.status(StatusCodes.CREATED).redirect("/");
 });
 
-const login = async_(async (req, res) => {
+export const login = async_(async (req, res) => {
   const {
     body: { email, password },
   } = req;
@@ -75,7 +75,7 @@ const login = async_(async (req, res) => {
   res.status(StatusCodes.OK).redirect("/");
 });
 
-const search = async_(async (req, res) => {
+export const search = async_(async (req, res) => {
   const {
     query: { query },
   } = req;
@@ -89,13 +89,13 @@ const search = async_(async (req, res) => {
     .render("pages/search", { pageTitle: "Search", videos });
 });
 
-const getFindPassword = async_(async (req, res) => {
+export const getFindPassword = async_(async (req, res) => {
   res
     .status(StatusCodes.OK)
     .render("pages/password", { pageTitle: "Find password" });
 });
 
-const findPassword = async_(async (req, res) => {
+export const findPassword = async_(async (req, res) => {
   const {
     body: { email, authNumber },
   } = req;
@@ -135,13 +135,13 @@ const findPassword = async_(async (req, res) => {
   }
 });
 
-const getInitPassword = (req, res) => {
+export const getInitPassword = (req, res) => {
   res
     .status(StatusCodes.OK)
     .render("pages/password", { pageTitle: "Init Password" });
 };
 
-const initPassword = async_(async (req, res) => {
+export const initPassword = async_(async (req, res) => {
   const {
     body: { password, confirm },
   } = req;
@@ -159,7 +159,7 @@ const initPassword = async_(async (req, res) => {
   res.status(StatusCodes.OK).redirect("/");
 });
 
-const getWatch = async_(async (req, res) => {
+export const getWatch = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -179,17 +179,3 @@ const getWatch = async_(async (req, res) => {
     comments,
   });
 });
-
-module.exports = {
-  getIndex,
-  getJoin,
-  getLogin,
-  join,
-  login,
-  search,
-  getFindPassword,
-  findPassword,
-  getInitPassword,
-  initPassword,
-  getWatch,
-};

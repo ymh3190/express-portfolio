@@ -8,4 +8,4 @@ const async_ = (fn) => {
   };
 };
 
-module.exports = async_;
+export default async_;

@@ -1,11 +1,11 @@
-const { StatusCodes } = require("http-status-codes");
-const { BadRequestError, NotFoundError } = require("../errors");
-const mysql = require("../db/mysql");
-const isEmail = require("../utils/isEmail");
-const bcrypt = require("bcryptjs");
-const async_ = require("../middleware/async");
+import { StatusCodes } from "http-status-codes";
+import { BadRequestError, NotFoundError } from "../errors/index.js";
+import mysql from "../db/mysql.js";
+import isEmail from "../utils/isEmail.js";
+import bcrypt from "bcryptjs";
+import async_ from "../middleware/async.js";
 
-const getUser = async_(async (req, res) => {
+export const getUser = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -24,7 +24,7 @@ const getUser = async_(async (req, res) => {
   res.status(StatusCodes.OK).render("pages/user", { pageTitle: "User", user });
 });
 
-const updateUser = async_(async (req, res) => {
+export const updateUser = async_(async (req, res) => {
   const {
     params: { id },
     body: { email, name, password },
@@ -82,7 +82,7 @@ const updateUser = async_(async (req, res) => {
   res.status(StatusCodes.OK).redirect(`/users/${id}`);
 });
 
-const deleteUser = async_(async (req, res) => {
+export const deleteUser = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -99,14 +99,7 @@ const deleteUser = async_(async (req, res) => {
   res.status(StatusCodes.OK).redirect("/");
 });
 
-const logout = (req, res) => {
+export const logout = (req, res) => {
   req.session.destroy();
   res.status(StatusCodes.OK).redirect("/");
-};
-
-module.exports = {
-  getUser,
-  updateUser,
-  deleteUser,
-  logout,
 };

@@ -1,11 +1,11 @@
-const { StatusCodes } = require("http-status-codes");
-const mysql = require("../db/mysql");
-const { BadRequestError, NotFoundError } = require("../errors");
-const async_ = require("../middleware/async");
-const random = require("../utils/randomFill");
-const conn = require("../utils/ssh");
+import { StatusCodes } from "http-status-codes";
+import mysql from "../db/mysql.js";
+import { BadRequestError, NotFoundError } from "../errors/index.js";
+import async_ from "../middleware/async.js";
+import random from "../utils/randomFill.js";
+import conn from "../utils/ssh.js";
 
-const getVideos = async_(async (req, res) => {
+export const getVideos = async_(async (req, res) => {
   const sql = "SELECT * FROM `videos` WHERE `userId` = ?";
   const [results] = await mysql.query(sql, req.session.user.id);
   const videos = results;
@@ -14,7 +14,7 @@ const getVideos = async_(async (req, res) => {
     .render("pages/video", { pageTitle: "Videos", videos });
 });
 
-const getVideo = async_(async (req, res) => {
+export const getVideo = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -28,7 +28,7 @@ const getVideo = async_(async (req, res) => {
     .render("pages/video", { pageTitle: "Video", videos: null, video });
 });
 
-const updateVideo = async_(async (req, res) => {
+export const updateVideo = async_(async (req, res) => {
   const {
     params: { id },
     body: { title, description },
@@ -43,7 +43,7 @@ const updateVideo = async_(async (req, res) => {
   res.status(StatusCodes.OK).redirect(`/videos/${id}`);
 });
 
-const deleteVideo = async_(async (req, res) => {
+export const deleteVideo = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -77,11 +77,11 @@ const deleteVideo = async_(async (req, res) => {
     });
 });
 
-const getUpload = (req, res) => {
+export const getUpload = (req, res) => {
   res.status(StatusCodes.OK).render("pages/upload", { pageTitle: "Upload" });
 };
 
-const uploadVideo = async_(async (req, res) => {
+export const uploadVideo = async_(async (req, res) => {
   const {
     file,
     body: { title, description },
@@ -101,7 +101,7 @@ const uploadVideo = async_(async (req, res) => {
   const id = random();
   const values = [
     id,
-    file.location,
+    file.path,
     title,
     description,
     req.session.user.id,
@@ -112,7 +112,7 @@ const uploadVideo = async_(async (req, res) => {
   res.status(StatusCodes.CREATED).redirect("/");
 });
 
-const addComment = async_(async (req, res) => {
+export const addComment = async_(async (req, res) => {
   const {
     body: { context, videoId },
   } = req;
@@ -149,7 +149,7 @@ const addComment = async_(async (req, res) => {
     .json({ comment: context, commentId: id, userName: user.name });
 });
 
-const deleteComment = async_(async (req, res) => {
+export const deleteComment = async_(async (req, res) => {
   const {
     body: { commentId },
   } = req;
@@ -159,7 +159,7 @@ const deleteComment = async_(async (req, res) => {
   res.status(StatusCodes.OK).end();
 });
 
-const addView = async_(async (req, res) => {
+export const addView = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -174,15 +174,3 @@ const addView = async_(async (req, res) => {
   await mysql.query(sql, id);
   res.status(StatusCodes.OK).end();
 });
-
-module.exports = {
-  getVideos,
-  getVideo,
-  updateVideo,
-  deleteVideo,
-  getUpload,
-  uploadVideo,
-  addComment,
-  deleteComment,
-  addView,
-};

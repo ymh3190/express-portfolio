@@ -1,4 +1,4 @@
-const mysql = require("mysql2/promise");
-const { mysqlOptions } = require("../utils/mysqlOptions");
+import mysql from "mysql2/promise";
+import { mysqlOptions } from "../utils/mysqlOptions.js";
 
-module.exports = mysql.createPool(mysqlOptions);
+export default mysql.createPool(mysqlOptions);

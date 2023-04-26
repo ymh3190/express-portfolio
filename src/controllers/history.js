@@ -1,9 +1,9 @@
-const { StatusCodes } = require("http-status-codes");
-const mysql = require("../db/mysql");
-const async_ = require("../middleware/async");
-const { NotFoundError } = require("../errors");
+import { StatusCodes } from "http-status-codes";
+import mysql from "../db/mysql.js";
+import async_ from "../middleware/async.js";
+import { NotFoundError } from "../errors/index.js";
 
-const getHistories = async_(async (req, res) => {
+export const getHistories = async_(async (req, res) => {
   const sql = "SELECT * FROM `histories` WHERE `userId` = ?";
   const [results] = await mysql.query(sql, req.session.user.id);
   const histories = results;
@@ -12,7 +12,7 @@ const getHistories = async_(async (req, res) => {
     .render("pages/history", { pageTitle: "History", histories });
 });
 
-const addHistory = async_(async (req, res) => {
+export const addHistory = async_(async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -43,5 +43,3 @@ const addHistory = async_(async (req, res) => {
   }
   res.status(StatusCodes.OK).end();
 });
-
-module.exports = { getHistories, addHistory };

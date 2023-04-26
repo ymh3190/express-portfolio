@@ -1,4 +1,4 @@
-const { Client } = require("ssh2");
+import { Client } from "ssh2";
 const conn = new Client();
 
-module.exports = conn;
+export default conn;

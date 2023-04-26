@@ -1,5 +1,5 @@
-const random = require("./randomFill");
-const conn = require("./ssh");
+import random from "./randomFill.js";
+import conn from "./ssh.js";
 
 class CustomAPIStorage {
   constructor(opts) {
@@ -52,6 +52,6 @@ class CustomAPIStorage {
   }
 }
 
-module.exports = (opts) => {
+export default (opts) => {
   return new CustomAPIStorage(opts);
 };

@@ -1,4 +1,4 @@
-const { UnauthorizedError } = require("../errors");
+import { UnauthorizedError } from "../errors/index.js";
 
 const authenticationMiddleware = (req, res, next) => {
   if (!req.session.user) {
@@ -6,5 +6,4 @@ const authenticationMiddleware = (req, res, next) => {
   }
   next();
 };
-
-module.exports = authenticationMiddleware;
+export default authenticationMiddleware;

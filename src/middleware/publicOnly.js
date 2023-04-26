@@ -1,4 +1,4 @@
-const { StatusCodes } = require("http-status-codes");
+import { StatusCodes } from "http-status-codes";
 
 const publicOnlyMiddleware = (req, res, next) => {
   if (req.session.user) {
@@ -8,4 +8,4 @@ const publicOnlyMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = publicOnlyMiddleware;
+export default publicOnlyMiddleware;

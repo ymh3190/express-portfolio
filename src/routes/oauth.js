@@ -1,5 +1,5 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   github,
   githubCallback,
   facebook,
@@ -10,7 +10,7 @@ const {
   naverCallback,
   kakao,
   kakaoCallback,
-} = require("../controllers/oauth");
+} from "../controllers/oauth.js";
 const router = express.Router();
 
 router.route("/github").get(github);
@@ -24,4 +24,4 @@ router.route("/naver/callback").get(naverCallback);
 router.route("/kakao").get(kakao);
 router.route("/kakao/callback").get(kakaoCallback);
 
-module.exports = router;
+export default router;

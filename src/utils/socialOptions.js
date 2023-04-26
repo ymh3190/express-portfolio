@@ -21,6 +21,4 @@ const production = {
   },
 };
 
-const socialOptions = production;
-
-module.exports = { socialOptions };
+export const socialOptions = production;

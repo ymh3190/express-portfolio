@@ -4,4 +4,4 @@ const localsMiddleware = (req, res, next) => {
   next();
 };
 
-module.exports = localsMiddleware;
+export default localsMiddleware;

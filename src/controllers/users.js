@@ -37,8 +37,10 @@ export const updateUser = async_(async (req, res) => {
     throw new BadRequestError("Email invalid");
   }
 
-  let sql =
-    "SELECT password, social FROM `users` WHERE `id` = ? AND `email` = ?";
+  let sql = `
+  SELECT password, social
+  FROM users
+  WHERE id = ? AND email = ?`;
   let values = [id, email];
   const [results] = await mysql.query(sql, values);
   const user = results[0];
@@ -61,8 +63,10 @@ export const updateUser = async_(async (req, res) => {
     values = [email, name, id];
     await mysql.query(sql, values);
   } else {
-    sql =
-      "UPDATE `users` SET email = ?, name = ?, profilePhoto = ? WHERE `id` = ?";
+    sql = `
+    UPDATE users
+    SET email = ?, name = ?, profilePhoto = ?
+    WHERE id = ?`;
     values = [email, name, file.path, id];
     await mysql.query(sql, values);
     sql = "UPDATE `videos` SET userProfilePhoto = ? WHERE `userId` = ?";

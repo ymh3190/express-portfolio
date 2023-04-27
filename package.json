@@ -20,6 +20,7 @@
     "url": "https://github.com/ymh3190/express-portfolio/issues"
   },
   "homepage": "https://github.com/ymh3190/express-portfolio#readme",
+  "type": "module",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@types/express-session": "^1.17.7",

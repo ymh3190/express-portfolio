@@ -17,8 +17,10 @@ export const addHistory = async_(async (req, res) => {
     params: { id },
   } = req;
 
-  let sql =
-    "SELECT id, path, title, description, userName, view FROM `videos` WHERE `id` = ?";
+  let sql = `
+  SELECT id, path, title, description, userName, view
+  FROM videos
+  WHERE id = ?`;
   let [results] = await mysql.query(sql, id);
   const video = results[0];
   if (!video) {
@@ -28,8 +30,9 @@ export const addHistory = async_(async (req, res) => {
   [results] = await mysql.query(sql, [req.session.user.id, video.id]);
   const history = results[0];
   if (!history) {
-    sql =
-      "INSERT INTO `histories`(userId, videoId, path, userName, title, description, view) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    sql = `
+    INSERT INTO histories(userId, videoId, path, userName, title, description, view)
+    VALUES(?, ?, ?, ?, ?, ?, ?)`;
     const values = [
       req.session.user.id,
       video.id,

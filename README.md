@@ -4,7 +4,7 @@
 
 - 기술스택
   - Nodejs, Expressjs, MySQL, MongoDB, HTML, CSS
-  - AWS EB, RDS, S3, Route 53
+  - AWS EB, RDS, S3
 
 - 동작 화면
 

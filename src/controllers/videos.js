@@ -98,7 +98,7 @@ export const uploadVideo = async_(async (req, res) => {
   );
   const { profilePhoto, name } = results[0];
   const sql = `
-  INSERT INTO 'videos'(id, path, title, description, userId, userProfilePhoto, userName)
+  INSERT INTO videos(id, path, title, description, userId, userProfilePhoto, userName)
   VALUES(?, ?, ?, ?, ?, ?, ?)`;
   const id = random();
   const values = [
@@ -141,7 +141,7 @@ export const addComment = async_(async (req, res) => {
   }
 
   sql = `
-  INSERT INTO 'comments'(id, context, videoId, userId, userName)
+  INSERT INTO comments(id, context, videoId, userId, userName)
   VALUES(?, ?, ?, ?, ?)`;
   const id = random();
   const values = [id, context, video.id, user.id, user.name];

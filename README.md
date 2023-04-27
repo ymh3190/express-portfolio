@@ -4,12 +4,7 @@
 
 - 기술스택
   - Nodejs, Expressjs, MySQL, MongoDB, HTML, CSS
-  - AWS EB, RDS, S3, Route 53, CM
-  - SSH
-
-- 사용 가능한 언어
-  - C/C++
-  - Python
+  - AWS EB, RDS, S3, Route 53
 
 - 동작 화면
 

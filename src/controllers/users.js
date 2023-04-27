@@ -20,7 +20,6 @@ export const getUser = async_(async (req, res) => {
   if (!user) {
     throw new NotFoundError("User not found");
   }
-
   res.status(StatusCodes.OK).render("pages/user", { pageTitle: "User", user });
 });
 

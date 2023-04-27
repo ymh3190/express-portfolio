@@ -97,8 +97,9 @@ export const uploadVideo = async_(async (req, res) => {
     req.session.user.id
   );
   const { profilePhoto, name } = results[0];
-  const sql =
-    "INSERT INTO `videos`(id, path, title, description, userId, userProfilePhoto, userName) VALUES(?, ?, ?, ?, ?, ?, ?)";
+  const sql = `
+  INSERT INTO 'videos'(id, path, title, description, userId, userProfilePhoto, userName)
+  VALUES(?, ?, ?, ?, ?, ?, ?)`;
   const id = random();
   const values = [
     id,
@@ -139,15 +140,14 @@ export const addComment = async_(async (req, res) => {
     throw new NotFoundError("Video not found");
   }
 
-  sql =
-    "INSERT INTO `comments`(id, context, videoId, userId, userName) VALUES(?, ?, ?, ?, ?)";
+  sql = `
+  INSERT INTO 'comments'(id, context, videoId, userId, userName)
+  VALUES(?, ?, ?, ?, ?)`;
   const id = random();
   const values = [id, context, video.id, user.id, user.name];
   await mysql.query(sql, values);
-
-  res
-    .status(StatusCodes.OK)
-    .json({ comment: context, commentId: id, userName: user.name });
+  const data = { comment: context, commentId: id, userName: user.name };
+  res.status(StatusCodes.OK).json(data);
 });
 
 export const deleteComment = async_(async (req, res) => {

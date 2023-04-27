@@ -1,5 +1,8 @@
 import { StatusCodes } from "http-status-codes";
 
+/**
+ * app.use()를 통해 모든 route에 대해 적용되며 에러를 처리하는 미들웨어
+ */
 const errorHandlerMiddleware = (err, req, res, next) => {
   const customError = {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,

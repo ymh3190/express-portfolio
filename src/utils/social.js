@@ -1,4 +1,4 @@
-const production = {
+export const socialOptions = {
   github: {
     client: process.env.GITHUB_CLIENT,
     secret: process.env.GITHUB_SECRET,
@@ -20,5 +20,3 @@ const production = {
     secret: process.env.KAKAO_SECRET,
   },
 };
-
-export const socialOptions = production;

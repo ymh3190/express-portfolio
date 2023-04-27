@@ -14,12 +14,12 @@ import {
 } from "../controllers/main.js";
 import authenticationMiddleware from "../middleware/authentication.js";
 import publicOnlyMiddleware from "../middleware/publicOnly.js";
-const router = express.Router();
 import rateLimit from "express-rate-limit";
 const rateLimiter = rateLimit({
   windowMs: 60 * 1000 * 15,
   max: 100,
 });
+const router = express.Router();
 
 router.route("/").get(getIndex);
 router

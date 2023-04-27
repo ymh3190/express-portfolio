@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node build/app.js",
     "build": "babel src -d build && npm run dist",
+    "tsc": "tsc",
+    "tsc-dev": "nodemon --exec ts-node tsc/app.ts",
     "dev": "nodemon src/app.js",
     "dist": "webpack"
   },
@@ -20,6 +22,7 @@
   "homepage": "https://github.com/ymh3190/express-portfolio#readme",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@types/express-session": "^1.17.7",
     "aws-sdk": "^2.1362.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -46,11 +49,18 @@
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",
+    "@tsconfig/node16": "^1.0.3",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.16.1",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "mini-css-extract-plugin": "^2.7.3",
     "nodemon": "^2.0.20",
     "sass-loader": "^13.2.0",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.4",
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1"
   },

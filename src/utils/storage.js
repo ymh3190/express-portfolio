@@ -1,6 +1,9 @@
 import random from "./randomFill.js";
 import conn from "./ssh.js";
 
+/**
+ * multer 커스텀 스토리지 엔진
+ */
 class CustomAPIStorage {
   constructor(opts) {
     this.getDestination = opts.destination;
@@ -24,16 +27,18 @@ class CustomAPIStorage {
               conn.shell((err, stream) => {
                 if (err) return cb(err);
                 stream.on("exit", () => {
-                  cb(null, {
-                    path: `http://${process.env.DROPLETS_HOST}/${path}/${hex}`,
-                    size: outStream.bytesWritten,
-                  });
                   conn.end();
                 });
                 const command = `ln -s ${remotePath} /var/www/html/${path}/${hex}\nexit\n`;
                 stream.end(command);
               });
             });
+          });
+        })
+        .on("close", () => {
+          cb(null, {
+            path: `http://${process.env.DROPLETS_HOST}/${path}/${hex}`,
+            size: outStream.bytesWritten,
           });
         })
         .connect({

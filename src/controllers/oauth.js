@@ -3,11 +3,15 @@ import async_ from "../middleware/async.js";
 import fetch from "node-fetch";
 import mysql from "../db/mysql.js";
 import bcrypt from "bcryptjs";
-import { socialOptions } from "../utils/socialOptions.js";
+import { socialOptions } from "../utils/social.js";
 import random from "../utils/randomFill.js";
 
 export const github = (req, res) => {
-  const params = `client_id=${socialOptions.github.client}&scope=read:user`;
+  const config = {
+    client_id: socialOptions.github.client,
+    cope: "read:user",
+  };
+  const params = new URLSearchParams(config).toString();
   const url = `https://github.com/login/oauth/authorize?${params}`;
   res.status(StatusCodes.OK).redirect(url);
 };
@@ -72,7 +76,7 @@ export const facebook = (req, res) => {
 
   const params = new URLSearchParams(config).toString();
   const url = `https://www.facebook.com/v16.0/dialog/oauth?${params}`;
-  res.redirect(url);
+  res.status(StatusCodes.OK).redirect(url);
 };
 
 export const facebookCallback = async_(async (req, res) => {
@@ -139,7 +143,7 @@ export const google = (req, res) => {
   };
   const params = new URLSearchParams(config).toString();
   const url = `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
-  res.redirect(url);
+  res.status(StatusCodes.OK).redirect(url);
 };
 
 export const googleCallback = async_(async (req, res) => {
@@ -203,7 +207,7 @@ export const naver = (req, res) => {
   };
   const params = new URLSearchParams(config).toString();
   const url = `https://nid.naver.com/oauth2.0/authorize?${params}`;
-  res.redirect(url);
+  res.status(StatusCodes.OK).redirect(url);
 };
 
 export const naverCallback = async_(async (req, res) => {
@@ -262,7 +266,7 @@ export const kakao = (req, res) => {
   };
   const params = new URLSearchParams(config).toString();
   const url = `https://kauth.kakao.com/oauth/authorize?${params}`;
-  res.redirect(url);
+  res.status(StatusCodes.OK).redirect(url);
 };
 
 export const kakaoCallback = async_(async (req, res) => {

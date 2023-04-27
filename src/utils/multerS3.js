@@ -8,6 +8,9 @@ const s3 = new aws.S3({
   },
 });
 
+/**
+ * multer storage engine을 반환
+ */
 export default (path) => {
   return multerS3({
     s3: s3,

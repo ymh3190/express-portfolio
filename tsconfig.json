@@ -1,0 +1,12 @@
+{
+  "include": ["tsc/**/*"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "lib": ["ES6"],
+    "target": "ES6",
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "outDir": "tsc-build"
+  }
+}

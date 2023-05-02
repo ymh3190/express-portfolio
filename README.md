@@ -3,7 +3,7 @@
 - [홈페이지 &rarr;](https://agliofolio.com/)
 
 - 기술스택
-  - Nodejs, Expressjs, MySQL, MongoDB, HTML, CSS
+  - Nodejs, Expressjs, MySQL, EJS, SCSS
   - AWS EB, RDS, S3
 
 - 동작 화면

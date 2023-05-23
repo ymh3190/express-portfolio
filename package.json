@@ -12,6 +12,7 @@
     "tsc-dev": "nodemon tsc/app.ts",
     "dist": "webpack"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ymh3190/express-portfolio.git"

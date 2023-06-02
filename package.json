@@ -5,14 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node build/app.js",
-    "build": "babel src -d build && npm run dist",
-    "dev": "nodemon src/app.js",
-    "tsc-start": "node tsc-build/app.js",
-    "tsc-build": "tsc",
-    "tsc-dev": "nodemon tsc/app.ts",
-    "dist": "webpack"
+    "build": "babel -d build src && webpack --mode=production",
+    "dev": "nodemon -x babel-node src/app.js",
+    "dist": "webpack --mode=development -w"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ymh3190/express-portfolio.git"
@@ -49,15 +45,13 @@
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.4",
+    "@babel/node": "^7.22.1",
     "@babel/preset-env": "^7.21.4",
-    "@types/express": "^4.17.17",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "mini-css-extract-plugin": "^2.7.3",
     "nodemon": "^2.0.20",
     "sass-loader": "^13.2.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4",
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1"
   },

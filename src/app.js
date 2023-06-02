@@ -61,7 +61,7 @@ app.use(
 );
 app.use(localsMiddleware);
 app.use("/dist", express.static("dist"));
-app.use("/favicon", express.static("favicon"));
+app.use("/favicon", express.static(process.cwd() + "/src/favicon"));
 
 app.use("/api", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use("/", mainRouter);

@@ -3,6 +3,3 @@ node_modules/
 .env
 dist/
 build/
-favicon/
-tsc/
-tsc-build/

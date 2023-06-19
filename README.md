@@ -1,7 +1,5 @@
 # express-portfolio
 
-# express-portfolio
-
 - 구현 기능
   - 유저
     - [x] 회원 가입
